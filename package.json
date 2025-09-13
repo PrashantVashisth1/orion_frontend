@@ -20,17 +20,21 @@
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tabs": "^1.1.13",
     "@tailwindcss/vite": "^4.1.11",
-    "@tanstack/react-query": "^5.85.5",
+    "@tanstack/react-query": "^5.87.4",
+    "@tanstack/react-query-devtools": "^5.87.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
     "lucide-react": "^0.523.0",
     "next": "^15.4.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-hot-toast": "^2.6.0",
     "react-router-dom": "^7.6.2",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.3.1",
-    "tailwindcss": "^4.1.11"
+    "tailwindcss": "^4.1.11",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
