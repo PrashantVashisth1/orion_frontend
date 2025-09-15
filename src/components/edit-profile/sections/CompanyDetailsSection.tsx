@@ -8,7 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Briefcase, Upload, Building2, MapPin, Globe, Calendar, Users, Target, Loader2 } from "lucide-react"
 import { useUpdateProfileSection, useUploadImage } from "@/hooks/useStartupAPI"
 import type { CompanyDetails } from "@/types/startup"
-import { useToast } from "@/components/ui/toast"
+import { toast } from 'react-hot-toast';
 
 interface CompanyDetailsSectionProps {
   onSectionChange?: (section: string) => void;
@@ -17,7 +17,6 @@ interface CompanyDetailsSectionProps {
 export default function CompanyDetailsSection({ onSectionChange }: CompanyDetailsSectionProps) {
   const { mutateAsync: updateSection, isPending: isUpdating } = useUpdateProfileSection();
   const { mutateAsync: uploadImage, isPending: isUploading } = useUploadImage();
-  const { showToast } = useToast();
   const [formData, setFormData] = useState<CompanyDetails>({
     companyName: '',
     foundedYear: 2024,
@@ -57,13 +56,13 @@ export default function CompanyDetailsSection({ onSectionChange }: CompanyDetail
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      showToast('Please select a valid image file', 'error');
+      toast.error('Please select a valid image file');
       return;
     }
 
     // Validate file size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      showToast('Image size must be less than 5MB', 'error');
+      toast.error('Image size must be less than 5MB');
       return;
     }
 
@@ -73,9 +72,9 @@ export default function CompanyDetailsSection({ onSectionChange }: CompanyDetail
         ...prev,
         companyLogo: result.url
       }));
-      showToast('Company logo uploaded successfully', 'success');
+      toast.success('Company logo uploaded successfully');
     } catch (err) {
-      showToast('Failed to upload company logo', 'error');
+      toast.error('Failed to upload company logo');
     }
   };
 
@@ -123,13 +122,13 @@ export default function CompanyDetailsSection({ onSectionChange }: CompanyDetail
     // Validate form before submission
     const validationErrors = validateForm();
     if (validationErrors.length > 0) {
-      showToast(validationErrors[0], 'error'); // Show first error
+      toast.error(validationErrors[0]); // Show first error
       return;
     }
 
     try {
       await updateSection({ section: 'companyDetails', data: formData });
-      showToast('Company details updated successfully', 'success');
+      toast.success('Company details updated successfully');
       // Automatically navigate to next section after successful save
       setTimeout(() => {
         if (onSectionChange) {
@@ -141,9 +140,9 @@ export default function CompanyDetailsSection({ onSectionChange }: CompanyDetail
       if (err?.response?.data?.error?.details) {
         const backendErrors = err.response.data.error.details;
         const errorMessage = backendErrors.map((detail: any) => detail.message).join(', ');
-        showToast(errorMessage, 'error');
+        toast.error(errorMessage);
       } else {
-        showToast('Failed to update company details', 'error');
+        toast.error('Failed to update company details');
       }
     }
   };

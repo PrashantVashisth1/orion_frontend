@@ -1,6 +1,6 @@
 import { useState } from "react"
 import TrendingSection from "../../components/feed/trending-section"
-import ActivityFeed from "../../components/feed/activity-feed"
+import ActivityFeed from "../../components/feed/my-activity-feed"
 import Navbarpostlogin from "../../components/postlogincomponents/Navbarpostlogin"
 import FeedSidebar from "../../components/feed/sidebar"
 import { TrendingUp } from "lucide-react"

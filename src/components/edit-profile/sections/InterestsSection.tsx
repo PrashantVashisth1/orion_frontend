@@ -8,7 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Heart, Target, TrendingUp, Users, Globe, Lightbulb, Loader2 } from "lucide-react"
 import { useUpdateProfileSection } from "@/hooks/useStartupAPI"
 import type { Interests } from "@/types/startup"
-import { useToast } from "@/components/ui/toast"
+import { toast } from 'react-hot-toast';
 
 interface InterestsSectionProps {
   onSectionChange?: (section: string) => void;
@@ -16,7 +16,6 @@ interface InterestsSectionProps {
 
 export default function InterestsSection({ onSectionChange }: InterestsSectionProps) {
   const { mutateAsync: updateSection, isPending: isUpdating } = useUpdateProfileSection();
-  const { showToast } = useToast();
   const [formData, setFormData] = useState<Interests>({
     primaryIndustry: '',
     secondaryIndustry: '',
@@ -138,7 +137,7 @@ export default function InterestsSection({ onSectionChange }: InterestsSectionPr
   const handleSubmit = async () => {
     const validationErrors = validateForm();
     if (validationErrors.length > 0) {
-      showToast(validationErrors[0], 'error');
+      toast.error(validationErrors[0]);
       return;
     }
 
@@ -165,8 +164,8 @@ export default function InterestsSection({ onSectionChange }: InterestsSectionPr
         innovationFocus: formData.innovationFocus
       };
       localStorage.setItem('startupInterestsAdditional', JSON.stringify(additionalData));
-      
-      showToast('Interests updated successfully', 'success');
+
+      toast.success('Interests updated successfully');
       // Automatically navigate to next section after successful save
       setTimeout(() => {
         if (onSectionChange) {
@@ -177,9 +176,9 @@ export default function InterestsSection({ onSectionChange }: InterestsSectionPr
       if (err?.response?.data?.error?.details) {
         const backendErrors = err.response.data.error.details;
         const errorMessage = backendErrors.map((detail: any) => detail.message).join(', ');
-        showToast(errorMessage, 'error');
+        toast.error(errorMessage);
       } else {
-        showToast('Failed to update interests', 'error');
+        toast.error('Failed to update interests');
       }
     }
   };

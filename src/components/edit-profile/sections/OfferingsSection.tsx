@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label"
 import { ShoppingCart, Package, Settings, Plus, X, DollarSign, Users, Target, Loader2 } from "lucide-react"
 import { useUpdateProfileSection } from "@/hooks/useStartupAPI"
 import type { Offerings } from "@/types/startup"
-import { useToast } from "@/components/ui/toast"
+import { toast } from 'react-hot-toast';
 
 interface OfferingsSectionProps {
   onSectionChange?: (section: string) => void;
@@ -15,7 +15,6 @@ interface OfferingsSectionProps {
 
 export default function OfferingsSection({ onSectionChange }: OfferingsSectionProps) {
   const { mutateAsync: updateSection, isPending: isUpdating } = useUpdateProfileSection();
-  const { showToast } = useToast();
   const [formData, setFormData] = useState<Offerings>({
     products: [],
     services: [],
@@ -73,7 +72,7 @@ export default function OfferingsSection({ onSectionChange }: OfferingsSectionPr
   const handleSubmit = async () => {
     try {
       await updateSection({ section: 'offerings', data: formData });
-      showToast('Offerings updated successfully', 'success');
+      toast.success('Offerings updated successfully');
       // Automatically navigate to next section after successful save
       setTimeout(() => {
         if (onSectionChange) {
@@ -81,7 +80,7 @@ export default function OfferingsSection({ onSectionChange }: OfferingsSectionPr
         }
       }, 1000);
     } catch (err) {
-      showToast('Failed to update offerings', 'error');
+      toast.error('Failed to update offerings');
     }
   };
 

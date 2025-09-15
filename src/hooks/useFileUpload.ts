@@ -1,6 +1,6 @@
 import { apiClient } from "@/lib/my-api-client";
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { toast } from "react-hot-toast"; // Fixed: Use react-hot-toast consistently
 
 // 6. File Upload Hook - src/hooks/useFileUpload.ts
 export const useFileUpload = () => {

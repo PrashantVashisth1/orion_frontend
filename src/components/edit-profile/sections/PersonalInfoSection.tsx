@@ -8,7 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { User, Upload, Mail, Phone, MapPin, Globe, Calendar, Loader2 } from "lucide-react"
 import { useUpdateProfileSection, useUploadImage } from "@/hooks/useStartupAPI"
 import type { PersonalInfo } from "@/types/startup"
-import { useToast } from "@/components/ui/toast"
+ import { toast } from 'react-hot-toast';
 
 interface PersonalInfoSectionProps {
   onSectionChange?: (section: string) => void;
@@ -17,7 +17,7 @@ interface PersonalInfoSectionProps {
 export default function PersonalInfoSection({ onSectionChange }: PersonalInfoSectionProps) {
   const { mutateAsync: updateSection, isPending: isUpdating } = useUpdateProfileSection();
   const { mutateAsync: uploadImage, isPending: isUploading } = useUploadImage();
-  const { showToast } = useToast();
+
   const [formData, setFormData] = useState<PersonalInfo>({
     firstName: '',
     lastName: '',
@@ -49,13 +49,12 @@ export default function PersonalInfoSection({ onSectionChange }: PersonalInfoSec
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      showToast('Please select a valid image file', 'error');
-      return;
+      toast.error('Please select a valid image file');
     }
 
     // Validate file size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      showToast('Image size must be less than 5MB', 'error');
+      toast.error('Image size must be less than 5MB');
       return;
     }
 
@@ -65,16 +64,16 @@ export default function PersonalInfoSection({ onSectionChange }: PersonalInfoSec
         ...prev,
         profilePicture: result.url
       }));
-      showToast('Profile picture uploaded successfully', 'success');
+      toast.success('Profile picture uploaded successfully');
     } catch (err) {
-      showToast('Failed to upload profile picture', 'error');
+      toast.error('Failed to upload profile picture');
     }
   };
 
   const handleSubmit = async () => {
     try {
       await updateSection({ section: 'personalInfo', data: formData });
-      showToast('Personal information updated successfully', 'success');
+      toast.success('Personal information updated successfully');
       // Automatically navigate to next section after successful save
       setTimeout(() => {
         if (onSectionChange) {
@@ -82,7 +81,7 @@ export default function PersonalInfoSection({ onSectionChange }: PersonalInfoSec
         }
       }, 1000);
     } catch (err) {
-      showToast('Failed to update personal information', 'error');
+      toast.error('Failed to update personal information');
     }
   };
 

@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Building2, Briefcase, Users, Target, TrendingUp, Globe, Loader2 } from "lucide-react"
 import { useUpdateProfileSection } from "@/hooks/useStartupAPI"
 import type { BusinessDetails } from "@/types/startup"
-import { useToast } from "@/components/ui/toast"
+import { toast } from 'react-hot-toast';
 
 interface BusinessDetailsSectionProps {
   onSectionChange?: (section: string) => void;
@@ -15,7 +15,6 @@ interface BusinessDetailsSectionProps {
 
 export default function BusinessDetailsSection({ onSectionChange }: BusinessDetailsSectionProps) {
   const { mutateAsync: updateSection, isPending: isUpdating } = useUpdateProfileSection();
-  const { showToast } = useToast();
   const [formData, setFormData] = useState<BusinessDetails>({
     jobTitle: '',
     company: '',
@@ -49,7 +48,7 @@ export default function BusinessDetailsSection({ onSectionChange }: BusinessDeta
   const handleSubmit = async () => {
     try {
       await updateSection({ section: 'businessDetails', data: formData });
-      showToast('Business details updated successfully', 'success');
+      toast.success('Business details updated successfully');
       // Automatically navigate to next section after successful save
       setTimeout(() => {
         if (onSectionChange) {
@@ -57,7 +56,7 @@ export default function BusinessDetailsSection({ onSectionChange }: BusinessDeta
         }
       }, 1000);
     } catch (err) {
-      showToast('Failed to update business details', 'error');
+      toast.error('Failed to update business details');
     }
   };
 

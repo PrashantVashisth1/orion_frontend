@@ -21,7 +21,7 @@ export const queryClient = new QueryClient({
 // Types
 export interface User {
   id: number;
-  fullName: string;
+  full_name: string;
   email: string;
   role: 'STARTUP' | 'INVESTOR' | 'MENTOR' | 'STUDENT' | 'ADMIN';
   mobile?: string;
@@ -38,7 +38,7 @@ export interface Post {
   documents: string[];
   published: boolean;
   createdAt: string;
-  updatedAt: string;
+  updated_at: string;
   author: User;
   likes: Like[];
   comments: Comment[];
