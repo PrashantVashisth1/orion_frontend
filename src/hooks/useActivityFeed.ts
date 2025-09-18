@@ -1,4 +1,3 @@
-// 7. Activity Feed Hook - src/hooks/useActivityFeed.ts
 import { useMemo, useCallback } from 'react';
 import { useAuthStore } from '../store/authStore';
 import { useLikePost, usePosts, useUnlikePost } from './usePosts';
@@ -17,7 +16,7 @@ export const useActivityFeed = () => {
   const transformedPosts = useMemo(() => {
     return posts?.map((post) => ({
       ...post,
-      isLiked: post.likes?.some((like) => like.userId === user?.id) || false,
+      isLiked: post.likes?.some((like) => like.user_id === user?.id) || false,
       likeCount: post.likes?.length || 0,
       commentCount: post.comments?.length || 0,
       canEdit: post.author.id === user?.id,
@@ -25,16 +24,19 @@ export const useActivityFeed = () => {
     })) || [];
   }, [posts, user?.id]);
 
-  // Handle like/unlike
+  // OPTIMIZED like/unlike handler - no loading state needed!
   const handleLikeToggle = useCallback(async (postId: number, isLiked: boolean) => {
     try {
       if (isLiked) {
+        // UI updates immediately via optimistic update
         await unlikePostMutation.mutateAsync(postId);
       } else {
+        // UI updates immediately via optimistic update
         await likePostMutation.mutateAsync(postId);
       }
     } catch (error) {
-      // Error is handled in the mutation
+      // Error handling and revert is handled in the mutations
+      console.error('Like toggle error:', error);
     }
   }, [likePostMutation, unlikePostMutation]);
 
@@ -43,7 +45,7 @@ export const useActivityFeed = () => {
     try {
       await createCommentMutation.mutateAsync({ postId, content });
     } catch (error) {
-      // Error is handled in the mutation
+      console.error('Create comment error:', error);
     }
   }, [createCommentMutation]);
 
@@ -52,7 +54,7 @@ export const useActivityFeed = () => {
     try {
       await deleteCommentMutation.mutateAsync(commentId);
     } catch (error) {
-      // Error is handled in the mutation
+      console.error('Delete comment error:', error);
     }
   }, [deleteCommentMutation]);
 
@@ -64,7 +66,8 @@ export const useActivityFeed = () => {
     handleLikeToggle,
     handleCreateComment,
     handleDeleteComment,
-    isLiking: likePostMutation.isPending || unlikePostMutation.isPending,
+    // These are no longer needed for like/unlike since they're instant!
+    isLiking: false, // Always false since UI updates instantly
     isCommenting: createCommentMutation.isPending,
   };
 };

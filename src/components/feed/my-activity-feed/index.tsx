@@ -6,7 +6,6 @@ import { useActivityFeed } from "@/hooks/useActivityFeed"
 export default function ActivityFeed() {
   const navigate = useNavigate()
   const { posts, isLoading, error, refetch } = useActivityFeed()
-  console.log(posts[5])
 
   if (isLoading) {
     return (

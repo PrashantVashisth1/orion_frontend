@@ -37,7 +37,7 @@ export interface Post {
   images: string[];
   documents: string[];
   published: boolean;
-  createdAt: string;
+  created_at: string;
   updated_at: string;
   author: User;
   likes: Like[];
@@ -47,19 +47,19 @@ export interface Post {
 
 export interface Like {
   id: number;
-  userId: number;
-  postId: number;
+  user_id: number;
+  post_id: number;
   user: User;
   createdAt: string;
 }
 
 export interface Comment {
   id: number;
-  userId: number;
-  postId: number;
+  user_id: number;
+  post_id: number;
   content: string;
   user: User;
-  createdAt: string;
+  created_at: string;
   updatedAt: string;
 }
 
