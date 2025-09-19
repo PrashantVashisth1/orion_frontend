@@ -159,6 +159,7 @@ import OnlineSessionPage from './pages/onlinesession'
 import ViewSession from './pages/ViewSession'
 import HostSessionPage from './pages/hostsession/index'
 import ViewNeedsPage from './pages/ViewNeeds'
+import SinglePostPage from './pages/singlePost'
 
 const App: React.FC = () => {
   return (
@@ -233,6 +234,14 @@ const App: React.FC = () => {
                 <ViewNeedsPage />
               </ProtectedRoute>
             } />
+
+            <Route path="/post/:id" element={
+              <ProtectedRoute>
+                <SinglePostPage />
+              </ProtectedRoute>
+            } />
+
+            
 
               <Route path="/explore" element={
                 <ProtectedRoute>

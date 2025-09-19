@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 export interface Session {
   id: number
@@ -21,7 +22,7 @@ export interface SlideData {
 
 const HeroSlider: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
-
+  const navigate = useNavigate();
   const slides: SlideData[] = [
     {
       id: 1,
@@ -97,8 +98,8 @@ const HeroSlider: React.FC = () => {
               <h3 className="text-2xl font-semibold text-white mb-6">
                 Get Started in Minutes
               </h3>
-              <button className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-10 py-4 rounded-xl text-lg font-medium hover:from-purple-700 hover:to-blue-700 transition-all duration-300 inline-flex items-center shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                Register Now
+              <button onClick={() => navigate("/host-session")} className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-10 py-4 rounded-xl text-lg font-medium hover:from-purple-700 hover:to-blue-700 transition-all duration-300 inline-flex items-center shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                Host Session
                 <svg
                   className="ml-3 w-5 h-5"
                   fill="none"

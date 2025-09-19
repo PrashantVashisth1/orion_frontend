@@ -8,6 +8,7 @@ import { TrendingSection } from "@/components/get-funded/TrendingSection";
 import { FundingOpportunitySection } from "@/components/get-funded/FundingOpportunitySection";
 import { AnnouncementSection } from "@/components/get-funded/AnnouncementSection";
 import { Sidebar, sidebarNavItems } from "@/components/get-funded/Sidebar";
+import Navbarpostlogin from "@/components/postlogincomponents/Navbarpostlogin";
 
 const GetFundedPage = () => {
   const [activeSection, setActiveSection] = useState<string>("resources");
@@ -19,6 +20,7 @@ const GetFundedPage = () => {
 
   return (
     <div className="min-h-screen w-full bg-slate-900">
+      <Navbarpostlogin />
       <div className="flex h-full">
         {/* Toggle button for closed sidebar */}
         {!isSidebarOpen && (

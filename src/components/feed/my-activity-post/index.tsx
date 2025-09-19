@@ -1,3 +1,4 @@
+// src/components/feed/my-activity-post/index.tsx
 import React, { useState } from "react";
 import {
   Heart,
@@ -19,9 +20,12 @@ import {
 import { formatDistanceToNow } from "date-fns";
 import { useActivityFeed } from "@/hooks/useActivityFeed";
 import { useAuthStore } from "@/store/authStore";
+// import { useToast } from "@/hooks/use-toast"; // Imported useToast hook
+import toast from "react-hot-toast";
+
 // import type { Post } from '@/lib/my-api-client';
 
-interface ActivityPostProps {
+export interface ActivityPostProps {
   id: number;
   text: string;
   images?: string[];
@@ -36,10 +40,6 @@ interface ActivityPostProps {
   likes?: Array<{
     id: number;
     user_id: number;
-    // user: {
-    //   id: number;
-    //   full_name: string;
-    // };
   }>;
   comments?: Array<{
     id: number;
@@ -68,6 +68,8 @@ export default function ActivityPost({
   const [showMenu, setShowMenu] = useState(false);
 
   const { user } = useAuthStore();
+  // const { toast } = useToast(); // Initialized useToast hook
+
   const {
     handleLikeToggle,
     handleCreateComment,
@@ -92,6 +94,17 @@ export default function ActivityPost({
     if (commentText.trim()) {
       handleCreateComment(id, commentText.trim());
       setCommentText("");
+    }
+  };
+
+  const handleShare = async () => {
+    const postUrl = `${window.location.origin}/post/${id}`;
+    try {
+      await navigator.clipboard.writeText(postUrl);
+      toast.success("Link copied to clipboard!");
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+      toast.error("Failed to copy link. Please try again.");
     }
   };
 
@@ -294,7 +307,10 @@ export default function ActivityPost({
             <span className="font-medium">{commentCount}</span>
           </button>
 
-          <button className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-green-500 hover:bg-green-500/10 transition-all duration-200">
+          <button
+            onClick={handleShare}
+            className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-green-500 hover:bg-green-500/10 transition-all duration-200"
+          >
             <Share className="h-5 w-5" />
             <span className="font-medium">Share</span>
           </button>
