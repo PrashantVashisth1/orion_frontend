@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Loader2, Calendar, Clock, Link, User, Tag, Info, Briefcase, Phone, Users, FileText, Award, Layers, Globe, Code, Mail, Mic, ChevronRight, MapPin } from 'lucide-react';
 import { format } from 'date-fns';
