@@ -158,6 +158,7 @@ import PublicRoute from './components/auth/routes/PublicRoute'
 import OnlineSessionPage from './pages/onlinesession'
 import ViewSession from './pages/ViewSession'
 import HostSessionPage from './pages/hostsession/index'
+import ViewNeedsPage from './pages/ViewNeeds'
 
 const App: React.FC = () => {
   return (
@@ -226,6 +227,12 @@ const App: React.FC = () => {
                   <EnhancedShareNeedsForm />
                 </ProtectedRoute>
               } />
+
+              <Route path="/view-needs" element={
+              <ProtectedRoute>
+                <ViewNeedsPage />
+              </ProtectedRoute>
+            } />
 
               <Route path="/explore" element={
                 <ProtectedRoute>
