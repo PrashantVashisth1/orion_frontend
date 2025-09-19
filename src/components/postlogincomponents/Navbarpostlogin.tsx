@@ -154,7 +154,7 @@ const Navbarpostlogin = ({ onFilterToggle, onSidebarToggle, showSidebarButton }:
 
   const navItems = [
     { label: "Home", path: "/postlogin" },
-    { label: "Share Needs", path: "/share-needs" },
+    // { label: "Share Needs", path: "/share-needs" },
     { label: "Explore", path: "/explore" },
     { label: "Get Funded", path: "/get-funded" },
   ]
@@ -177,6 +177,36 @@ const Navbarpostlogin = ({ onFilterToggle, onSidebarToggle, showSidebarButton }:
         {label}
       </button>
     ))
+
+  const renderSplitShareNeeds = () => (
+    <div className="relative flex items-center space-x-0">
+      <button
+        onClick={() => navigateTo("/share-needs")}
+        className="text-gray-300 hover:text-blue-400 font-medium transition-colors duration-200 pr-2"
+      >
+        Share Needs
+      </button>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button
+            className="text-gray-300 hover:text-blue-400 transition-colors duration-200 pl-1"
+            aria-label="Open Online Session Dropdown"
+          >
+            <ChevronDown className="w-4 h-4" />
+          </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="bg-gray-800 text-gray-100 border border-gray-700 shadow-lg">
+          <DropdownMenuItem onClick={() => navigateTo("/view-needs")}>
+            View Needs
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => navigateTo("/share-needs")}>
+            Share Needs
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  )
 
   const renderSplitOnlineSession = () => (
     <div className="relative flex items-center space-x-0">
@@ -363,6 +393,7 @@ const Navbarpostlogin = ({ onFilterToggle, onSidebarToggle, showSidebarButton }:
           {/* Desktop Nav */}
           <div className="hidden md:flex flex-1 justify-center space-x-8">
             {renderNavLinks()}
+            {renderSplitShareNeeds()}
             {renderSplitOnlineSession()}
           </div>
 
