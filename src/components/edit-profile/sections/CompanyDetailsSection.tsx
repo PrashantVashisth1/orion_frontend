@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Briefcase, Upload, Building2, MapPin, Globe, Calendar, Users, Target, Loader2 } from "lucide-react"
-import { useUpdateProfileSection, useUploadImage } from "@/hooks/useStartupAPI"
+import { useUpdateProfileSection, useUploadImage,useStartupProfile } from "@/hooks/useStartupAPI"
 import type { CompanyDetails } from "@/types/startup"
 import { toast } from 'react-hot-toast';
 
@@ -15,6 +15,7 @@ interface CompanyDetailsSectionProps {
 }
 
 export default function CompanyDetailsSection({ onSectionChange }: CompanyDetailsSectionProps) {
+  const { data: profile, isError } = useStartupProfile();
   const { mutateAsync: updateSection, isPending: isUpdating } = useUpdateProfileSection();
   const { mutateAsync: uploadImage, isPending: isUploading } = useUploadImage();
   const [formData, setFormData] = useState<CompanyDetails>({
@@ -39,9 +40,30 @@ export default function CompanyDetailsSection({ onSectionChange }: CompanyDetail
 
   // Load existing data when profile changes
   useEffect(() => {
-    // TODO: Get profile data from query
-    // For now, we'll use empty form data
-  }, []);
+    if (profile?.data?.companyDetails) {
+      const companyDetails = profile.data.companyDetails;
+      setFormData({
+        companyName: companyDetails.companyName || '',
+        foundedYear: companyDetails.foundedYear || 2024,
+        companyEmail: companyDetails.companyEmail || '',
+        companyPhone: companyDetails.companyPhone || '',
+        companyLocation: companyDetails.companyLocation || '',
+        companyWebsite: companyDetails.companyWebsite || '',
+        companyDescription: companyDetails.companyDescription || '',
+        vision: companyDetails.vision || '',
+        mission: companyDetails.mission || '',
+        teamSize: companyDetails.teamSize || '',
+        companyType: companyDetails.companyType || '',
+        industry: companyDetails.industry || '',
+        revenueRange: companyDetails.revenueRange || '',
+        legalName: companyDetails.legalName || '',
+        taxId: companyDetails.taxId || '',
+        registrationDate: companyDetails.registrationDate ? new Date(companyDetails.registrationDate).toISOString().split('T')[0] : '',
+        businessLicense: companyDetails.businessLicense || '',
+        companyLogo: companyDetails.companyLogo || ''
+      });
+    }
+  }, [profile]);
 
   const handleInputChange = (field: keyof CompanyDetails, value: string | number) => {
     setFormData(prev => ({
@@ -127,7 +149,13 @@ export default function CompanyDetailsSection({ onSectionChange }: CompanyDetail
     }
 
     try {
-      await updateSection({ section: 'companyDetails', data: formData });
+      const payload = {
+      ...formData,
+      registrationDate: formData.registrationDate
+        ? new Date(formData.registrationDate).toISOString() 
+        : null
+    };
+      await updateSection({ section: 'companyDetails', data: payload });
       toast.success('Company details updated successfully');
       // Automatically navigate to next section after successful save
       setTimeout(() => {

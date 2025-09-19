@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { User, Upload, Mail, Phone, MapPin, Globe, Calendar, Loader2 } from "lucide-react"
-import { useUpdateProfileSection, useUploadImage } from "@/hooks/useStartupAPI"
+import { useUpdateProfileSection, useUploadImage,useStartupProfile } from "@/hooks/useStartupAPI"
 import type { PersonalInfo } from "@/types/startup"
  import { toast } from 'react-hot-toast';
 
@@ -15,6 +15,7 @@ interface PersonalInfoSectionProps {
 }
 
 export default function PersonalInfoSection({ onSectionChange }: PersonalInfoSectionProps) {
+  const { data: profile, isError } = useStartupProfile();
   const { mutateAsync: updateSection, isPending: isUpdating } = useUpdateProfileSection();
   const { mutateAsync: uploadImage, isPending: isUploading } = useUploadImage();
 
@@ -32,9 +33,23 @@ export default function PersonalInfoSection({ onSectionChange }: PersonalInfoSec
 
   // Load existing data when profile changes
   useEffect(() => {
-    // TODO: Get profile data from query
-    // For now, we'll use empty form data
-  }, []);
+    // Check if profileData exists and has the personalInfo section
+    if (profile?.data?.personalInfo) {
+      const personalInfo = profile?.data?.personalInfo;
+      console.log(personalInfo);
+      setFormData({
+        firstName: personalInfo.firstName || '',
+        lastName: personalInfo.lastName || '',
+        email: personalInfo.email || '',
+        phone: personalInfo.phone || '',
+        location: personalInfo.location || '',
+        website: personalInfo.website || '',
+        birthDate: personalInfo.birthDate ? new Date(personalInfo.birthDate).toISOString().split('T')[0] : '',
+        bio: personalInfo.bio || '',
+        profilePicture: personalInfo.profilePicture || ''
+      });
+    }
+  }, [profile]);
 
   const handleInputChange = (field: keyof PersonalInfo, value: string) => {
     setFormData(prev => ({
@@ -72,7 +87,13 @@ export default function PersonalInfoSection({ onSectionChange }: PersonalInfoSec
 
   const handleSubmit = async () => {
     try {
-      await updateSection({ section: 'personalInfo', data: formData });
+      const payload = {
+      ...formData,
+      birthDate: formData.birthDate 
+        ? new Date(formData.birthDate).toISOString() 
+        : null
+    };
+      await updateSection({ section: 'personalInfo', data: payload });
       toast.success('Personal information updated successfully');
       // Automatically navigate to next section after successful save
       setTimeout(() => {

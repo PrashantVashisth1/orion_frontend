@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { ShoppingCart, Package, Settings, Plus, X, DollarSign, Users, Target, Loader2 } from "lucide-react"
-import { useUpdateProfileSection } from "@/hooks/useStartupAPI"
+import { useUpdateProfileSection,useStartupProfile } from "@/hooks/useStartupAPI"
 import type { Offerings } from "@/types/startup"
 import { toast } from 'react-hot-toast';
 
@@ -14,6 +14,7 @@ interface OfferingsSectionProps {
 }
 
 export default function OfferingsSection({ onSectionChange }: OfferingsSectionProps) {
+  const { data: profile, isError } = useStartupProfile();
   const { mutateAsync: updateSection, isPending: isUpdating } = useUpdateProfileSection();
   const [formData, setFormData] = useState<Offerings>({
     products: [],
@@ -30,9 +31,28 @@ export default function OfferingsSection({ onSectionChange }: OfferingsSectionPr
 
   // Load existing data when profile changes
   useEffect(() => {
-    // TODO: Get profile data from query
-    // For now, we'll use empty form data
-  }, []);
+    if (profile?.data?.offerings) {
+      const offerings = profile.data.offerings;
+      setFormData({
+        products: offerings.products || [],
+        services: offerings.services || [],
+        pricingModel: offerings.pricingModel || '',
+        // priceRange: offerings.priceRange || '',
+        targetMarket: offerings.targetMarket || '',
+        revenueStreams: offerings.revenueStreams || [],
+        valueProposition: offerings.valueProposition || '',
+        competitiveAdvantage: offerings.competitiveAdvantage || '',
+        businessModel: offerings.businessModel || '',
+        // onboardingProcess: offerings.onboardingProcess || '',
+        // customerSuccessStrategy: offerings.customer_success_strategy || '',
+        // futureOfferings: offerings.future_offerings || '',
+        // These fields are not in the backend schema, so they'll be empty.
+        // You might need to adjust your database schema or component logic.
+        partnerships: [],
+        certifications: []
+      });
+    }
+  }, [profile]);
 
   const handleInputChange = (field: keyof Offerings, value: string) => {
     setFormData(prev => ({

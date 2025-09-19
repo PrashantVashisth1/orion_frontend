@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Building2, Briefcase, Users, Target, TrendingUp, Globe, Loader2 } from "lucide-react"
-import { useUpdateProfileSection } from "@/hooks/useStartupAPI"
+import { useUpdateProfileSection,useStartupProfile } from "@/hooks/useStartupAPI"
 import type { BusinessDetails } from "@/types/startup"
 import { toast } from 'react-hot-toast';
 
@@ -14,6 +14,7 @@ interface BusinessDetailsSectionProps {
 }
 
 export default function BusinessDetailsSection({ onSectionChange }: BusinessDetailsSectionProps) {
+  const { data: profile, isError } = useStartupProfile();
   const { mutateAsync: updateSection, isPending: isUpdating } = useUpdateProfileSection();
   const [formData, setFormData] = useState<BusinessDetails>({
     jobTitle: '',
@@ -34,9 +35,26 @@ export default function BusinessDetailsSection({ onSectionChange }: BusinessDeta
 
   // Load existing data when profile changes
   useEffect(() => {
-    // TODO: Get profile data from query
-    // For now, we'll use empty form data
-  }, []);
+    if (profile?.data?.businessDetails) {
+      const businessDetails = profile.data.businessDetails;
+      setFormData({
+        jobTitle: businessDetails.jobTitle || '',
+        company: businessDetails.company || '',
+        industry: businessDetails.industry || '',
+        experience: businessDetails.experience || '',
+        businessType: businessDetails.businessType || '',
+        teamSize: businessDetails.teamSize || '',
+        revenue: businessDetails.revenue || '',
+        fundingStage: businessDetails.fundingStage || '',
+        skills: businessDetails.skills || '',
+        goals: businessDetails.goals || '',
+        linkedinProfile: businessDetails.linkedinProfile || '',
+        twitterProfile: businessDetails.twitterProfile || '',
+        githubProfile: businessDetails.githubProfile || '',
+        portfolioWebsite: businessDetails.portfolioWebsite || ''
+      });
+    }
+  }, [profile]);
 
   const handleInputChange = (field: keyof BusinessDetails, value: string) => {
     setFormData(prev => ({
