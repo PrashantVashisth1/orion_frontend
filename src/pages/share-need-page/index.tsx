@@ -196,7 +196,7 @@ const FormField = ({
         className="block text-sm font-semibold text-gray-200 mb-3 flex items-center gap-2"
       >
         {label}
-        {required && <span className="text-xs text-red-400">Required</span>}
+        {required && <span className="text-xs text-red-400">*</span>}
       </Label>
       {children}
     </div>

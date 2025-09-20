@@ -387,7 +387,7 @@ export default function SignupForm({ onClose, onSwitchToLogin }: SignupFormProps
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full max-w-md mx-auto bg-gray-900">
       <div className="bg-gray-800/90 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-white mb-2">Create Account</h2>
