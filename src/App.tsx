@@ -160,6 +160,7 @@ import ViewSession from './pages/ViewSession'
 import HostSessionPage from './pages/hostsession/index'
 import ViewNeedsPage from './pages/ViewNeeds'
 import SinglePostPage from './pages/singlePost'
+import UserActivitiesPage from './pages/my-activities/index';
 
 const App: React.FC = () => {
   return (
@@ -276,6 +277,12 @@ const App: React.FC = () => {
               <Route path="/create-post" element={
                 <ProtectedRoute>
                   <CreatePostPage />
+                </ProtectedRoute>
+              } />
+
+              <Route path="/activities" element={
+                <ProtectedRoute>
+                  <UserActivitiesPage />
                 </ProtectedRoute>
               } />
 
