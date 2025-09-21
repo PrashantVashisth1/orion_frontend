@@ -30,6 +30,8 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 
+import { useAuthStore } from "@/store/authStore";
+
 interface NavbarpostloginProps {
   onFilterToggle?: () => void
   onSidebarToggle?: () => void
@@ -163,7 +165,7 @@ const Navbarpostlogin = ({ onFilterToggle, onSidebarToggle, showSidebarButton }:
     { icon: <User className="h-4 w-4" />, label: "Profile", path: "/profile" },
     { icon: <Edit className="h-4 w-4" />, label: "Edit Profile", path: "/edit-profile" },
     { icon: <List className="h-4 w-4" />, label: "My Activities", path: "/activities" },
-    { icon: <LogOut className="h-4 w-4" />, label: "Logout", path: "/logout" },
+    { icon: <LogOut className="h-4 w-4" />, label: "Logout", path: "/logout", action: "logout"  },
     { icon: <Trash2 className="h-4 w-4 text-red-500" />, label: "Delete Profile", path: "/delete" },
   ]
 
@@ -238,31 +240,69 @@ const Navbarpostlogin = ({ onFilterToggle, onSidebarToggle, showSidebarButton }:
     </div>
   )
 
-  const renderUserMenu = () => (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label="User menu">
-          <User className="h-6 w-6 text-gray-300" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="bg-gray-800 text-gray-100 border border-gray-700 shadow-lg">
-        {userMenuItems.map(({ icon, label, path }) => (
-          <DropdownMenuItem
-            key={label}
-            className="flex items-center space-x-2"
-            onClick={() => {
-              if (path) {
-                navigateTo(path)
-              }
-            }}
-          >
-            {icon}
-            <span>{label}</span>
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
+  // const renderUserMenu = () => (
+    
+  //   <DropdownMenu>
+  //     <DropdownMenuTrigger asChild>
+  //       <Button variant="ghost" size="icon" aria-label="User menu">
+  //         <User className="h-6 w-6 text-gray-300" />
+  //       </Button>
+  //     </DropdownMenuTrigger>
+  //     <DropdownMenuContent className="bg-gray-800 text-gray-100 border border-gray-700 shadow-lg">
+  //       {userMenuItems.map(({ icon, label, path }) => (
+  //         <DropdownMenuItem
+  //           key={label}
+  //           className="flex items-center space-x-2"
+  //           onClick={() => {
+  //             if (path) {
+  //               navigateTo(path)
+  //             }
+  //           }}
+  //         >
+  //           {icon}
+  //           <span>{label}</span>
+  //         </DropdownMenuItem>
+  //       ))}
+  //     </DropdownMenuContent>
+  //   </DropdownMenu>
+  // )
+
+  const renderUserMenu = () => {
+    // Hooks must be called at the top of the component
+    const logout = useAuthStore((state) => state.logout);
+    const navigate = useNavigate();
+
+    const handleItemClick = (item) => {
+        if (item.action === "logout") {
+            logout(); // Call the logout function from the Zustand store
+            navigate("/prelogin"); // Redirect to the pre-login page
+        } else if (item.path) {
+            navigate(item.path); // Use `Maps` from react-router-dom for other links
+        }
+    };
+
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" aria-label="User menu">
+                    <User className="h-6 w-6 text-gray-300" />
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="bg-gray-800 text-gray-100 border border-gray-700 shadow-lg">
+                {userMenuItems.map((item) => (
+                    <DropdownMenuItem
+                        key={item.label}
+                        className="flex items-center space-x-2"
+                        onClick={() => handleItemClick(item)} // Use the new handler
+                    >
+                        {item.icon}
+                        <span>{item.label}</span>
+                    </DropdownMenuItem>
+                ))}
+            </DropdownMenuContent>
+        </DropdownMenu>
+    );
+};
 
   const renderNotificationMenu = () => (
     <DropdownMenu open={isNotificationOpen} onOpenChange={setIsNotificationOpen}>

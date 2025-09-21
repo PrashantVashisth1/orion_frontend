@@ -11,7 +11,7 @@ import OfferingsSection from "@/components/edit-profile/sections/OfferingsSectio
 
 export default function EditProfile() {
   const [activeSection, setActiveSection] = useState("personal-info")
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen)
