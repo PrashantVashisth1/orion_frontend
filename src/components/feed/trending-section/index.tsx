@@ -150,7 +150,7 @@ const TrendingSection = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white p-4">
+      <div className="flex items-center justify-center min-h-[400px] bg-gray-900 text-white p-4 rounded-4xl">
         <p>Loading trending posts...</p>
       </div>
     );
@@ -213,7 +213,7 @@ const TrendingSection = () => {
   };
 
   return (
-    <div className="bg-gray-900 py-12 px-8 font-sans">
+    <div className="bg-gray-900 py-12 px-8 font-sans mb-[20px] rounded-3xl">
       <style>{`.scrollbar-hide::-webkit-scrollbar { display: none; } .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }`}</style>
       <div className="max-w-6xl mx-auto mb-8 rounded-2xl bg-gradient-to-br from-gray-800 to-gray-900 p-8 border border-gray-700 shadow-2xl">
         <div className="flex items-center space-x-3 mb-8">
