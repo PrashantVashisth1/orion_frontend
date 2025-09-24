@@ -304,7 +304,7 @@ const App: React.FC = () => {
             </Routes>
 
             {/* React Query Devtools - only in development */}
-            {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
+            {/* {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />} */}
           </StartupProfileProvider>
         </AuthProvider>
       </Router>

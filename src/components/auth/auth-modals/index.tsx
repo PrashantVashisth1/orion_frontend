@@ -31,7 +31,7 @@ const AuthModals = () => {
       {/* Login Modal */}
       <Dialog open={loginOpen} onOpenChange={setLoginOpen}>
         <DialogTrigger asChild>
-          <Button variant="ghost" className="text-gray-700 hover:text-blue-600">
+          <Button variant="outline" className="text-blue-500 hover:text-blue-600">
             Login
           </Button>
         </DialogTrigger>
