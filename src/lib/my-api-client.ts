@@ -151,10 +151,24 @@ export class ApiClient {
     });
   }
 
-  async signup(userData: { fullName: string; email: string; password: string; mobile?: string }): Promise<AuthResponse> {
-    return this.makeRequest<AuthResponse>('/auth/signup', {
+  // async signup(userData: { fullName: string; email: string; password: string; mobile?: string }): Promise<AuthResponse> {
+  //   return this.makeRequest<AuthResponse>('/auth/signup', {
+  //     method: 'POST',
+  //     body: JSON.stringify(userData),
+  //   });
+  // }
+
+  async sendOtp(userData: { full_name: string; email: string; password: string; mobile?: string }): Promise<{ success: boolean; message: string }> {
+    return this.makeRequest<{ success: boolean; message: string }>('/auth/send-otp', {
       method: 'POST',
       body: JSON.stringify(userData),
+    });
+  }
+
+  async verifyOtp(data: { email: string, otp: string }): Promise<AuthResponse> {
+    return this.makeRequest<AuthResponse>('/auth/verify-otp', {
+        method: 'POST',
+        body: JSON.stringify(data),
     });
   }
 

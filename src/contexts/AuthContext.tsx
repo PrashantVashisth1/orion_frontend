@@ -16,7 +16,9 @@ interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
-  signup: (userData: { fullName: string; email: string; password: string; mobile?: string }) => Promise<void>;
+  // signup: (userData: { fullName: string; email: string; password: string; mobile?: string }) => Promise<void>;
+  sendOtp: (data: any) => Promise<boolean>;
+  verifyOtp: (data: any) => Promise<void>;
   logout: () => void;
   loading: boolean;
 }
@@ -65,23 +67,50 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const signup = async (userData: { fullName: string; email: string; password: string; mobile?: string }) => {
-    try {
-      setLoading(true);
-      const response = await apiClient.signup(userData);
+  // const signup = async (userData: { fullName: string; email: string; password: string; mobile?: string }) => {
+  //   try {
+  //     setLoading(true);
+  //     const response = await apiClient.signup(userData);
       
-      if (response.success) {
-        zustandLogin(response.data.token, response.data.user);
-        toast.success('Account created successfully!');
-        navigate('/postlogin');
-      } else {
-        throw new Error('Signup failed');
-      }
+  //     if (response.success) {
+  //       zustandLogin(response.data.token, response.data.user);
+  //       toast.success('Account created successfully!');
+  //       navigate('/postlogin');
+  //     } else {
+  //       throw new Error('Signup failed');
+  //     }
+  //   } catch (error: any) {
+  //     toast.error(error.message || 'Signup failed');
+  //     throw error;
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const sendOtp = async (data: any) => {
+    try {
+      await apiClient.sendOtp(data); // Use the new apiClient method
+      toast.success("OTP sent successfully to your email.");
+      return true; // Indicate success
     } catch (error: any) {
-      toast.error(error.message || 'Signup failed');
-      throw error;
-    } finally {
-      setLoading(false);
+      const errorMessage = error.message || "Failed to send OTP. Please try again.";
+      toast.error(errorMessage);
+      console.error("Send OTP error:", error);
+      return false; // Indicate failure
+    }
+  };
+
+  const verifyOtp = async (data: { email: string; otp: string }) => {
+    try {
+      const response = await apiClient.verifyOtp(data); // Use the new apiClient method
+      const { token, user } = response;
+      zustandLogin(token, user); // Log the user in upon successful verification
+      toast.success("OTP verified and account created successfully!");
+      navigate("/postlogin");
+    } catch (error: any) {
+      const errorMessage = error.message || "OTP verification failed. Please try again.";
+       toast.error(errorMessage);
+      console.error("Verify OTP error:", error);
     }
   };
 
@@ -95,7 +124,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     user,
     isAuthenticated,
     login,
-    signup,
+    // signup,
+    sendOtp,
+    verifyOtp,
     logout,
     loading,
   };
