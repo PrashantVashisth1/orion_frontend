@@ -69,6 +69,12 @@ export interface CreatePostData {
   documents?: string[];
 }
 
+// Add this new response type
+export interface SimpleSuccessResponse {
+    success: boolean;
+    message: string;
+}
+
 export interface AuthResponse {
   success: boolean;
   data: {
@@ -171,6 +177,23 @@ export class ApiClient {
         body: JSON.stringify(data),
     });
   }
+
+  // Add the new forgotPassword method here
+  async forgotPassword(email: string): Promise<SimpleSuccessResponse> {
+    return this.makeRequest<SimpleSuccessResponse>('/auth/forgot-password', {
+        method: 'POST',
+        body: JSON.stringify({ email }),
+    });
+  }
+
+  // Add the new resetPassword method here
+  async resetPassword(token: string, password: string): Promise<SimpleSuccessResponse> {
+    return this.makeRequest<SimpleSuccessResponse>('/auth/reset-password', {
+        method: 'POST',
+        body: JSON.stringify({ token, password }),
+    });
+  }
+
 
   // Post endpoints
   async getPosts(): Promise<PostsResponse> {

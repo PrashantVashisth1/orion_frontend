@@ -1,18 +1,22 @@
-import React, { useState } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import { toast } from 'react-hot-toast';
-import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
-
+import React, { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "react-hot-toast";
+import { Eye, EyeOff, Mail, Lock } from "lucide-react";
+import ForgotPasswordForm from "../forgot-password-form"
 interface LoginFormProps {
   onClose?: () => void;
   onSwitchToSignup?: () => void;
 }
 
-export default function LoginForm({ onClose, onSwitchToSignup }: LoginFormProps) {
+export default function LoginForm({
+  onClose,
+  onSwitchToSignup,
+}: LoginFormProps) {
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -20,9 +24,9 @@ export default function LoginForm({ onClose, onSwitchToSignup }: LoginFormProps)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.email || !formData.password) {
-      toast.error('Please fill in all fields');
+      toast.error("Please fill in all fields");
       return;
     }
 
@@ -31,18 +35,24 @@ export default function LoginForm({ onClose, onSwitchToSignup }: LoginFormProps)
       await login(formData.email, formData.password);
       onClose?.();
     } catch (error: any) {
-      toast.error(error.message || 'Login failed');
+      toast.error(error.message || "Login failed");
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
   };
+
+  if (showForgotPassword) {
+    return (
+      <ForgotPasswordForm onBackToLogin={() => setShowForgotPassword(false)} />
+    );
+  }
 
   return (
     <div className="w-full max-w-md mx-auto">
@@ -55,7 +65,10 @@ export default function LoginForm({ onClose, onSwitchToSignup }: LoginFormProps)
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Email Field */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-300 mb-2"
+            >
               Email Address
             </label>
             <div className="relative">
@@ -79,9 +92,24 @@ export default function LoginForm({ onClose, onSwitchToSignup }: LoginFormProps)
 
           {/* Password Field */}
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
-              Password
-            </label>
+            <div className="flex items-center justify-between">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
+                Password
+              </label>
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setShowForgotPassword(true);
+                }}
+                className="text-sm font-medium text-blue-400 hover:text-blue-300"
+              >
+                Forgot password?
+              </a>
+            </div>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Lock className="h-5 w-5 text-gray-400" />
@@ -89,7 +117,7 @@ export default function LoginForm({ onClose, onSwitchToSignup }: LoginFormProps)
               <input
                 id="password"
                 name="password"
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 autoComplete="current-password"
                 required
                 value={formData.password}
@@ -120,12 +148,12 @@ export default function LoginForm({ onClose, onSwitchToSignup }: LoginFormProps)
             className="w-full flex justify-center items-center px-4 py-3 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
           >
             {isLoading ? (
-                          <div className="flex items-center space-x-2">
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-              <span>Signing in...</span>
-            </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <span>Signing in...</span>
+              </div>
             ) : (
-              'Sign In'
+              "Sign In"
             )}
           </button>
         </form>
@@ -133,7 +161,7 @@ export default function LoginForm({ onClose, onSwitchToSignup }: LoginFormProps)
         {/* Switch to Signup */}
         <div className="mt-6 text-center">
           <p className="text-gray-400">
-            Don't have an account?{' '}
+            Don't have an account?{" "}
             <button
               onClick={onSwitchToSignup}
               className="font-medium text-blue-400 hover:text-blue-300 transition-colors"
