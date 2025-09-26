@@ -631,6 +631,26 @@ const Navbarpostlogin = ({ onFilterToggle, onSidebarToggle, showSidebarButton }:
       setNotifications(prev => [newNotification, ...prev]);
     });
 
+    // 2. Listener for NEW SESSIONS (New Logic)
+    socket.on("new-session-notification", (data: any) => {
+      console.log("New session notification received:", data);
+
+      // The backend should send the 'author's name is going to host...' message
+      const newNotification: Notification = {
+        id: data.session.id.toString() + Date.now(), // Ensure unique ID
+        type: "message", // Use the new 'session' type
+        title: data.session.title, // Use the session title as the main focus
+        message: data.message, // "author is going to host a session on 'title'"
+        timeAgo: "just now", 
+        isRead: false,
+        // Use the first letter of the session title or a generic icon
+        avatar: (data.session.title || "S")[0], 
+        avatarColor: "bg-gradient-to-r from-cyan-500 to-blue-600" // A unique color for sessions
+      };
+      
+      setNotifications(prev => [newNotification, ...prev]);
+    });
+
     // Clean up the socket connection when the component unmounts
     return () => {
       socket.disconnect();
