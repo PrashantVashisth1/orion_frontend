@@ -49,7 +49,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (email: string, password: string) => {
     try {
-      setLoading(true);
+      // setLoading(true);
       const response = await apiClient.login(email, password);
       
       if (response.success) {
