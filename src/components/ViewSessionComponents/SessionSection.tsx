@@ -208,7 +208,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { Loader2, Mic, Globe, Briefcase, Award, Layers, Code } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SessionCard from './SessionCard';
 import SessionDetailsModal from './SessionDetailsModal';
 import type { Session } from './types';
@@ -227,8 +227,9 @@ const SessionsSection = () => {
   const { data: sessions, isPending, isError, error } = useQuery<Session[]>({
     queryKey: ['sessions'],
     queryFn: fetchSessions,
+    refetchOnWindowFocus: true,
   });
-
+  
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedSession, setSelectedSession] = useState<Session | null>(null);
 

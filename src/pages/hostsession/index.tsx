@@ -644,14 +644,17 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import EventTypeSelector from '@/components/hostsession-forms/EventTypeSelector';
 import WebinarForm from '@/components/hostsession-forms/WebinarForm';
 import PanelForm from '@/components/hostsession-forms/PanelForm';
 import DemoForm from '@/components/hostsession-forms/DemoForm';
-import { toast } from 'sonner';
+import toast from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from 'lucide-react';
 import type { EventType, EventFormData } from '@/components/hostsession-forms/types';
 import { useAuth } from '@/contexts/AuthContext';
+// import { toast } from '@/components/ui/use-toast';
 
 // Initial state for the combined form data
 const initialFormData: EventFormData = {
@@ -683,7 +686,8 @@ const HostSessionPage = () => {
   const [formData, setFormData] = useState<EventFormData>(initialFormData);
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth(); // Destructure user directly
-
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const handleTypeChange = (type: EventType) => {
     setSelectedType(type);
     setFormData(initialFormData);
@@ -790,8 +794,11 @@ const HostSessionPage = () => {
       const result = await response.json();
 
       if (response.ok) {
-        toast.success(result.message || `${selectedType} session created successfully!`);
+        toast.success(result.message || "Session created successfully! 🎉");
+         // ✅ Invalidate queries so that ViewSession refetches fresh data
+        queryClient.invalidateQueries({ queryKey: ["sessions"] });
         setFormData(initialFormData);
+        navigate("/view-session"); 
       } else {
         toast.error(result.error || 'Failed to create session. Please check your input.');
         console.error('API Error:', result);

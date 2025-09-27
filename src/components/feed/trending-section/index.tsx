@@ -212,6 +212,8 @@ const TrendingSection = () => {
     );
   };
 
+  if (posts.length === 0) return null;
+
   return (
     <div className="bg-gray-900 py-12 px-8 font-sans mb-[20px] rounded-md">
       <style>{`.scrollbar-hide::-webkit-scrollbar { display: none; } .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }`}</style>
