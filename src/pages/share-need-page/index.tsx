@@ -1318,7 +1318,7 @@ export default function EnhancedShareNeedsForm() {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:4000/api/needs", {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE}/api/needs`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

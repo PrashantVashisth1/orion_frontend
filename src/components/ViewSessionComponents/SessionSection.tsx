@@ -213,8 +213,9 @@ import SessionCard from './SessionCard';
 import SessionDetailsModal from './SessionDetailsModal';
 import type { Session } from './types';
 
+
 const fetchSessions = async (): Promise<Session[]> => {
-  const response = await fetch('http://localhost:4000/api/sessions');
+  const response = await fetch(`${import.meta.env.VITE_API_BASE}/api/sessions`);
 
   if (!response.ok) {
     throw new Error('Failed to fetch sessions');

@@ -25,13 +25,14 @@ export default function ViewNeedsPage() {
   const { setBackendNeeds } = useNeedsStore();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const apiBase = import.meta.env.VITE_API_BASE || 'http://localhost:4000';
 
   useEffect(() => {
     const fetchNeeds = async () => {
       setIsLoading(true);
       
       try {
-        const response = await fetch(`http://localhost:4000/api/needs?type=${activeType.toUpperCase()}`, {
+        const response = await fetch(`${apiBase}/api/needs?type=${activeType.toUpperCase()}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

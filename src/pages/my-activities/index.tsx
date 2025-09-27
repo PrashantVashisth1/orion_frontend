@@ -8,7 +8,7 @@ import ActivityPost from "@/components/feed/my-activity-post"; // Re-using this 
 
 const fetchUserActivities = async () => {
   const token = localStorage.getItem("token");
-  const response = await fetch("http://localhost:4000/api/activities/me", {
+  const response = await fetch(`${import.meta.env.VITE_API_BASE}/api/activities/me`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,

@@ -781,8 +781,8 @@ const HostSessionPage = () => {
 
       // --- API Call ---
       const token = localStorage.getItem('token');
-      
-      const response = await fetch('http://localhost:4000/api/sessions', {
+
+      const response = await fetch(`${import.meta.env.VITE_API_BASE}/api/sessions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
