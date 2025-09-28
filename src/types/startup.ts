@@ -81,7 +81,7 @@ export interface PartnershipInterests {
   academicPartnerships: boolean;
   governmentContracts: boolean;
   nonprofitCollaborations: boolean;
-  partnershipGoals?: string;
+  
 }
 
 export interface InnovationFocus {
@@ -91,7 +91,6 @@ export interface InnovationFocus {
   sustainabilityInnovation: boolean;
   socialImpact: boolean;
   disruptiveTechnology: boolean;
-  innovationDescription?: string;
 }
 
 export interface Interests {
@@ -101,6 +100,8 @@ export interface Interests {
   primaryTargetMarket?: string;
   geographicFocus?: string;
   marketDescription?: string;
+  partnershipGoals?: string;
+  innovationDescription?: string;
   partnershipInterests: PartnershipInterests;
   innovationFocus: InnovationFocus;
   futureGoals?: string;
@@ -114,6 +115,9 @@ export interface StartupProfile {
   companyDetails: CompanyDetails;
   offerings: Offerings;
   interests: Interests;
+  technologyInterests : TechnologyInterests;
+  partnershipInterests : PartnershipInterests;
+  innovationFocus : InnovationFocus;
   isComplete: boolean;
   createdAt?: string;
   updatedAt?: string;

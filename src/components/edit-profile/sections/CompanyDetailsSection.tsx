@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Briefcase, Upload, Building2, MapPin, Globe, Calendar, Users, Target, Loader2 } from "lucide-react"
+import { Briefcase, Upload, Building2, Target, Loader2 } from "lucide-react"
 import { useUpdateProfileSection, useUploadImage,useStartupProfile } from "@/hooks/useStartupAPI"
 import type { CompanyDetails } from "@/types/startup"
 import { toast } from 'react-hot-toast';
@@ -15,7 +15,7 @@ interface CompanyDetailsSectionProps {
 }
 
 export default function CompanyDetailsSection({ onSectionChange }: CompanyDetailsSectionProps) {
-  const { data: profile, isError } = useStartupProfile();
+  const { data: profile } = useStartupProfile();
   const { mutateAsync: updateSection, isPending: isUpdating } = useUpdateProfileSection();
   const { mutateAsync: uploadImage, isPending: isUploading } = useUploadImage();
   const [formData, setFormData] = useState<CompanyDetails>({

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Heart, Target, TrendingUp, Users, Globe, Lightbulb, Loader2 } from "lucide-react"
-import { useUpdateProfileSection } from "@/hooks/useStartupAPI"
+import { useStartupProfile, useUpdateProfileSection } from "@/hooks/useStartupAPI"
 import type { Interests } from "@/types/startup"
 import { toast } from 'react-hot-toast';
 
@@ -16,6 +16,7 @@ interface InterestsSectionProps {
 
 export default function InterestsSection({ onSectionChange }: InterestsSectionProps) {
   const { mutateAsync: updateSection, isPending: isUpdating } = useUpdateProfileSection();
+  const { data: profileResponse } = useStartupProfile(); 
   const [formData, setFormData] = useState<Interests>({
     primaryIndustry: '',
     secondaryIndustry: '',
@@ -41,7 +42,7 @@ export default function InterestsSection({ onSectionChange }: InterestsSectionPr
       academicPartnerships: false,
       governmentContracts: false,
       nonprofitCollaborations: false,
-      partnershipGoals: ''
+      // partnershipGoals: ''
     },
     innovationFocus: {
       productDevelopment: false,
@@ -56,26 +57,69 @@ export default function InterestsSection({ onSectionChange }: InterestsSectionPr
   });
 
   // Load existing data when profile changes
-  useEffect(() => {
-    // TODO: Get profile data from query
-    // For now, we'll use empty form data
-    
-    // Load additional data from localStorage
-    const savedAdditionalData = localStorage.getItem('startupInterestsAdditional');
-    if (savedAdditionalData) {
-      try {
-        const additionalData = JSON.parse(savedAdditionalData);
+  // InterestsSection.tsx
+
+// Load existing data when profile changes
+useEffect(() => {
+    // Stop relying on temporary localStorage, use the backend data
+    if (profileResponse?.success && profileResponse.data) {
+        const profile = profileResponse.data;
+
+        // Extract and map data from the four related tables
+        const interests = profile.interests || {};
+        const tech = profile.technologyInterests || {}; // Assuming useStartupProfile converts snake_case to camelCase
+        const partnership = profile.partnershipInterests || {};
+        const innovation = profile.innovationFocus || {};
+
         setFormData(prev => ({
-          ...prev,
-          technologyInterests: additionalData.technologyInterests || prev.technologyInterests,
-          partnershipInterests: additionalData.partnershipInterests || prev.partnershipInterests,
-          innovationFocus: additionalData.innovationFocus || prev.innovationFocus
+            // 1. Core Interests (Text Fields)
+            primaryIndustry: interests.primaryIndustry || '',
+            secondaryIndustry: interests.secondaryIndustry || '',
+            primaryTargetMarket: interests.primaryTargetMarket || '',
+            geographicFocus: interests.geographicFocus || '',
+            marketDescription: interests.marketDescription || '',
+            futureGoals: interests.futureGoals || '',
+
+            // 2. Technology Interests (Booleans)
+            technologyInterests: {
+                aiMl: tech.aiMl ?? false,
+                blockchain: tech.blockchain ?? false,
+                cloudComputing: tech.cloudComputing ?? false,
+                cybersecurity: tech.cybersecurity ?? false,
+                iot: tech.iot ?? false,
+                fintech: tech.fintech ?? false,
+                healthtech: tech.healthtech ?? false,
+                edtech: tech.edtech ?? false,
+                sustainabilityTech: tech.sustainabilityTech ?? false,
+                otherTech: tech.otherTech || '',
+            },
+
+            // 3. Partnership Interests (Booleans + Text)
+            partnershipInterests: {
+                startupPartnerships: partnership.startupPartnerships ?? false,
+                enterprisePartnerships: partnership.enterprisePartnerships ?? false,
+                researchCollaborations: partnership.researchCollaborations ?? false,
+                academicPartnerships: partnership.academicPartnerships ?? false,
+                governmentContracts: partnership.governmentContracts ?? false,
+                nonprofitCollaborations: partnership.nonprofitCollaborations ?? false,
+                partnershipGoals: interests.partnershipGoals || '', 
+            },
+
+            // 4. Innovation Focus (Booleans + Text)
+            innovationFocus: {
+                productDevelopment: innovation.productDevelopment ?? false,
+                processInnovation: innovation.processInnovation ?? false,
+                businessModelInnovation: innovation.businessModelInnovation ?? false,
+                sustainabilityInnovation: innovation.sustainabilityInnovation ?? false,
+                socialImpact: innovation.socialImpact ?? false,
+                disruptiveTechnology: innovation.disruptiveTechnology ?? false,
+                innovationDescription: interests.innovationDescription || '', // Note: This field is on the main 'interests' table
+            },
         }));
-      } catch (error) {
-        console.error('Error loading additional interests data:', error);
-      }
     }
-  }, []);
+    
+    // REMOVE the localStorage logic entirely, as the backend is the source of truth
+}, [profileResponse]); // <-- Add profileResponse as a dependency
 
   const handleInputChange = (field: keyof Interests, value: string) => {
     setFormData(prev => ({
@@ -135,53 +179,79 @@ export default function InterestsSection({ onSectionChange }: InterestsSectionPr
   };
 
   const handleSubmit = async () => {
-    const validationErrors = validateForm();
-    if (validationErrors.length > 0) {
-      toast.error(validationErrors[0]);
-      return;
-    }
+    const validationErrors = validateForm();
+    if (validationErrors.length > 0) {
+      toast.error(validationErrors[0]);
+      return;
+    }
 
-    try {
-      // Transform data to match backend expectations - only interests table fields
-      const backendData = {
-        primary_industry: formData.primaryIndustry,
-        secondary_industry: formData.secondaryIndustry || '',
-        primary_target_market: formData.primaryTargetMarket || '',
-        geographic_focus: formData.geographicFocus || '',
-        market_description: formData.marketDescription || '',
-        partnership_goals: formData.partnershipInterests.partnershipGoals || '',
+    try {
+      const combinedData = {
+        // 1. Interests Table Fields (Text Inputs)
+        primary_industry: formData.primaryIndustry,
+        secondary_industry: formData.secondaryIndustry || '',
+        primary_target_market: formData.primaryTargetMarket || '',
+        geographic_focus: formData.geographicFocus || '',
+        market_description: formData.marketDescription || '',
+        future_goals: formData.futureGoals || '',
+
+        // 2. TechnologyInterests Fields (Booleans + Other Tech Text)
+        ai_ml: formData.technologyInterests.aiMl,
+        blockchain: formData.technologyInterests.blockchain,
+        cloud_computing: formData.technologyInterests.cloudComputing,
+        cybersecurity: formData.technologyInterests.cybersecurity,
+        iot: formData.technologyInterests.iot,
+        fintech: formData.technologyInterests.fintech,
+        healthtech: formData.technologyInterests.healthtech,
+        edtech: formData.technologyInterests.edtech,
+        sustainability_tech: formData.technologyInterests.sustainabilityTech,
+        other_tech: formData.technologyInterests.otherTech || '',
+
+        // 3. PartnershipInterests Fields (Booleans + Partnership Goals Text)
+        startup_partnerships: formData.partnershipInterests.startupPartnerships,
+        enterprise_partnerships: formData.partnershipInterests.enterprisePartnerships,
+        research_collaborations: formData.partnershipInterests.researchCollaborations,
+        academic_partnerships: formData.partnershipInterests.academicPartnerships,
+        government_contracts: formData.partnershipInterests.governmentContracts,
+        nonprofit_collaborations: formData.partnershipInterests.nonprofitCollaborations,
+        // partnership_goals is handled in the main Interests table, but we ensure it's here:
+        partnership_goals: formData.partnershipInterests.partnershipGoals || '', 
+
+
+        // 4. InnovationFocus Fields (Booleans + Innovation Description Text)
+        product_development: formData.innovationFocus.productDevelopment,
+        process_innovation: formData.innovationFocus.processInnovation,
+        business_model_innovation: formData.innovationFocus.businessModelInnovation,
+        sustainability_innovation: formData.innovationFocus.sustainabilityInnovation,
+        social_impact: formData.innovationFocus.socialImpact,
+        disruptive_technology: formData.innovationFocus.disruptiveTechnology,
+        // innovation_description is handled in the main Interests table, but we ensure it's here:
         innovation_description: formData.innovationFocus.innovationDescription || '',
-        future_goals: formData.futureGoals || ''
-      };
+      };
 
-      // Send interests data to backend
-      await updateSection({ section: 'interests', data: backendData });
+      // Send the unified payload to the backend
+      await updateSection({ section: 'interests', data: combinedData });
+      
+      // REMOVE the localStorage usage as the data is now correctly persisted in the backend
+      // localStorage.setItem('startupInterestsAdditional', JSON.stringify(additionalData)); // REMOVE THIS
       
-      // Store additional data locally for now (until backend supports separate endpoints)
-      const additionalData = {
-        technologyInterests: formData.technologyInterests,
-        partnershipInterests: formData.partnershipInterests,
-        innovationFocus: formData.innovationFocus
-      };
-      localStorage.setItem('startupInterestsAdditional', JSON.stringify(additionalData));
-
-      toast.success('Interests updated successfully');
-      // Automatically navigate to next section after successful save
-      setTimeout(() => {
-        if (onSectionChange) {
-          onSectionChange('offerings');
-        }
-      }, 1000);
-    } catch (err: any) {
-      if (err?.response?.data?.error?.details) {
-        const backendErrors = err.response.data.error.details;
-        const errorMessage = backendErrors.map((detail: any) => detail.message).join(', ');
-        toast.error(errorMessage);
-      } else {
-        toast.error('Failed to update interests');
-      }
-    }
-  };
+      toast.success('Interests updated successfully');
+      // Automatically navigate to next section after successful save
+      setTimeout(() => {
+        if (onSectionChange) {
+          onSectionChange('offerings');
+        }
+      }, 1000);
+    } catch (err: any) {
+      if (err?.response?.data?.error?.details) {
+        const backendErrors = err.response.data.error.details;
+        const errorMessage = backendErrors.map((detail: any) => detail.message).join(', ');
+        toast.error(errorMessage);
+      } else {
+        toast.error('Failed to update interests');
+      }
+    }
+  };
 
   const isFormValid = !!formData.primaryIndustry;
 

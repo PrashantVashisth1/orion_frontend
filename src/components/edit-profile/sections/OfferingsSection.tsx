@@ -30,29 +30,57 @@ export default function OfferingsSection({ onSectionChange }: OfferingsSectionPr
   });
 
   // Load existing data when profile changes
-  useEffect(() => {
-    if (profile?.data?.offerings) {
-      const offerings = profile.data.offerings;
-      setFormData({
-        products: offerings.products || [],
-        services: offerings.services || [],
-        pricingModel: offerings.pricingModel || '',
-        // priceRange: offerings.priceRange || '',
-        targetMarket: offerings.targetMarket || '',
-        revenueStreams: offerings.revenueStreams || [],
-        valueProposition: offerings.valueProposition || '',
-        competitiveAdvantage: offerings.competitiveAdvantage || '',
-        businessModel: offerings.businessModel || '',
-        // onboardingProcess: offerings.onboardingProcess || '',
-        // customerSuccessStrategy: offerings.customer_success_strategy || '',
-        // futureOfferings: offerings.future_offerings || '',
-        // These fields are not in the backend schema, so they'll be empty.
-        // You might need to adjust your database schema or component logic.
-        partnerships: [],
-        certifications: []
-      });
-    }
-  }, [profile]);
+  // useEffect(() => {
+  //   if (profile?.data?.offerings) {
+  //     const offerings = profile.data.offerings;
+  //     setFormData({
+  //       products: offerings.products || [],
+  //       services: offerings.services || [],
+  //       pricingModel: offerings.pricingModel || '',
+  //       targetMarket: offerings.targetMarket || '',
+  //       revenueStreams: offerings.revenueStreams || [],
+  //       valueProposition: offerings.valueProposition || '',
+  //       competitiveAdvantage: offerings.competitiveAdvantage || '',
+  //       businessModel: offerings.businessModel || '',
+  //       partnerships: [],
+  //       certifications: []
+  //     });
+  //   }
+  // }, [profile]);
+
+  // Load existing data when profile changes
+useEffect(() => {
+  if (profile?.data?.offerings) {
+    const offerings = profile.data.offerings;
+    console.log('Loading existing offerings:', offerings);
+    
+    setFormData({
+      // Handle both array and JSON cases for backwards compatibility
+      products: Array.isArray(offerings.products) 
+        ? offerings.products 
+        : (typeof offerings.products === 'string' 
+          ? JSON.parse(offerings.products || '[]') 
+          : offerings.products || []),
+      
+      services: Array.isArray(offerings.services) 
+        ? offerings.services 
+        : (typeof offerings.services === 'string' 
+          ? JSON.parse(offerings.services || '[]') 
+          : offerings.services || []),
+          
+      pricingModel: offerings.pricing_model || offerings.pricingModel || '',
+      targetMarket: offerings.target_market || offerings.targetMarket || '',
+      revenueStreams: offerings.revenue_streams || offerings.revenueStreams || [],
+      valueProposition: offerings.value_proposition || offerings.valueProposition || '',
+      competitiveAdvantage: offerings.competitive_advantage || offerings.competitiveAdvantage || '',
+      businessModel: offerings.business_model || offerings.businessModel || '',
+      partnerships: offerings.partnerships || [],
+      certifications: offerings.certifications || []
+    });
+  } else {
+    console.log('No existing offerings found, using defaults');
+  }
+}, [profile]);
 
   const handleInputChange = (field: keyof Offerings, value: string) => {
     setFormData(prev => ({
@@ -89,21 +117,104 @@ export default function OfferingsSection({ onSectionChange }: OfferingsSectionPr
     }));
   };
 
-  const handleSubmit = async () => {
-    try {
-      await updateSection({ section: 'offerings', data: formData });
-      toast.success('Offerings updated successfully');
-      // Automatically navigate to next section after successful save
-      setTimeout(() => {
-        if (onSectionChange) {
-          onSectionChange('personal-info'); // Loop back to first section
-        }
-      }, 1000);
-    } catch (err) {
-      toast.error('Failed to update offerings');
-    }
-  };
+  // const handleSubmit = async () => {
+  //   try {
+  //     await updateSection({ section: 'offerings', data: formData });
+  //     toast.success('Offerings updated successfully');
+  //     // Automatically navigate to next section after successful save
+  //     setTimeout(() => {
+  //       if (onSectionChange) {
+  //         onSectionChange('personal-info'); // Loop back to first section
+  //       }
+  //     }, 1000);
+  //   } catch (err) {
+  //     toast.error('Failed to update offerings');
+  //   }
+  // };
 
+//   const handleSubmit = async () => {
+//     try {
+//         // 1. Clean the array data (filter out empty strings)
+//         const cleanedArrayData = {
+//             products: formData.products.filter(p => p.trim() !== ''),
+//             services: formData.services.filter(s => s.trim() !== ''),
+//             revenue_streams: formData.revenueStreams.filter(r => r.trim() !== ''),
+//             partnerships: formData.partnerships.filter(p => p.trim() !== ''),
+//             certifications: formData.certifications.filter(c => c.trim() !== ''),
+//         };
+//         // 2. Create the API payload, converting ONLY the existing fields from camelCase to snake_case.
+//         const apiPayload = {
+//             ...cleanedArrayData,
+//             pricing_model: formData.pricingModel,
+//             target_market: formData.targetMarket,
+//             competitive_advantage: formData.competitiveAdvantage,
+//             value_proposition: formData.valueProposition, 
+//             business_model: formData.businessModel,
+//         };
+//         // 3. Send the clean, snake_case payload
+//         console.log(apiPayload);
+//         await updateSection({ section: 'offerings', data: apiPayload });
+//         toast.success('Offerings updated successfully');
+//         // Automatically navigate to next section after successful save
+//         setTimeout(() => {
+//             if (onSectionChange) {
+//                 onSectionChange('personal-info'); // Loop back to first section
+//             }
+//         }, 1000);
+//     } catch (err) {
+//         // Logging is essential here, but the primary error source should now be resolved
+//         console.error('Submission error:', err);
+//         // If the 400 persists, the error is likely in the Joi schema itself (e.g., incorrect length)
+//         toast.error('Failed to update offerings');
+//     }
+// };
+
+const handleSubmit = async () => {
+    try {
+        console.log('Original formData:', formData);
+        
+        // Clean and transform data
+        const apiPayload = {
+            products: formData.products.filter(p => p && p.trim() !== ''),
+            services: formData.services.filter(s => s && s.trim() !== ''),
+            revenue_streams: formData.revenueStreams.filter(r => r && r.trim() !== ''),
+            partnerships: formData.partnerships.filter(p => p && p.trim() !== ''),
+            certifications: formData.certifications.filter(c => c && c.trim() !== ''),
+            
+            // String fields - ensure they're not undefined
+            pricing_model: formData.pricingModel || '',
+            target_market: formData.targetMarket || '',
+            competitive_advantage: formData.competitiveAdvantage || '',
+            value_proposition: formData.valueProposition || '',
+            business_model: formData.businessModel || '',
+        };
+        
+        console.log('API Payload being sent:', apiPayload);
+        console.log('Payload stringified:', JSON.stringify(apiPayload, null, 2));
+        
+        const response = await updateSection({ section: 'offerings', data: apiPayload });
+        console.log('Response:', response);
+        
+        toast.success('Offerings updated successfully');
+        
+        setTimeout(() => {
+            if (onSectionChange) {
+                onSectionChange('personal-info');
+            }
+        }, 1000);
+        
+    } catch (err) {
+        console.error('Full submission error:', err);
+        console.error('Error response:', err.response?.data);
+        console.error('Error status:', err.response?.status);
+        
+        // Show more specific error message
+        const errorMessage = err.response?.data?.error?.message || 
+                           err.response?.data?.message || 
+                           'Failed to update offerings';
+        toast.error(`Error: ${errorMessage}`);
+    }
+};
   const isFormValid = formData.products.length > 0 || formData.services.length > 0;
   const isLoading = isUpdating;
 

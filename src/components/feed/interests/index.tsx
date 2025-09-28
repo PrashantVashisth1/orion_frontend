@@ -1,90 +1,150 @@
-// import { Check, ToggleLeft, ToggleRight } from "lucide-react"
 
-// const interests = [
-//   { name: "Advertise", color: "bg-blue-900/50 text-blue-300 border border-blue-700/50", hasCheck: true },
-//   { name: "Share Ideas", color: "bg-pink-900/50 text-pink-300 border border-pink-700/50", hasToggle: true, toggleOn: true },
-//   { name: "Network", color: "bg-yellow-900/50 text-yellow-300 border border-yellow-700/50", hasCheck: false },
-//   { name: "Raise Funding", color: "bg-orange-900/50 text-orange-300 border border-orange-700/50", hasCheck: true },
-//   { name: "Post Requirements", color: "bg-purple-900/50 text-purple-300 border border-purple-700/50", hasCheck: true },
-//   { name: "Internships", color: "bg-blue-900/50 text-blue-300 border border-blue-700/50", hasToggle: true, toggleOn: true },
-//   { name: "Conduct Brainstorming and GL", color: "bg-red-900/50 text-red-300 border border-red-700/50", hasToggle: true, toggleOn: false },
-//   { name: "Live Projects", color: "bg-green-900/50 text-green-300 border border-green-700/50", hasToggle: true, toggleOn: true },
-//   { name: "Get Ideas", color: "bg-blue-900/50 text-blue-300 border border-blue-700/50", hasCheck: true },
-// ]
+import { Cpu, Globe, Target, Lightbulb} from "lucide-react"
+// import type { StartupProfileResponse } from "@/types/startup"
 
-// export default function Interests() {
-//   return (
-//     <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-700/50 p-8 shadow-xl relative w-full">
-//       <h3 className="text-xl font-bold text-white mb-6">Interested in</h3>
+// interface InterestsProps { profile: StartupProfileResponse | null | undefined }
 
-//       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//         {interests.map((interest, index) => (
-//           <div key={index} className={`${interest.color} rounded-lg px-4 py-3 flex items-center justify-between`}>
-//             <span className="font-medium">{interest.name}</span>
-//             {interest.hasCheck && <Check className="h-4 w-4" />}
-//             {interest.hasToggle &&
-//               (interest.toggleOn ? <ToggleRight className="h-5 w-5" /> : <ToggleLeft className="h-5 w-5" />)}
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   )
-// }
-
-import { Check, ToggleLeft, ToggleRight } from "lucide-react"
-import type { StartupProfileResponse } from "@/types/startup"
-
-interface InterestsProps {
-  profile: StartupProfileResponse | null | undefined
-}
-
-export default function Interests({ profile }: InterestsProps) {
+export default function Interests({ profile }) {
   const interestsData = profile?.data?.interests || {};
-  console.log(interestsData)
-  // const technologyInterestsData = profile?.data?.technologyInterests || {};
+  const techInterestsData = profile?.data?.technologyInterests || {};
+  const partnershipInterestsData = profile?.data?.partnershipInterests || {};
+  const innovationFocusData = profile?.data?.innovationFocus || {};
 
-  // Combine data from different sections into a single list
-  const combinedInterests = [
-    { name: interestsData?.primaryIndustry, category: 'industry' },
-    { name: interestsData.secondaryIndustry, category: 'industry' },
-    { name: interestsData.primaryTargetMarket, category: 'market' },
-    { name: interestsData.geographicFocus, category: 'geographic' },
-    { name: interestsData.marketDescription, category: 'description' },
-    { name: interestsData.partnershipGoals, category: 'goals' },
-    { name: interestsData.innovationDescription, category: 'innovation' },
-    // { name: technologyInterestsData.other_tech, category: 'other-tech' },
-  ].filter(item => item.name); // Filter out null or empty values
+  // 1. Industry & Market
+  const industryAndMarket = [
+    { name: 'Primary Industry', value: interestsData?.primaryIndustry },
+    { name: 'Secondary Industry', value: interestsData?.secondaryIndustry },
+    { name: 'Primary Target Market', value: interestsData?.primaryTargetMarket },
+    { name: 'Geographic Focus', value: interestsData?.geographicFocus },
+  ].filter(item => item.value);
 
-  // Map boolean technology interests
-  // const techInterests = [
-  //   { name: 'AI/ML', value: technologyInterestsData.ai_ml },
-  //   { name: 'Blockchain', value: technologyInterestsData.blockchain },
-  //   { name: 'Cloud Computing', value: technologyInterestsData.cloud_computing },
-  //   { name: 'Cybersecurity', value: technologyInterestsData.cybersecurity },
-  //   { name: 'IoT', value: technologyInterestsData.iot },
-  //   { name: 'Fintech', value: technologyInterestsData.fintech },
-  //   { name: 'Healthtech', value: technologyInterestsData.healthtech },
-  //   { name: 'Edtech', value: technologyInterestsData.edtech },
-  //   { name: 'Sustainability Tech', value: technologyInterestsData.sustainability_tech },
-  // ].filter(item => item.value);
+  // 2. Partnership Goals (Text)
+  const partnershipGoals = interestsData?.partnershipGoals || 'N/A';
+
+  // 3. Innovation Focus (Text)
+  const innovationDescription = interestsData?.innovationDescription || 'N/A';
+
+  // 4. Technology Interests (Boolean fields)
+  const techInterests = [
+    { name: 'AI/ML', key: 'aiMl' },
+    { name: 'Blockchain', key: 'blockchain' },
+    { name: 'Cloud Computing', key: 'cloudComputing' },
+    { name: 'Cybersecurity', key: 'cybersecurity' },
+    { name: 'IoT', key: 'iot' },
+    { name: 'Fintech', key: 'fintech' },
+    { name: 'Healthtech', key: 'healthtech' },
+    { name: 'Edtech', key: 'edtech' },
+    { name: 'Sustainability Tech', key: 'sustainabilityTech' },
+  ].filter(item => techInterestsData[item.key]); // Filter to show ONLY TRUE/Enabled ones
+  
+  const otherTech = techInterestsData?.other_tech;
+  if (otherTech) techInterests.push({ name: otherTech, key: 'other' });
+
+  // 5. Partnership Types (Boolean fields)
+  const partnershipTypes = [
+    { name: 'Startup Partnerships', key: 'startupPartnerships' },
+    { name: 'Enterprise Partnerships', key: 'enterprisePartnerships' },
+    { name: 'Research Collaborations', key: 'researchCollaborations' },
+    { name: 'Academic Partnerships', key: 'academicPartnerships' },
+    { name: 'Government Contracts', key: 'governmentContracts' },
+    { name: 'Non-profit Collaborations', key: 'nonprofitCollaborations' },
+  ].filter(item => partnershipInterestsData[item.key]);
+
+  // 6. Innovation Focus (Boolean fields)
+  const innovationFocusAreas = [
+    { name: 'Product Development', key: 'productDevelopment' },
+    { name: 'Process Innovation', key: 'processInnovation' },
+    { name: 'Business Model Innovation', key: 'businessModelInnovation' },
+    { name: 'Sustainability Innovation', key: 'sustainabilityInnovation' },
+    { name: 'Social Impact', key: 'socialImpact' },
+    { name: 'Disruptive Technology', key: 'disruptiveTechnology' },
+  ].filter(item => innovationFocusData[item.key]);
+
+  const ItemTag = ({ name, color }) => (
+    <span className={`px-3 py-1 text-sm rounded-full font-medium ${color}`}>
+        {name}
+    </span>
+  );
+  
+  const SectionContainer = ({ title, icon: Icon, children, color }) => (
+    <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50">
+        <div className="flex items-center space-x-3 mb-4">
+            <Icon className={`h-6 w-6 ${color}`} />
+            <h4 className="text-xl font-bold text-white">{title}</h4>
+        </div>
+        <div className="space-y-4">
+            {children}
+        </div>
+    </div>
+  );
+  
+  const TextSection = ({ title, content }) => (
+      <div>
+          <h5 className="font-semibold text-gray-300 mb-2">{title}</h5>
+          <p className="text-sm text-gray-400 leading-relaxed italic border-l-4 border-blue-600/50 pl-3">"{content}"</p>
+      </div>
+  );
+  
+  const TagSection = ({ items, emptyMessage }) => (
+      <div className="flex flex-wrap gap-2">
+          {items.length > 0 ? items.map((item, index) => (
+              <ItemTag key={index} name={item.name} color="bg-blue-600/20 text-blue-300" />
+          )) : (
+              <p className="text-sm text-gray-500">{emptyMessage}</p>
+          )}
+      </div>
+  );
 
   return (
-    <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-700/50 p-8 shadow-xl relative w-full">
-      <h3 className="text-xl font-bold text-white mb-6">Interested in</h3>
+    <div className="bg-gray-900/50 backdrop-blur-sm rounded-2xl border border-gray-700/50 p-8 shadow-xl relative w-full">
+      <h3 className="text-2xl font-bold text-white mb-6">⭐ Focus Areas & Interests</h3>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {combinedInterests.map((interest, index) => (
-          <div key={index} className={`bg-gray-700/50 text-gray-300 border border-gray-600/50 rounded-lg px-4 py-3 flex items-center justify-between`}>
-            <span className="font-medium">{interest.name}</span>
-            <Check className="h-4 w-4 text-green-400" />
-          </div>
-        ))}
-        {/* {techInterests.map((tech, index) => (
-          <div key={`tech-${index}`} className={`bg-gray-700/50 text-gray-300 border border-gray-600/50 rounded-lg px-4 py-3 flex items-center justify-between`}>
-            <span className="font-medium">{tech.name}</span>
-            {tech.value ? <ToggleRight className="h-5 w-5 text-blue-400" /> : <ToggleLeft className="h-5 w-5 text-gray-400" />}
-          </div>
-        ))} */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        {/* Industry & Market Focus */}
+        <SectionContainer title="Industry & Market Focus" icon={Globe} color="text-yellow-400">
+            <div className="grid grid-cols-2 gap-4">
+                {industryAndMarket.map((item, index) => (
+                    <div key={index} className="flex flex-col p-3 bg-gray-700/30 rounded-lg border border-gray-600/50">
+                        <span className="text-xs text-gray-400 uppercase font-semibold">{item.name}</span>
+                        <span className="text-sm text-white font-medium">{item.value}</span>
+                    </div>
+                ))}
+            </div>
+            <TextSection title="Market Description" content={interestsData?.marketDescription || 'N/A'} />
+        </SectionContainer>
+        
+        {/* Technology Interests */}
+        <SectionContainer title="Technology Stack & Interests" icon={Cpu} color="text-green-400">
+            <TagSection 
+                items={techInterests} 
+                emptyMessage="No specific technologies listed."
+            />
+        </SectionContainer>
+        
+        {/* Partnership Goals & Types */}
+        <SectionContainer title="Partnership & Collaboration" icon={Target} color="text-pink-400">
+            <TextSection title="Goals" content={partnershipGoals} />
+            <h5 className="font-semibold text-gray-300 mb-2 pt-4 border-t border-gray-700">Preferred Partner Types</h5>
+            <div className="flex flex-wrap gap-2">
+                {partnershipTypes.map((item, index) => (
+                    <ItemTag key={index} name={item.name} color="bg-pink-600/20 text-pink-300" />
+                ))}
+            </div>
+        </SectionContainer>
+        
+        {/* Innovation Focus */}
+        <SectionContainer title="Innovation & Future Focus" icon={Lightbulb} color="text-cyan-400">
+            <TextSection title="Innovation Strategy" content={innovationDescription} />
+            <h5 className="font-semibold text-gray-300 mb-2 pt-4 border-t border-gray-700">Key Innovation Areas</h5>
+            <div className="flex flex-wrap gap-2">
+                {innovationFocusAreas.map((item, index) => (
+                    <ItemTag key={index} name={item.name} color="bg-cyan-600/20 text-cyan-300" />
+                ))}
+            </div>
+            <TextSection title="Future Goals" content={interestsData?.futureGoals || 'N/A'} />
+        </SectionContainer>
+
       </div>
     </div>
   );

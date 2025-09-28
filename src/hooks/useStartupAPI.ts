@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api-client';
-import type { 
-  StartupProfile, 
+import type {  
   StartupProfileRequest, 
   StartupProfileResponse 
 } from '@/types/startup';
@@ -12,27 +11,6 @@ export const startupKeys = {
   profile: () => [...startupKeys.all, 'profile'] as const,
   completion: () => [...startupKeys.all, 'completion'] as const,
 };
-
-// Get startup profile
-// export const useStartupProfile = () => {
-//   return useQuery({
-//     queryKey: startupKeys.profile(),
-//     queryFn: () => apiClient.get<StartupProfileResponse>('/startup/profile'),
-//     retry: false, // Don't retry if profile doesn't exist
-//   });
-// };
-
-// export const useStartupProfile = () => {
-//   return useQuery({
-//     queryKey: startupKeys.profile(),
-//     queryFn: async () => {
-//       const res = await apiClient.get<any>('/startup/profile');
-//       // Extract the profile data from the nested 'data' key in the response
-//       return res.data;
-//     },
-//     retry: false,
-//   });
-// };
 
 export const useStartupProfile = () => {
   return useQuery({
@@ -169,35 +147,9 @@ export const useUpdateProfileSection = () => {
          // For interests, use the data as-is since it's already transformed in the component
          convertedData = data;
        } else if (section === 'offerings') {
-        // Normalize fields to match backend schema
-        const toArray = (val: any) => {
-          if (Array.isArray(val)) return val;
-          if (typeof val === 'string' && val.trim().length > 0) return [val];
-          return [] as string[];
-        };
-        const toCsv = (val: any) => {
-          if (Array.isArray(val)) return val.join(',');
-          if (typeof val === 'string') return val; // already a string
-          return '';
-        };
+        
 
-        convertedData = {
-          // JSONB arrays
-          products: toArray(data.products),
-          services: toArray(data.services),
-          // Strings
-          ...(data.pricingModel && { pricing_model: data.pricingModel }),
-          ...(data.priceRange && { price_range: data.priceRange }),
-          ...(data.targetCustomers && { target_customers: data.targetCustomers }),
-          revenue_streams: toCsv(data.revenueStreams),
-          ...(data.uniqueValueProposition && { unique_value_proposition: data.uniqueValueProposition }),
-          ...(data.competitiveAdvantage && { competitive_advantage: data.competitiveAdvantage }),
-          ...(data.supportModel && { support_model: data.supportModel }),
-          ...(data.onboardingProcess && { onboarding_process: data.onboardingProcess }),
-          ...(data.customerSuccessStrategy && { customer_success_strategy: data.customerSuccessStrategy }),
-          ...(data.futureOfferings && { future_offerings: data.futureOfferings })
-          // NOTE: partnerships/certifications omitted as they are not in offerings table schema
-        };
+        convertedData = data;
       }
       
       return apiClient.patch<StartupProfileResponse>(`/startup/profile/${backendSection}`, convertedData);
