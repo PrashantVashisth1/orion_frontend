@@ -81,7 +81,6 @@ export interface PartnershipInterests {
   academicPartnerships: boolean;
   governmentContracts: boolean;
   nonprofitCollaborations: boolean;
-  
 }
 
 export interface InnovationFocus {
@@ -91,6 +90,7 @@ export interface InnovationFocus {
   sustainabilityInnovation: boolean;
   socialImpact: boolean;
   disruptiveTechnology: boolean;
+  innovationDescription?: String
 }
 
 export interface Interests {

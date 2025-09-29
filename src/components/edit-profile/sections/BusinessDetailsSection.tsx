@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
-import { Building2, Briefcase, Users, Target, TrendingUp, Globe, Loader2 } from "lucide-react"
+import { Building2, Briefcase, Target, TrendingUp, Globe, Loader2 } from "lucide-react"
 import { useUpdateProfileSection,useStartupProfile } from "@/hooks/useStartupAPI"
 import type { BusinessDetails } from "@/types/startup"
 import { toast } from 'react-hot-toast';
@@ -14,7 +14,7 @@ interface BusinessDetailsSectionProps {
 }
 
 export default function BusinessDetailsSection({ onSectionChange }: BusinessDetailsSectionProps) {
-  const { data: profile, isError } = useStartupProfile();
+  const { data: profile } = useStartupProfile();
   const { mutateAsync: updateSection, isPending: isUpdating } = useUpdateProfileSection();
   const [formData, setFormData] = useState<BusinessDetails>({
     jobTitle: '',

@@ -8,14 +8,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { User, Upload, Mail, Phone, MapPin, Globe, Calendar, Loader2 } from "lucide-react"
 import { useUpdateProfileSection, useUploadImage,useStartupProfile } from "@/hooks/useStartupAPI"
 import type { PersonalInfo } from "@/types/startup"
- import { toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 
 interface PersonalInfoSectionProps {
   onSectionChange?: (section: string) => void;
 }
 
 export default function PersonalInfoSection({ onSectionChange }: PersonalInfoSectionProps) {
-  const { data: profile, isError } = useStartupProfile();
+  const { data: profile} = useStartupProfile();
   const { mutateAsync: updateSection, isPending: isUpdating } = useUpdateProfileSection();
   const { mutateAsync: uploadImage, isPending: isUploading } = useUploadImage();
 

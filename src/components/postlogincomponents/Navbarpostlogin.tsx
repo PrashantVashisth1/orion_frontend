@@ -524,7 +524,6 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 import { io } from "socket.io-client";
 import { useAuthStore } from "../../store/authStore";
