@@ -2,6 +2,7 @@ import { QueryClient } from '@tanstack/react-query';
 
 // API Base URL from environment
 const API_BASE_URL = import.meta.env.VITE_API_BASE || 'http://localhost:4000';
+console.log(API_BASE_URL)
 
 // Create QueryClient instance
 export const queryClient = new QueryClient({
@@ -77,10 +78,18 @@ export interface SimpleSuccessResponse {
 export interface AuthResponse {
   success: boolean;
   
-    token: string;
-    user: User;
+    data: {
+      token: string;
+      user: User;
+    }
   
   message: string;
+}
+
+export interface VerifyOtpResponse {
+  success: boolean;
+  token: string;
+  user: User;
 }
 
 export interface PostsResponse {
@@ -170,8 +179,8 @@ export class ApiClient {
     });
   }
 
-  async verifyOtp(data: { email: string, otp: string }): Promise<AuthResponse> {
-    return this.makeRequest<AuthResponse>('/auth/verify-otp', {
+  async verifyOtp(data: { email: string, otp: string }): Promise<VerifyOtpResponse> {
+    return this.makeRequest<VerifyOtpResponse>('/auth/verify-otp', {
         method: 'POST',
         body: JSON.stringify(data),
     });

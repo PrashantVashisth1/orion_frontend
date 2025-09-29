@@ -53,10 +53,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = async (email: string, password: string) => {
     try {
       // setLoading(true);
+      console.log("first")
       const response = await apiClient.login(email, password);
+      console.log("response from login api client",response);
       
       if (response.success) {
-        zustandLogin(response.token, response.user);
+        zustandLogin(response.data.token, response.data.user);
         toast.success('Login successful!');
         navigate('/postlogin');
       } else {
@@ -106,6 +108,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const verifyOtp = async (data: { email: string; otp: string }) => {
     try {
       const response = await apiClient.verifyOtp(data); // Use the new apiClient method
+      console.log("first", response);
       const { token, user } = response;
       zustandLogin(token, user); // Log the user in upon successful verification
       toast.success("OTP verified and account created successfully!");
