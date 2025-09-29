@@ -2,10 +2,11 @@
 import { useParams } from "react-router-dom";
 import Navbarpostlogin from "@/components/postlogincomponents/Navbarpostlogin";
 import Footer from "@/components/postlogincomponents/footer";
-import ActivityPost from "@/components/feed/my-activity-post";
+// import ActivityPost, { SinglePost } from "@/components/feed/my-activity-post";
 import { Loader2, Frown } from "lucide-react";
 import { usePost, useLikePost, useUnlikePost } from "@/hooks/usePosts";
 import { useCreateComment } from "@/hooks/useComments";
+import { SinglePost } from "@/components/feed/my-activity-post";
 
 export default function SinglePostPage() {
   const { id } = useParams<{ id: string }>();
@@ -57,7 +58,7 @@ export default function SinglePostPage() {
             <p className="text-lg">Failed to load post. Please try again.</p>
           </div>
         ) : post ? (
-          <ActivityPost 
+          <SinglePost
             {...post} 
             handleLikeToggle={handleLikeToggle}
             handleCreateComment={handleCreateComment}
