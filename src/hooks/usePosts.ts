@@ -142,7 +142,7 @@ export const useLikePost = () => {
       toast.error(error.message || 'Failed to like post');
     },
 
-    onSuccess: (response, postId) => {
+    onSuccess: ( postId) => {
       // Update with real data from server
       queryClient.invalidateQueries({ queryKey: ['posts'] });
       queryClient.invalidateQueries({ queryKey: ['posts', postId] });
@@ -206,7 +206,7 @@ export const useUnlikePost = () => {
       toast.error(error.message || 'Failed to unlike post');
     },
 
-    onSuccess: (response, postId) => {
+    onSuccess: ( postId) => {
       // Update with real data from server
       queryClient.invalidateQueries({ queryKey: ['posts'] });
       queryClient.invalidateQueries({ queryKey: ['posts', postId] });

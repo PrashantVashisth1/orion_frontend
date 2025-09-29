@@ -59,6 +59,7 @@ export const useCreateComment = () => {
     },
 
     onError: (error, { postId }, context) => {
+      console.log("error: comment", error)
       // Revert optimistic updates on error
       if (context?.previousPosts) {
         queryClient.setQueryData(['posts'], context.previousPosts);
@@ -70,12 +71,12 @@ export const useCreateComment = () => {
       toast.error(error.message || 'Failed to add comment');
     },
 
-    onSuccess: (response, { postId }) => {
-      // Update with real data from server
+    onSuccess: (response: { success: boolean; data: Comment }) => {
+      const post_id = response.data.post_id; 
       queryClient.invalidateQueries({ queryKey: ['posts'] });
-      queryClient.invalidateQueries({ queryKey: ['posts', postId] });
+      queryClient.invalidateQueries({ queryKey: ['posts', post_id] });
       toast.success('Comment added successfully!');
-    },
+    }
   });
 };
 
@@ -121,14 +122,14 @@ export const useDeleteComment = () => {
       return { previousPosts };
     },
 
-    onError: (error, commentId, context) => {
-      // Revert optimistic updates on error
-      if (context?.previousPosts) {
-        queryClient.setQueryData(['posts'], context.previousPosts);
-      }
+    // onError: (error, context) => {
+    //   // Revert optimistic updates on error
+    //   if (context?.previousPosts) {
+    //     queryClient.setQueryData(['posts'], context.previousPosts);
+    //   }
       
-      toast.error(error.message || 'Failed to delete comment');
-    },
+    //   toast.error(error.message || 'Failed to delete comment');
+    // },
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });

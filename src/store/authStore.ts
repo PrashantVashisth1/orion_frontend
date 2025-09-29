@@ -1,4 +1,3 @@
-// 2. Zustand Stores - src/store/authStore.ts
 import type { User } from '@/lib/my-api-client';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';

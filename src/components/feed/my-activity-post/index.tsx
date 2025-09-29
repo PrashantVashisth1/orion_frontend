@@ -7,7 +7,6 @@ import {
   MoreHorizontal,
   User,
   Calendar,
-  // Image ,
   FileText,
   Send,
   Trash2,
@@ -20,7 +19,6 @@ import {
 import { formatDistanceToNow } from "date-fns";
 import { useActivityFeed } from "@/hooks/useActivityFeed";
 import { useAuthStore } from "@/store/authStore";
-// import { useToast } from "@/hooks/use-toast"; // Imported useToast hook
 import toast from "react-hot-toast";
 
 // import type { Post } from '@/lib/my-api-client';

@@ -1,4 +1,3 @@
-// 3. Create Post Store - src/store/createPostStore.ts
 import { create } from 'zustand';
 
 interface UploadedFile {

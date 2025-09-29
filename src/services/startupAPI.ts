@@ -115,7 +115,7 @@
 // src/services/startupService.ts
 import { apiClient } from "@/lib/api-client";
 import type {
-  StartupProfile,
+  // StartupProfile,
   StartupProfileRequest,
   StartupProfileResponse,
 } from "@/types/startup";

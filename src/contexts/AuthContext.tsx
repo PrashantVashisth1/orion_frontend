@@ -12,8 +12,10 @@ interface User {
   mobile?: string;
 }
 
+
+
 interface AuthContextType {
-  user: User | null;
+  user: User ;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
   // signup: (userData: { fullName: string; email: string; password: string; mobile?: string }) => Promise<void>;
@@ -103,7 +105,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const verifyOtp = async (data: { email: string; otp: string }) => {
     try {
       const response = await apiClient.verifyOtp(data); // Use the new apiClient method
-      const { token, user } = response;
+      const { token, user } = response.data;
       zustandLogin(token, user); // Log the user in upon successful verification
       toast.success("OTP verified and account created successfully!");
       navigate("/postlogin");
