@@ -49,6 +49,11 @@ export interface ActivityPostProps {
       full_name: string;
     };
   }>;
+  handleLikeToggle: (isLiked: boolean) => void;
+  handleCreateComment: (commentText: string) => void;
+  // handleDeleteComment: (commentId: number) => void;
+  isLiking: boolean;
+  isCommenting: boolean;
 }
 
 export default function ActivityPost({

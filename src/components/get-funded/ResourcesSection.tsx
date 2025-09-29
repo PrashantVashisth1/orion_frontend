@@ -71,7 +71,7 @@ export function ResourcesSection() {
 
   return (
     <div className="space-y-6">
-      <Tabs defaultValue={resourceCategories[0].id} className="w-full">
+      <Tabs defaultValue={activeCategory} className="w-full">
         <TabsList className="w-full grid grid-cols-3 bg-gray-800/50">
           {resourceCategories.map((category) => (
             <TabsTrigger

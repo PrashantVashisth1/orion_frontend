@@ -1,6 +1,7 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, useContext } from 'react';
+import type { ReactNode } from 'react';
 import type { StartupProfile, StartupProfileRequest } from '@/types/startup';
-import { useAuth } from './AuthContext';
+// import { useAuth } from './AuthContext';
 import { 
   useStartupProfile, 
   useProfileCompletion, 
@@ -34,7 +35,7 @@ interface StartupProfileProviderProps {
 }
 
 export const StartupProfileProvider: React.FC<StartupProfileProviderProps> = ({ children }) => {
-  const { isAuthenticated } = useAuth();
+  // const { isAuthenticated } = useAuth();
 
   // TanStack Query hooks
   const { 
@@ -99,7 +100,8 @@ export const StartupProfileProvider: React.FC<StartupProfileProviderProps> = ({ 
   const uploadImage = async (file: File, type: 'profile' | 'logo') => {
     try {
       const result = await uploadImageMutation.mutateAsync({ file, type });
-      return result.url || result.imageUrl || '';
+      // return result.url || result.imageUrl || '';
+      return result.url || '';
     } catch (err) {
       throw err;
     }

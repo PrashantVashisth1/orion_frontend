@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Users, Briefcase, FlaskConical, Heart, MapPin, Calendar, Users2, Mail, Phone, Code } from "lucide-react"
+import { Users, Briefcase, FlaskConical, Heart, MapPin, Calendar, Users2, Code } from "lucide-react"
 
 export interface Need {
   id: number

@@ -199,7 +199,7 @@
 
 
 // src/components/feed/sidebar/index.tsx
-import { X, Filter, Users, Heart, MessageCircle, Calendar } from "lucide-react"
+import { X, Filter, Users, Heart, MessageCircle } from "lucide-react"
 
 interface FeedSidebarProps {
   isOpen: boolean

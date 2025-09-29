@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 
 const faqData = [
   {
@@ -91,7 +91,7 @@ export default function FAQComponent() {
         <div className="text-center mb-16">
           <Badge
             variant="secondary"
-            className="mb-4 text-sm bg-white/10 text-white border-white/20 backdrop-blur-sm hover:bg-white/20 transition-all duration-300 animate-in fade-in-0 slide-in-from-top-4 duration-700"
+            className="mb-4 text-sm bg-white/10 text-white border-white/20 backdrop-blur-sm hover:bg-white/20 transition-all duration-300 animate-in fade-in-0 slide-in-from-top-4"
           >
             Frequently Asked Questions
           </Badge>
@@ -107,7 +107,7 @@ export default function FAQComponent() {
           {faqData.map((faq, index) => (
             <Card
               key={index}
-              className="group hover:shadow-2xl transition-all duration-500 border-l-4 border-l-blue-500 bg-gray-800/50 backdrop-blur-sm border-gray-700/50 hover:bg-gray-800/80 hover:border-gray-600/50 hover:-translate-y-1 animate-in fade-in-0 slide-in-from-left-4 duration-700"
+              className="group hover:shadow-2xl transition-all duration-500 border-l-4 border-l-blue-500 bg-gray-800/50 backdrop-blur-sm border-gray-700/50 hover:bg-gray-800/80 hover:border-gray-600/50 hover:-translate-y-1 animate-in fade-in-0 slide-in-from-left-4"
               style={{ animationDelay: `${400 + index * 100}ms` }}
             >
               <CardContent className="p-6">

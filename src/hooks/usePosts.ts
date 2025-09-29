@@ -14,7 +14,7 @@ export const usePosts = () => {
   });
 };
 
-export const usePost = (id: number) => {
+export const usePost = (id) => {
   return useQuery({
     queryKey: ['posts', id],
     queryFn: async () => {

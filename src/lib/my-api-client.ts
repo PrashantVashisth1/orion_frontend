@@ -1,4 +1,3 @@
-// 1. Updated API Client - src/lib/api-client.ts
 import { QueryClient } from '@tanstack/react-query';
 
 // API Base URL from environment
@@ -77,10 +76,10 @@ export interface SimpleSuccessResponse {
 
 export interface AuthResponse {
   success: boolean;
-  data: {
+  
     token: string;
     user: User;
-  };
+  
   message: string;
 }
 

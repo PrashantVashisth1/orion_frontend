@@ -1,10 +1,10 @@
 // src/pages/activities/index.tsx
 import Navbarpostlogin from "@/components/postlogincomponents/Navbarpostlogin";
 import Footer from "@/components/postlogincomponents/footer";
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 import { useQuery } from '@tanstack/react-query';
 import { Loader2, Frown } from "lucide-react";
-import ActivityPost from "@/components/feed/my-activity-post"; // Re-using this component
+// import ActivityPost from "@/components/feed/my-activity-post"; // Re-using this component
 
 const fetchUserActivities = async () => {
   const token = localStorage.getItem("token");

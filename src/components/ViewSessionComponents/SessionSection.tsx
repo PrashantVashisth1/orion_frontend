@@ -207,8 +207,9 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { Loader2, Mic, Globe, Briefcase, Award, Layers, Code } from 'lucide-react';
-import { useEffect, useState } from 'react';
+// import { Loader2,  Globe, Award, Layers, Code } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
+import {  useState } from 'react';
 import SessionCard from './SessionCard';
 import SessionDetailsModal from './SessionDetailsModal';
 import type { Session } from './types';
@@ -245,18 +246,18 @@ const SessionsSection = () => {
   };
   
   // You can keep this helper function if you want to use it for the cards
-  const getIconForType = (type: string) => {
-    switch (type) {
-      case 'WEBINAR':
-        return <Layers className="w-8 h-8 text-purple-400" />;
-      case 'PANEL_DISCUSSION':
-        return <Globe className="w-8 h-8 text-blue-400" />;
-      case 'PRODUCT_DEMO':
-        return <Code className="w-8 h-8 text-green-400" />;
-      default:
-        return <Award className="w-8 h-8 text-gray-400" />;
-    }
-  };
+  // const getIconForType = (type: string) => {
+  //   switch (type) {
+  //     case 'WEBINAR':
+  //       return <Layers className="w-8 h-8 text-purple-400" />;
+  //     case 'PANEL_DISCUSSION':
+  //       return <Globe className="w-8 h-8 text-blue-400" />;
+  //     case 'PRODUCT_DEMO':
+  //       return <Code className="w-8 h-8 text-green-400" />;
+  //     default:
+  //       return <Award className="w-8 h-8 text-gray-400" />;
+  //   }
+  // };
 
   if (isPending) {
     return (

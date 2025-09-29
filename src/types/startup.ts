@@ -8,7 +8,6 @@ export interface PersonalInfo {
   website?: string;
   birthDate?: string;
   bio?: string;
-  
 }
 
 export interface BusinessDetails {

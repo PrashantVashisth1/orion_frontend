@@ -3,19 +3,20 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
 import { apiClient } from '@/lib/my-api-client';
 import { toast } from 'react-hot-toast';
+import type { User } from '@/lib/my-api-client';
 
-interface User {
-  id: number;
-  fullName: string;
-  email: string;
-  role: string;
-  mobile?: string;
-}
+// interface User {
+//   id: number;
+//   fullName: string;
+//   email: string;
+//   role: string;
+//   mobile?: string;
+// }
 
 
 
 interface AuthContextType {
-  user: User ;
+  user: User | null;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
   // signup: (userData: { fullName: string; email: string; password: string; mobile?: string }) => Promise<void>;
@@ -55,7 +56,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const response = await apiClient.login(email, password);
       
       if (response.success) {
-        zustandLogin(response.data.token, response.data.user);
+        zustandLogin(response.token, response.user);
         toast.success('Login successful!');
         navigate('/postlogin');
       } else {
@@ -105,7 +106,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const verifyOtp = async (data: { email: string; otp: string }) => {
     try {
       const response = await apiClient.verifyOtp(data); // Use the new apiClient method
-      const { token, user } = response.data;
+      const { token, user } = response;
       zustandLogin(token, user); // Log the user in upon successful verification
       toast.success("OTP verified and account created successfully!");
       navigate("/postlogin");

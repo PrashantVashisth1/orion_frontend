@@ -16,131 +16,131 @@ import {
   Sparkles,
   ArrowRight,
   Upload,
-  Image as ImageIcon,
+  // Image as ImageIcon,
 } from "lucide-react";
 import Navbarpostlogin from "@/components/postlogincomponents/Navbarpostlogin";
 
 // Function to create activity post from form data (for local display, not directly impacting backend)
-const createActivityPost = (formType, formData) => {
-  const getBadgeInfo = (type) => {
-    switch (type) {
-      case "live-projects":
-        return {
-          badge: "Project",
-          badgeColor:
-            "bg-violet-500/20 text-violet-400 border border-violet-500/30",
-        };
-      case "internship":
-        return {
-          badge: "Internship",
-          badgeColor: "bg-blue-500/20 text-blue-400 border border-blue-500/30",
-        };
-      case "research":
-        return {
-          badge: "Research",
-          badgeColor:
-            "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30",
-        };
-      case "csr-initiative":
-        return {
-          badge: "CSR",
-          badgeColor: "bg-rose-500/20 text-rose-400 border border-rose-500/30",
-        };
-      default:
-        return {
-          badge: "Opportunity",
-          badgeColor:
-            "bg-purple-500/20 text-purple-400 border border-purple-500/30",
-        };
-    }
-  };
+// const createActivityPost = (formType, formData) => {
+//   const getBadgeInfo = (type) => {
+//     switch (type) {
+//       case "live-projects":
+//         return {
+//           badge: "Project",
+//           badgeColor:
+//             "bg-violet-500/20 text-violet-400 border border-violet-500/30",
+//         };
+//       case "internship":
+//         return {
+//           badge: "Internship",
+//           badgeColor: "bg-blue-500/20 text-blue-400 border border-blue-500/30",
+//         };
+//       case "research":
+//         return {
+//           badge: "Research",
+//           badgeColor:
+//             "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30",
+//         };
+//       case "csr-initiative":
+//         return {
+//           badge: "CSR",
+//           badgeColor: "bg-rose-500/20 text-rose-400 border border-rose-500/30",
+//         };
+//       default:
+//         return {
+//           badge: "Opportunity",
+//           badgeColor:
+//             "bg-purple-500/20 text-purple-400 border border-purple-500/30",
+//         };
+//     }
+//   };
 
-  const getAvatarColor = (type) => {
-    switch (type) {
-      case "live-projects":
-        return "bg-gradient-to-r from-violet-500 to-purple-600";
-      case "internship":
-        return "bg-gradient-to-r from-blue-500 to-cyan-600";
-      case "research":
-        return "bg-gradient-to-r from-emerald-500 to-teal-600";
-      case "csr-initiative":
-        return "bg-gradient-to-r from-rose-500 to-pink-600";
-      default:
-        return "bg-gradient-to-r from-purple-500 to-blue-600";
-    }
-  };
+//   const getAvatarColor = (type) => {
+//     switch (type) {
+//       case "live-projects":
+//         return "bg-gradient-to-r from-violet-500 to-purple-600";
+//       case "internship":
+//         return "bg-gradient-to-r from-blue-500 to-cyan-600";
+//       case "research":
+//         return "bg-gradient-to-r from-emerald-500 to-teal-600";
+//       case "csr-initiative":
+//         return "bg-gradient-to-r from-rose-500 to-pink-600";
+//       default:
+//         return "bg-gradient-to-r from-purple-500 to-blue-600";
+//     }
+//   };
 
-  const getContent = (formType, data) => {
-    const companyName = data.companyName || "OrionEduverse";
-    const avatar = companyName.charAt(0).toUpperCase();
+//   const getContent = (formType, data) => {
+//     const companyName = data.companyName || "OrionEduverse";
+//     const avatar = companyName.charAt(0).toUpperCase();
 
-    switch (formType) {
-      case "live-projects":
-        return `🚀 New Live Project Opportunity!\n\n📋 ${
-          data.projectTitle || "Project Title"
-        }\n\n${
-          data.projectDescription || "Project description"
-        }\n\n💼 Skills: ${
-          data.projectSkills || "Various skills"
-        }\n⏱️ Duration: ${
-          data.projectDuration || "Flexible"
-        }\n💰 Compensation: ${
-          data.projectCompensation || "Competitive"
-        }\n\nInterested? Apply now!`;
+//     switch (formType) {
+//       case "live-projects":
+//         return `🚀 New Live Project Opportunity!\n\n📋 ${
+//           data.projectTitle || "Project Title"
+//         }\n\n${
+//           data.projectDescription || "Project description"
+//         }\n\n💼 Skills: ${
+//           data.projectSkills || "Various skills"
+//         }\n⏱️ Duration: ${
+//           data.projectDuration || "Flexible"
+//         }\n💰 Compensation: ${
+//           data.projectCompensation || "Competitive"
+//         }\n\nInterested? Apply now!`;
 
-      case "internship":
-        return `🎓 Internship Opportunity Available!\n\n📝 ${
-          data.jobTitle || "Internship Position"
-        }\n\n${
-          data.internshipDescription || "Internship description"
-        }\n\n🎯 Open For: ${data.openFor || "Students"}\n⏱️ Duration: ${
-          data.duration || "Flexible"
-        }\n💰 Stipend: ${
-          data.stipend || "Competitive"
-        }\n\nPerfect for students looking to gain real-world experience!`;
+//       case "internship":
+//         return `🎓 Internship Opportunity Available!\n\n📝 ${
+//           data.jobTitle || "Internship Position"
+//         }\n\n${
+//           data.internshipDescription || "Internship description"
+//         }\n\n🎯 Open For: ${data.openFor || "Students"}\n⏱️ Duration: ${
+//           data.duration || "Flexible"
+//         }\n💰 Stipend: ${
+//           data.stipend || "Competitive"
+//         }\n\nPerfect for students looking to gain real-world experience!`;
 
-      case "research":
-        return `🔬 Research Opportunity!\n\n📚 ${
-          data.researchTitle || "Research Project"
-        }\n\n${
-          data.researchDescription || "Research description"
-        }\n\n🎯 Open For: ${
-          data.researchOpenFor || "Researchers"
-        }\n⏱️ Duration: ${data.researchDuration || "Flexible"}\n💰 Stipend: ${
-          data.researchStipend || "Competitive"
-        }\n\nJoin us in pushing the boundaries of knowledge!`;
+//       case "research":
+//         return `🔬 Research Opportunity!\n\n📚 ${
+//           data.researchTitle || "Research Project"
+//         }\n\n${
+//           data.researchDescription || "Research description"
+//         }\n\n🎯 Open For: ${
+//           data.researchOpenFor || "Researchers"
+//         }\n⏱️ Duration: ${data.researchDuration || "Flexible"}\n💰 Stipend: ${
+//           data.researchStipend || "Competitive"
+//         }\n\nJoin us in pushing the boundaries of knowledge!`;
 
-      case "csr-initiative":
-        return `❤️ CSR Initiative - Make a Difference!\n\n🌱 ${
-          data.initiativeType || "Social Initiative"
-        }\n\n${data.csrDescription || "CSR description"}\n\n⏱️ Duration: ${
-          data.csrDuration || "Ongoing"
-        }\n👥 Team Size: ${data.members || "Flexible"}\n💰 Compensation: ${
-          data.csrCompensation || "Volunteer"
-        }\n\nHelp us create positive social impact!`;
+//       case "csr-initiative":
+//         return `❤️ CSR Initiative - Make a Difference!\n\n🌱 ${
+//           data.initiativeType || "Social Initiative"
+//         }\n\n${data.csrDescription || "CSR description"}\n\n⏱️ Duration: ${
+//           data.csrDuration || "Ongoing"
+//         }\n👥 Team Size: ${data.members || "Flexible"}\n💰 Compensation: ${
+//           data.csrCompensation || "Volunteer"
+//         }\n\nHelp us create positive social impact!`;
 
-      default:
-        return `New opportunity posted by ${companyName}! Check it out and apply if interested.`;
-    }
-  };
+//       default:
+//         return `New opportunity posted by ${companyName}! Check it out and apply if interested.`;
+//     }
+//   };
 
-  const badgeInfo = getBadgeInfo(formType);
+//   const badgeInfo = getBadgeInfo(formType);
 
-  return {
-    id: `post-${Date.now()}`,
-    name: formData.companyName || "OrionEduverse",
-    avatar: (formData.companyName || "O").charAt(0).toUpperCase(),
-    avatarColor: getAvatarColor(formType),
-    badge: badgeInfo.badge,
-    badgeColor: badgeInfo.badgeColor,
-    timeAgo: "Just now",
-    content: getContent(formType, formData),
-    likes: 0,
-    comments: 0,
-    isFollowing: false,
-    image: formData.image || null,
-  };
-};
+//   return {
+//     id: `post-${Date.now()}`,
+//     name: formData.companyName || "OrionEduverse",
+//     avatar: (formData.companyName || "O").charAt(0).toUpperCase(),
+//     avatarColor: getAvatarColor(formType),
+//     badge: badgeInfo.badge,
+//     badgeColor: badgeInfo.badgeColor,
+//     timeAgo: "Just now",
+//     content: getContent(formType, formData),
+//     likes: 0,
+//     comments: 0,
+//     isFollowing: false,
+//     image: formData.image || null,
+//   };
+// };
 
 // Configuration for tabs
 const TABS_CONFIG = [
@@ -181,19 +181,29 @@ const AnimatedBackground = () => (
   </div>
 );
 
+import React, { type ReactNode } from 'react';
+
+interface FormFieldProps {
+  label: string;
+  id: string;
+  children: ReactNode;
+  isTextarea?: boolean;
+  required?: boolean;
+}
+
 // Enhanced FormField component with floating labels
-const FormField = ({
+const FormField: React.FC<FormFieldProps> = ({
   label,
   id,
   children,
-  isTextarea = false,
+  // isTextarea = false,
   required = false,
 }) => (
   <div className="relative group">
     <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 transition-all duration-300 hover:border-purple-500/50 relative z-10">
       <Label
         htmlFor={id}
-        className="block text-sm font-semibold text-gray-200 mb-3 flex items-center gap-2"
+        className="text-sm font-semibold text-gray-200 mb-3 flex items-center gap-2"
       >
         {label}
         {required && <span className="text-xs text-red-400">*</span>}
@@ -1263,7 +1273,7 @@ export default function EnhancedShareNeedsForm() {
   >({});
 
   // Add Zustand store
-  const { isSubmitting, setSubmitting, addBackendNeed, setError } =
+  const {  setSubmitting, addBackendNeed, setError } =
     useNeedsStore();
 
   // Reset form data and image previews when the active tab changes
@@ -1413,7 +1423,7 @@ export default function EnhancedShareNeedsForm() {
       <Navbarpostlogin />
       <div className="relative z-10 p-6 px-[450px] py-[60px]">
         <div className="mx-auto max-w-7xl">
-          <Card className="overflow-hidden shadow-2xl border-0 bg-gray-800/90 backdrop-blur-lg border border-gray-700/50 relative z-20 rounded-xl">
+          <Card className="overflow-hidden shadow-2xl border-0 bg-gray-800/90 backdrop-blur-lg border-gray-700/50 relative z-20 rounded-xl">
             <MainHeader activeTab={activeTab} onTabChange={setActiveTab} />
             <CardContent className="p-0 bg-gradient-to-br from-gray-800/95 to-gray-900/95 backdrop-blur-sm relative z-30 overflow-hidden">
               {renderActiveForm()}
@@ -1424,3 +1434,4 @@ export default function EnhancedShareNeedsForm() {
     </div>
   );
 }
+
