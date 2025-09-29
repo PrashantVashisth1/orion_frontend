@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Heart, MessageCircle, Share2, Send, X, FileText, Download } from "lucide-react"
+import { Heart, MessageCircle, Share2, Send,  FileText, Download } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
@@ -31,7 +31,6 @@ export default function ActivityPost({
   timeAgo,
   content,
   likes,
-  comments,
   isFollowing,
   image,
   files

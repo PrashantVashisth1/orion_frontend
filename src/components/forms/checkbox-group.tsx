@@ -21,7 +21,6 @@ export function CheckboxGroup({ label, options, type = "checkbox" }: CheckboxGro
           <div key={option.id} className="flex items-center space-x-2">
             <Checkbox
               id={option.id}
-              type={type === "radio" ? "radio" : "checkbox"}
               name={type === "radio" ? label.toLowerCase().replace(/\s+/g, "-") : undefined}
             />
             <Label htmlFor={option.id} className="text-sm">

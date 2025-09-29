@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { Plus, Loader2, Frown, Briefcase, Users, FlaskConical, Heart } from "lucide-react"; // Imported tab icons
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"; // Imported Tabs components
-import { useNeedsStore } from "@/store/needsStore";
+// import { useNeedsStore } from "@/store/needsStore";
 
 // Re-defined needTypes for tab navigation
 const needTypes = [
@@ -22,7 +22,7 @@ export default function ViewNeedsPage() {
   const [activeType, setActiveType] = useState('live_projects');
   const [isLoading, setIsLoading] = useState(false);
   const [needs, setNeeds] = useState<Need[]>([]);
-  const { setBackendNeeds } = useNeedsStore();
+  // const { setBackendNeeds } = useNeedsStore();
   const navigate = useNavigate();
   const { user } = useAuth();
   const apiBase = import.meta.env.VITE_API_BASE || 'http://localhost:4000';

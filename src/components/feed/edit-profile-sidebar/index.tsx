@@ -17,7 +17,6 @@ const sidebarItems = [
 
 export default function EditProfileSidebar({ 
   isOpen, 
-  onClose,
   activeSection,
   onSectionChange 
 }: EditProfileSidebarProps) {

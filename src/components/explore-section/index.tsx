@@ -12,8 +12,7 @@ import {
 import SignupForm from "@/components/auth/signup-form"
 import { useAuth } from "@/contexts/AuthContext"
 import { 
-  Plane, 
-  Wheat, 
+  Plane,
   Dna, 
   DollarSign, 
   ShoppingBag, 
@@ -25,8 +24,6 @@ import {
   Building,
   Users,
   Database,
-  Globe,
-  Smartphone,
   ShoppingCart,
   GraduationCap,
   Zap,
@@ -190,7 +187,7 @@ const ExploreSection = () => {
         <div className="text-center mb-16">
           <Badge 
             variant="secondary" 
-            className="mb-4 text-sm bg-white/10 text-white border-white/20 backdrop-blur-sm hover:bg-white/20 transition-all duration-300 animate-in fade-in-0 slide-in-from-top-4 duration-700"
+            className="mb-4 text-sm bg-white/10 text-white border-white/20 backdrop-blur-sm hover:bg-white/20 transition-all duration-300 animate-in fade-in-0 slide-in-from-top-4 "
           >
             Explore Opportunities
           </Badge>

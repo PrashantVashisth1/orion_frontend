@@ -350,7 +350,7 @@ const OtpForm: React.FC<OtpFormProps> = ({ email, onBack }) => {
 
 
 // --- Main Signup Form (Now controls both steps) ---
-export default function SignupForm({ onClose, onSwitchToLogin }: SignupFormProps) {
+export default function SignupForm({ onSwitchToLogin }: SignupFormProps) {
   
   const [signupStep, setSignupStep] = useState<'details' | 'otp'>('details');
   const [userEmail, setUserEmail] = useState('');
