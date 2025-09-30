@@ -1200,6 +1200,7 @@ const CSRForm = ({
 
 // Enhanced Main Header Component
 const MainHeader = ({ activeTab, onTabChange }) => (
+  
   <CardHeader className="relative p-0 m-0 overflow-hidden">
     <div className="bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 relative">
       <div
@@ -1274,6 +1275,7 @@ export default function EnhancedShareNeedsForm() {
   const [uploadedImages, setUploadedImages] = useState<
     Record<string, string | null>
   >({});
+  const navigate = useNavigate();
 
   // Add Zustand store
   const {  setSubmitting, addBackendNeed, setError } =
@@ -1319,7 +1321,7 @@ export default function EnhancedShareNeedsForm() {
   // Updated handleSubmit function using Zustand instead of localStorage
   const handleSubmit = async (formType: string) => {
     console.log(`Submitting ${formType} form`);
-    const navigate = useNavigate();
+    
     
 
     const finalFormData = { ...formData, companyName: "OrionEduverse" };
