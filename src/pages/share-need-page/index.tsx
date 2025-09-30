@@ -182,6 +182,9 @@ const AnimatedBackground = () => (
 );
 
 import React, { type ReactNode } from 'react';
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+
 
 interface FormFieldProps {
   label: string;
@@ -1316,6 +1319,8 @@ export default function EnhancedShareNeedsForm() {
   // Updated handleSubmit function using Zustand instead of localStorage
   const handleSubmit = async (formType: string) => {
     console.log(`Submitting ${formType} form`);
+    const navigate = useNavigate();
+    
 
     const finalFormData = { ...formData, companyName: "OrionEduverse" };
 
@@ -1342,7 +1347,7 @@ export default function EnhancedShareNeedsForm() {
 
       if (response.ok) {
         const result = await response.json();
-        console.log("Backend response:", result);
+        // console.log("Backend response:", result);
 
         // Success! Now use Zustand instead of localStorage
 
@@ -1355,10 +1360,9 @@ export default function EnhancedShareNeedsForm() {
         createAndAddActivityPost(formType, finalFormData);
 
         // Success feedback
-        alert("Post created successfully and sent to backend!");
-
-        console.log("Form data sent and processed successfully:");
-        console.log(finalFormData);
+        toast.success(`${formType.replace("-", " ").toUpperCase()} posted successfully!`);
+        navigate("/view-needs");
+        
 
         // Clear form
         setFormData({});
@@ -1371,11 +1375,7 @@ export default function EnhancedShareNeedsForm() {
           errorData
         );
         setError(errorData.message || response.statusText);
-        alert(
-          `Failed to create post: ${
-            errorData.message || response.statusText
-          }. Please try again.`
-        );
+        toast.error(`Error: ${errorData.message || response.statusText}`);
       }
     } catch (error) {
       console.error("Error submitting form:", error);
