@@ -14,7 +14,7 @@ const TrendingSection = () => {
     const fetchTrendingPosts = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:4000/api/trending-posts');
+        const response = await fetch(`${import.meta.env.VITE_API_BASE}/api/trending-posts`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

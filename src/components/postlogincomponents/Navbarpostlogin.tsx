@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState} from "react"
 import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import {
@@ -28,7 +28,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu"
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 import { useAuthStore } from "../../store/authStore";
 
 interface NavbarpostloginProps {
@@ -109,55 +109,55 @@ const Navbarpostlogin = ({ onFilterToggle, onSidebarToggle, showSidebarButton }:
   ])
 
   // --- Real-time notification logic using Socket.io ---
-  useEffect(() => {
-    // Connect to your backend server running Socket.io
-    const socket = io('http://localhost:4000');
+//   useEffect(() => {
+//     // Connect to your backend server running Socket.io
+//     // const socket = io('http://localhost:4000');
 
-    // Listen for the "new-post-notification" event from the server
-    socket.on("new-post-notification", (data) => {
-      console.log("New post notification received:", data);
+//     // Listen for the "new-post-notification" event from the server
+//     socket.on("new-post-notification", (data) => {
+//       console.log("New post notification received:", data);
       
-      // Add the new notification to the state
-      const newNotification: Notification = {
-        id: data.post.id.toString(), // Ensure a unique ID
-        type: "message",
-        title: data.post.author?.full_name || "A user",
-        message: data.message,
-        timeAgo: "just now", // This can be dynamically calculated
-        isRead: false,
-        avatar: (data.post.author?.full_name || "A")[0],
-        avatarColor: "bg-gradient-to-r from-purple-500 to-pink-600" // A generic color
-      };
+//       // Add the new notification to the state
+//       const newNotification: Notification = {
+//         id: data.post.id.toString(), // Ensure a unique ID
+//         type: "message",
+//         title: data.post.author?.full_name || "A user",
+//         message: data.message,
+//         timeAgo: "just now", // This can be dynamically calculated
+//         isRead: false,
+//         avatar: (data.post.author?.full_name || "A")[0],
+//         avatarColor: "bg-gradient-to-r from-purple-500 to-pink-600" // A generic color
+//       };
       
-      // Add the new notification to the top of the list
-      setNotifications(prev => [newNotification, ...prev]);
-    });
+//       // Add the new notification to the top of the list
+//       setNotifications(prev => [newNotification, ...prev]);
+//     });
 
-    // 2. Listener for NEW SESSIONS (New Logic)
-    socket.on("new-session-notification", (data: any) => {
-      console.log("New session notification received:", data);
+//     // 2. Listener for NEW SESSIONS (New Logic)
+//     socket.on("new-session-notification", (data: any) => {
+//       console.log("New session notification received:", data);
 
-      // The backend should send the 'author's name is going to host...' message
-      const newNotification: Notification = {
-        id: data.session.id.toString() + Date.now(), // Ensure unique ID
-        type: "message", // Use the new 'session' type
-        title: data.session.title, // Use the session title as the main focus
-        message: data.message, // "author is going to host a session on 'title'"
-        timeAgo: "just now", 
-        isRead: false,
-        // Use the first letter of the session title or a generic icon
-        avatar: (data.session.title || "S")[0], 
-        avatarColor: "bg-gradient-to-r from-cyan-500 to-blue-600" // A unique color for sessions
-      };
-      
-      setNotifications(prev => [newNotification, ...prev]);
-    });
+//       // The backend should send the 'author's name is going to host...' message
+//       const newNotification: Notification = {
+//         id: data.session.id.toString() + Date.now(), // Ensure unique ID
+//         type: "message", // Use the new 'session' type
+//         title: data.session.title, // Use the session title as the main focus
+//         message: data.message, // "author is going to host a session on 'title'"
+//         timeAgo: "just now", 
+//         isRead: false,
+//         // Use the first letter of the session title or a generic icon
+//         avatar: (data.session.title || "S")[0], 
+//         avatarColor: "bg-gradient-to-r from-cyan-500 to-blue-600" // A unique color for sessions
+//       };
+//       
+//       setNotifications(prev => [newNotification, ...prev]);
+//     });
 
-    // Clean up the socket connection when the component unmounts
-    return () => {
-      socket.disconnect();
-    };
-  }, []); // The empty dependency array ensures this effect runs only once on mount
+//     // Clean up the socket connection when the component unmounts
+//     return () => {
+//       socket.disconnect();
+//     };
+//   }, []); // The empty dependency array ensures this effect runs only once on mount
 
   const unreadCount = notifications.filter(n => !n.isRead).length
 
