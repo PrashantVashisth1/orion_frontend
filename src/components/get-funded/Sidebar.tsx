@@ -25,7 +25,7 @@ const sidebarNavItems: NavItem[] = [
   },
   {
     id: "ai-pitch-review",
-    label: "AI Pitch Review",
+    label: "AI Suit",
     icon: Cpu,
     description: "Get AI feedback on your pitch",
   },
