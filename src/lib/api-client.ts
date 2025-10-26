@@ -36,17 +36,19 @@ export class ApiClient {
     this.baseURL = baseURL;
   }
 
-  private getAuthHeaders(): HeadersInit {
+  private getAuthHeaders(isFormData: boolean = false): HeadersInit {
     const token = localStorage.getItem('token');
-    
-    const headers: HeadersInit = {
-      'Content-Type': 'application/json',
-    };
-    
+    const headers: HeadersInit = {}; // Start empty
+
+    // Only set Content-Type if it's NOT FormData
+    if (!isFormData) {
+      headers['Content-Type'] = 'application/json';
+    }
+
     if (token && token !== 'undefined') {
       headers.Authorization = `Bearer ${token}`;
     }
-    
+
     return headers;
   }
 
@@ -55,9 +57,11 @@ export class ApiClient {
     options: RequestInit = {}
   ): Promise<T> {
     const url = `${this.baseURL}/api${endpoint}`;
+    const isFormData = options.body instanceof FormData;
+    const baseHeaders = this.getAuthHeaders(isFormData);
     const config: RequestInit = {
-      headers: this.getAuthHeaders(),
-      ...options,
+      ...options, // Spread options first
+      headers: baseHeaders, // Apply base headers (might include Auth, excludes Content-Type for FormData)
     };
 
     // Merge headers properly
@@ -93,6 +97,15 @@ export class ApiClient {
     return this.makeRequest<T>(endpoint, {
       method: 'POST',
       body: JSON.stringify(data),
+    });
+  }
+
+  async postFormData<T>(endpoint: string, formData: FormData): Promise<T> {
+    // We pass FormData directly. makeRequest detects it and skips setting Content-Type.
+    return this.makeRequest<T>(endpoint, {
+      method: 'POST',
+      body: formData,
+      // No 'Content-Type' header needed here; browser sets it.
     });
   }
 
