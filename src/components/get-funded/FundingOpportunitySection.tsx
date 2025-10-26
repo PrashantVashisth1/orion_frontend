@@ -67,37 +67,63 @@ export function FundingOpportunitySection() {
   // No longer need triggerFileInput function
 
   const handleUpload = async () => {
-    // ... (handleUpload function remains exactly the same as before) ...
     if (!selectedFile) {
       toast.error("Please select a pitch deck file first.");
       return;
     }
     if (!user) {
       toast.info("Please log in to submit your pitch deck.");
-      // setIsLoginModalOpen(true);
+      // setIsLoginModalOpen(true); // Keep commented if not using modal
       return;
     }
+
     setIsUploading(true);
     const toastId = toast.loading("Uploading pitch deck...");
+
     const formData = new FormData();
     formData.append("pitchDeck", selectedFile);
+
+    // --- Direct Fetch Implementation ---
+    const url = `${import.meta.env.VITE_API_BASE || 'http://localhost:3000'}/api/get-funded/funding-opportunity/submit`;
+    const token = localStorage.getItem('token');
+    const headers = new Headers(); // Create Headers object
+
+    if (token && token !== 'undefined') {
+      headers.set('Authorization', `Bearer ${token}`);
+    }
+    // DO NOT set 'Content-Type' here for FormData!
+
     try {
-      const response = await apiClient.post(
-        "/get-funded/funding-opportunity/submit",
-        formData
-      );
-      toast.success(response.message || "Pitch deck submitted successfully!", {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: headers, // Pass the headers object
+        body: formData,   // Pass FormData directly
+      });
+
+      const responseData = await response.json(); // Always try to parse JSON
+
+      if (!response.ok) {
+        // Throw error using message from backend if available
+        throw new Error(responseData.message || responseData.error || `HTTP error! status: ${response.status}`);
+      }
+      
+
+      // Handle success (assuming backend sends a 'message' field on success)
+      toast.success(responseData.message || "Pitch deck submitted successfully!", {
         id: toastId,
       });
-      removeFile();
+      removeFile(); // Clear the selected file from UI
+
     } catch (error: any) {
+      // Handle error
       console.error("Upload failed:", error);
-      const errorMessage =
-        error.response?.data?.message || "Upload failed. Please try again.";
-      toast.error(errorMessage, { id: toastId });
+      // Use the error message thrown from the try block or a default
+      toast.error(error.message || "Upload failed. Please try again.", { id: toastId });
+
     } finally {
-      setIsUploading(false);
+      setIsUploading(false); // Stop loading indicator
     }
+    // --- End Direct Fetch Implementation ---
   };
 
 
@@ -169,15 +195,12 @@ export function FundingOpportunitySection() {
                         </p>
                       </div>
 
-                      {/* --- FIX: Changed button to be type="button" and removed onClick --- */}
-                      {/* Let the label handle the click */}
+                      
                       <Button
-                        type="button" // Important: Prevents form submission if ever inside a form
-                        className="mt-4 bg-purple-600 text-white hover:bg-purple-700 z-10 relative" // Added z-index just in case
+                        type="button"
+                        className="mt-4 bg-purple-600 text-white hover:bg-purple-700 z-10 relative" 
                         size="lg"
-                        // onClick removed - label handles it
                       >
-                      {/* --- END FIX --- */}
                         Choose File
                       </Button>
                     </>
