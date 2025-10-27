@@ -1,6 +1,6 @@
-import { ArrowRight } from "lucide-react";
+// import { ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 
 type Announcement = {
   id: string;
@@ -86,7 +86,7 @@ export function AnnouncementSection() {
                       <p className="text-gray-400">{announcement.content}</p>
                     </div>
 
-                    {announcement.investor && (
+                    {/* {announcement.investor && (
                       <Button
                         variant="ghost"
                         className="text-purple-400 hover:text-purple-300 hover:bg-purple-500/20"
@@ -98,7 +98,7 @@ export function AnnouncementSection() {
                         View Profile
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </Button>
-                    )}
+                    )} */}
                   </div>
                 </CardContent>
               </Card>

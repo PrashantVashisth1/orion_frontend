@@ -4,8 +4,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { useState, useRef } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { apiClient } from "@/lib/api-client";
-import { toast } from "sonner";
+// import { apiClient } from "@/lib/api-client";
+import { toast } from "react-hot-toast";
 // import AuthModals from "@/components/auth/auth-modals";
 
 export function FundingOpportunitySection() {
@@ -72,7 +72,6 @@ export function FundingOpportunitySection() {
       return;
     }
     if (!user) {
-      toast.info("Please log in to submit your pitch deck.");
       // setIsLoginModalOpen(true); // Keep commented if not using modal
       return;
     }
@@ -196,13 +195,13 @@ export function FundingOpportunitySection() {
                       </div>
 
                       
-                      <Button
+                      {/* <Button
                         type="button"
                         className="mt-4 bg-purple-600 text-white hover:bg-purple-700 z-10 relative" 
                         size="lg"
                       >
                         Choose File
-                      </Button>
+                      </Button> */}
                     </>
                   ) : (
                     // Display for when a file IS selected
