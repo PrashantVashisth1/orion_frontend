@@ -1,5 +1,5 @@
 
-
+import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -30,10 +30,10 @@ import { useState } from "react"
 
 const startups = [
   {
-    id: 1,
-    name: "TechFlow AI",
+    id: 21,
+    name: "Ekosight",
     icon: Rocket,
-    status: "Unicorn",
+    status: "Growth Stage",
     statusColor: "bg-purple-500/20 text-purple-300 border-purple-500/30",
     description:
       "Revolutionary AI platform transforming business operations with intelligent automation and predictive analytics.",
@@ -42,14 +42,14 @@ const startups = [
     growth: "300%",
     isGrowing: true,
     isHiring: true,
-    founded: "2019",
-    location: "San Francisco, CA",
-    website: "techflow-ai.com",
-    email: "contact@techflow-ai.com",
+    founded: "2021",
+    location: "New Delhi, India",
+    website: "ekosight.com",
+    email: "ekosight@gmail.com",
     phone: "+1 (555) 123-4567",
-    industry: "Artificial Intelligence",
-    mission: "To democratize AI technology and make intelligent automation accessible to businesses of all sizes.",
-    achievements: ["Forbes 30 Under 30", "Best AI Startup 2023", "TechCrunch Disruptor Award"],
+    industry: "Environmental Services",
+    mission: "With a strong focus on precision, accuracy, and user-friendly design🎯, we strive to empower farmers, researchers, and agriculture enthusiasts to make informed decisions, improve yield, and promote responsible farming practices. 🌻",
+    achievements: ["Forbes 30 Under 30", "Best Soil Doctor", "TechCrunch Disruptor Award"],
     keyMetrics: {
       revenue: "$450M ARR",
       customers: "10,000+",
@@ -58,22 +58,22 @@ const startups = [
     },
   },
   {
-    id: 2,
-    name: "GreenEnergy Pro",
+    id: 1,
+    name: "Gurugram Finance Company",
     icon: Leaf,
     status: "Rising Star",
     statusColor: "bg-green-500/20 text-green-300 border-green-500/30",
     description:
-      "Sustainable energy solutions powering the future of clean technology with innovative solar and wind systems.",
+      "Forward-thinking clean energy startup developing cutting-edge technologies to promote sustainable living.",
     funding: "$150M",
     team: "200+",
     growth: "250%",
     isGrowing: true,
     isHiring: false,
     founded: "2020",
-    location: "Austin, TX",
-    website: "greenenergy-pro.com",
-    email: "info@greenenergy-pro.com",
+    location: "Gurugram, India",
+    website: "gurugram-finance.com",
+    email: "info@gurugram-finance.com",
     phone: "+1 (555) 234-5678",
     industry: "Clean Energy",
     mission:
@@ -257,6 +257,7 @@ const startups = [
 ]
 
 export default function StartupListing() {
+  const navigate = useNavigate();
   const [selectedStartup, setSelectedStartup] = useState<(typeof startups)[0] | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -360,7 +361,8 @@ export default function StartupListing() {
                       variant="outline"
                       size="sm"
                       onClick={() => {
-                        console.log('Joining startup:', startup.name)
+                        handleExploreClick(startup);
+                        navigate(`/profile/${startup.id}`);
                         // Navigate to startup details or join section
                         // You can replace this with actual navigation logic
                       }}

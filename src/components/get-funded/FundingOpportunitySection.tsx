@@ -134,11 +134,13 @@ export function FundingOpportunitySection() {
           <div className="mb-12 space-y-4 text-center">
             <h2 className="text-3xl font-bold text-white">
               Get priority access to{" "}
-              <span className="text-purple-400">Investors</span> and{" "}
-              <span className="text-blue-400">accelerators</span>
+              <span className="text-purple-400">Investors</span>,{" "}
+              <span className="text-blue-400">Accelerators</span> and{" "}
+              <span className="text-purple-400">Incubators</span>{" "}
+              in our exclusive Pitch day Sessions
             </h2>
             <p className="text-xl text-gray-300">
-              Join the waitlist. Submit your Pitch deck today
+              Checkout this page for regular updates.
             </p>
           </div>
 
@@ -268,14 +270,14 @@ export function FundingOpportunitySection() {
             {/* Additional Info */}
             <div className="mt-8 space-y-4 text-center">
                {/* ... (no changes needed here) ... */}
-               <p className="text-sm text-gray-400">
+               {/* <p className="text-sm text-gray-400">
                 Your pitch deck will be reviewed by our team and shared with
                 relevant investors and accelerators
-              </p>
+              </p> */}
               <div className="flex items-center justify-center space-x-2">
-                <div className="h-2 w-2 rounded-full bg-green-500" />
+                {/* <div className="h-2 w-2 rounded-full bg-green-500" /> */}
                 <p className="text-sm text-gray-400">
-                  Secure upload with end-to-end encryption
+                  {/* Secure upload with end-to-end encryption */}
                 </p>
               </div>
             </div>

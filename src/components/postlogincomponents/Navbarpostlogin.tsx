@@ -950,7 +950,7 @@ const Navbarpostlogin = ({
                 onClick={onFilterToggle}
                 className="hover:bg-purple-600/20 hover:text-purple-400 transition-colors duration-200"
               >
-                <Filter className="h-6 w-6 text-gray-300" />
+                {/* <Filter className="h-6 w-6 text-gray-300" /> */}
               </Button>
             )}
             {renderNotificationMenu()}
