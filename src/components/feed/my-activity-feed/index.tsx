@@ -49,7 +49,8 @@ export default function ActivityFeed() {
   }
 
   return (
-    <section className="px-6 sm:px-8 lg:px-12 mb-12">
+    // <section className="px-6 sm:px-8 lg:px-12 mb-12">
+    <section className="">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center space-x-3">
