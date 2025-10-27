@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
-import OrionLogo from "../../assets/Orion__logo.png"
+import OrionLogo from "../../assets/logoimg.png"
 // Import the new auth components at the top
 import AuthModals from "@/components/auth/auth-modals"
 
@@ -30,9 +30,15 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
+          {/* <div className="flex items-center space-x-2">
             <img src={OrionLogo} alt="Orion Logo" className="h-14 w-auto" />
-          </div>
+          </div> */}
+          <div className="flex items-center space-x-2">
+              {/* NOTE: Make sure OrionLogo path is correct or use a placeholder */}
+              <img src={OrionLogo} alt="Orion Logo" className="h-10 w-auto" />
+              {/* <img src={LogoWord} alt="Orion Logo" className="h-5 ml-[0px] w-auto" /> */}
+              <h3 className="text-white font-bold">Om<span className="text-fuchsia-500">Verg</span></h3>
+            </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">

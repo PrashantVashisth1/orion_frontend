@@ -1,115 +1,211 @@
-import { Button } from "@/components/ui/button"
-import { ArrowRight, Sparkles } from "lucide-react"
-import { useState } from "react"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
-import LoginForm from "@/components/auth/login-form"
-import { useAuth } from "@/contexts/AuthContext"
 
-import coinRollingVideo from "@/assets/videos/Coins.mp4"
+"use client";
+
+import { useEffect, useRef } from "react";
+import OrionLogo from "../../assets/logoimg.png"
 
 const HeroSection = () => {
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
-  const { user } = useAuth()
+const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let particles: Particle[] = [];
+    let animationFrameId: number;
+    
+    // Particle class
+    class Particle {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      radius: number;
+
+      constructor(width: number, height: number) {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.radius = Math.random() * 2 + 1;
+      }
+
+      update(canvasWidth: number, canvasHeight: number) {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if (this.x < 0 || this.x > canvasWidth) this.vx *= -1;
+        if (this.y < 0 || this.y > canvasHeight) this.vy *= -1;
+      }
+
+      draw(context: CanvasRenderingContext2D) {
+        context.beginPath();
+        context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        context.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        context.fill();
+      }
+    }
+
+    // Set canvas size properly
+    const setCanvasSize = () => {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+    };
+
+    // Initialize canvas and particles
+    const initParticles = () => {
+      setCanvasSize();
+      particles = [];
+      const particleCount = 150;
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle(canvas.width, canvas.height));
+      }
+    };
+    
+    // Animation loop
+    const animate = () => {
+      if (!canvas.width || !canvas.height) return;
+      
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Update and draw particles
+      particles.forEach(particle => {
+        particle.update(canvas.width, canvas.height);
+        particle.draw(ctx);
+      });
+
+      // Draw connections
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 150) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(255, 255, 255, ${0.3 * (1 - distance / 150)})`;
+            ctx.lineWidth = 0.8;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    // Handle resize
+    const handleResize = () => {
+      setCanvasSize();
+      // Redistribute particles on resize
+      particles.forEach(particle => {
+        if (particle.x > canvas.width) particle.x = canvas.width;
+        if (particle.y > canvas.height) particle.y = canvas.height;
+      });
+    };
+
+    // Wait for next frame to ensure canvas is properly sized
+    requestAnimationFrame(() => {
+      initParticles();
+      animate();
+    });
+
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
+  }, []);
 
   return (
-    <section className="relative min-h-[70vh] max-h-[80vh] overflow-hidden rounded-3xl shadow-2xl mx-auto max-w-7xl">
-      {/* Video Background */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="absolute top-0 left-0 w-full h-full object-cover z-0 rounded-3xl"
-      >
-        <source src={coinRollingVideo} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-
-      {/* Content Container */}
-      <div className="relative z-10 pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center text-white bg-black/30 rounded-3xl p-8">
-          {/* Badge */}
-          <div className="inline-flex items-center space-x-2 bg-blue-900 bg-opacity-50 text-blue-100 px-4 py-2 rounded-full text-sm font-medium mb-8">
-            <Sparkles className="h-4 w-4" />
-            <span>From Pre-Seed to Post-IPO</span>
-          </div>
-
-          {/* Main Heading */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-            Welcome to World's{" "}
-            <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              Largest Platform
-            </span>
-            <br />
-            For Startups
-          </h1>
-
-          {/* Subheading */}
-          <p className="text-xl mb-8 max-w-3xl mx-auto">
-            Connect, collaborate, and scale your startup with the most comprehensive platform designed for entrepreneurs
-            at every stage of their journey.
-          </p>
-
-          {/* CTA Section */}
-          <div className="mb-12">
-            <h2 className="text-2xl font-semibold mb-6">Get Started in Minutes</h2>
-            <Button
-              size="lg"
-              onClick={() => {
-                if (!user) {
-                  setIsLoginModalOpen(true)
-                } else {
-                  // Handle navigation for authenticated users
-                  console.log('Navigate to dashboard or registration')
-                }
-              }}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-3"
-            >
-              Register Now
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </div>
-
-          {/* Stats */}
-          {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-blue-400 mb-2">10K+</div>
-              <div>Active Startups</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-purple-400 mb-2">$2B+</div>
-              <div>Funding Raised</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-400 mb-2">50K+</div>
-              <div>Connections Made</div>
-            </div>
-          </div> */}
-        </div>
+    <section className="relative min-h-[75vh] overflow-hidden rounded-3xl shadow-2xl mx-auto max-w-8xl group">
+      {/* Canvas Background with Particles */}
+      <div className="absolute top-0 left-0 w-full h-full z-0 rounded-3xl overflow-hidden"
+        style={{
+          // background: 'linear-gradient(135deg, #0a1628 0%, #1a2332 50%, #0d1b2a 100%)'
+          background : 'black'
+        }}>
+        <canvas
+          ref={canvasRef}
+          className="absolute top-0 left-0 w-full h-full"
+        />
       </div>
 
-      {/* Login Modal */}
-      <Dialog open={isLoginModalOpen} onOpenChange={setIsLoginModalOpen}>
-        <DialogContent className="sm:max-w-md border-0 shadow-2xl">
-          <DialogHeader className="text-center">
-            <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Welcome Back
-            </DialogTitle>
-            <DialogDescription className="text-gray-600">
-              Sign in to your account to get started
-            </DialogDescription>
-          </DialogHeader>
-          <LoginForm onClose={() => setIsLoginModalOpen(false)} />
-        </DialogContent>
-      </Dialog>
-    </section>
-  )
-}
+      {/* Gradient Overlay for depth */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-950/20 to-blue-950/40 z-[1] rounded-3xl pointer-events-none" />
 
-export default HeroSection
+      {/* Content */}
+      <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 ">
+
+          <div className="
+    // MOBILE: Stack vertically, center items, add vertical spacing
+    flex flex-col items-center space-y-4 mb-5 
+    
+    // DESKTOP (md: and up): Switch to horizontal row, vertically center items, set large horizontal spacing
+   
+">
+    
+    {/* Image: Small on mobile (h-32), reverts to original large size and spacing on desktop (h-80, ml-25) */}
+    <img 
+        src={OrionLogo} 
+        alt="Orion Logo" 
+        className="
+            // Mobile Sizing and Spacing
+            mt-5 mb-3 h-32 w-auto 
+            
+            // Desktop Sizing and Spacing (Restores the original large look)
+            md:mt-10 md:mb-5 md:h-80 md:ml-12
+        " 
+    />
+    
+    {/* Text Block Container: Holds the two headings. Ensures they are left-aligned next to the image on desktop. */}
+    <div className="
+        // MOBILE: Center text content
+        flex flex-col items-center
+    ">
+        
+        {/* H3 (Title): Small on mobile (text-5xl), original large size on desktop (md:text-9xl) */}
+        <h3 className="
+            mt-0 mb-3 pb-8 
+            font-extrabold 
+            text-5xl md:text-9xl // Responsive font size
+            bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent
+        ">
+            <span className="text-white mb-8">Om</span>Verg
+        </h3>
+
+        {/* H4 (Subtitle): Small on mobile (text-2xl), original large size on desktop (md:text-5xl) */}
+        <h4 className="
+            text-2xl md:text-5xl mt-8 // Responsive font size
+            text-white font-bold
+        ">
+            Uniting Opportunities !
+        </h4>
+    </div>
+</div>
+
+        <span className="text-4xl text-indigo-500 font-extrabold mb-5 mt-5">For StartUps</span>
+
+        {/* Main Heading */}
+        <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white leading-tight mb-6">
+          Build, Connect & Grow with the {" "}
+          <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Next-Gen Startup Network
+          </span>{" "}
+           — powered by AI and Blockchain.
+        </h3>
+      </div>
+
+    </section>
+  );
+};
+
+export default HeroSection;

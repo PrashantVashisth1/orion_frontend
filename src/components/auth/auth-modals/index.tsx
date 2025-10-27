@@ -31,7 +31,7 @@ const AuthModals = () => {
       {/* Login Modal */}
       <Dialog open={loginOpen} onOpenChange={setLoginOpen}>
         <DialogTrigger asChild>
-          <Button variant="outline" className="text-blue-500 hover:text-blue-600">
+          <Button variant="outline" className="text-blue-500 cursor-pointer hover:text-blue-600">
             Login
           </Button>
         </DialogTrigger>
@@ -49,7 +49,7 @@ const AuthModals = () => {
       {/* Signup Modal */}
       <Dialog open={signupOpen} onOpenChange={setSignupOpen}>
         <DialogTrigger asChild>
-          <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+          <Button className="bg-gradient-to-r from-blue-600 to-purple-600 cursor-pointer hover:from-blue-700 hover:to-purple-700">
             Sign Up
           </Button>
         </DialogTrigger>
