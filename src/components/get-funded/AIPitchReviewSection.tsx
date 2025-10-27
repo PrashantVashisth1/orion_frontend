@@ -181,7 +181,7 @@ export function AIPitchReviewSection() {
 
   // Smaller "Coming Soon" indicator for Auton
   const SmallComingSoonIndicator = () => (
-    <div className="mt-6 flex justify-start"> {/* Align left */}
+    <div className="mt-6 flex justify-center"> {/* Align left */}
       <div className="rounded-full bg-purple-600 px-4 py-2 text-sm font-semibold text-white">
         Coming Soon
       </div>
@@ -204,7 +204,7 @@ export function AIPitchReviewSection() {
             value="auton"
             className="data-[state=active]:bg-purple-600 text-lg h-auto"
           >
-            Auton: Your Funding Partner
+            A**** — Your AI Companion
           </TabsTrigger>
         </TabsList>
 
@@ -255,13 +255,14 @@ export function AIPitchReviewSection() {
 
               {/* Left Column: Text + Coming Soon */}
               <div className="flex flex-col justify-center p-8 md:p-12"> {/* Added padding */}
-                 <h3 className="text-3xl font-bold text-white mb-4">
-                    Introducing Auton
-                 </h3>
-                 <p className="text-gray-400 mb-6 text-lg"> {/* Added descriptive text */}
-                    Your dedicated AI partner designed to streamline the funding process and connect you with the right investors.
+                 
+                 <p className="text-gray-400 mb-6">
+                    <span className="font-bold">A****</span> is a personalized, <span className="font-bold">strategic, data-driven, and emotionally intelligent </span> 
+                    AI Companion that helps founders navigate their startup journey — intelligently, proactively, and personally.
+
+                  
                  </p>
-                 {/* Small indicator aligned left */}
+                 <span className="mt-2">“Peace of mind and a piece of intelligence — for every founder.”</span>
                  <SmallComingSoonIndicator />
               </div>
 

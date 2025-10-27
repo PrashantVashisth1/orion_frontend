@@ -110,6 +110,11 @@ export interface Interests {
 export interface StartupProfile {
   id?: string;
   userId: string;
+  user: {
+    id: string;
+    fullName: string;
+    email: string;
+  }
   personalInfo: PersonalInfo;
   businessDetails: BusinessDetails;
   companyDetails: CompanyDetails;
@@ -122,6 +127,30 @@ export interface StartupProfile {
   createdAt?: string;
   updatedAt?: string;
   completionPercentage?: number;
+}
+
+export interface StartuppProfile {
+  data: {
+    id?: string;
+    userId: string;
+    user: {
+      id: string;
+      fullName: string;
+      email: string;
+    }
+    personalInfo: PersonalInfo;
+    businessDetails: BusinessDetails;
+    companyDetails: CompanyDetails;
+    offerings: Offerings;
+    interests: Interests;
+    technologyInterests : TechnologyInterests;
+    partnershipInterests : PartnershipInterests;
+    innovationFocus : InnovationFocus;
+    isComplete: boolean;
+    createdAt?: string;
+    updatedAt?: string;
+    completionPercentage?: number;
+  }
 }
 
 export interface StartupProfileResponse {

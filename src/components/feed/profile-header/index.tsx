@@ -9,6 +9,7 @@ import { useState, useRef } from "react";
 // interface ProfileHeaderProps { profile: StartupProfileResponse | null | undefined; }
 
 export default function ProfileHeader({ profile }) {
+
   const navigate = useNavigate();
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);

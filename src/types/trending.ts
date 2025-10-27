@@ -30,6 +30,6 @@ export interface StartupCardData {
   category: string;
   funding?: string;
   team?: string;
-  growth?: string; // We'll leave this undefined for now, or use revenue if available
+  growth?: string; 
   isWeekly?: boolean;
 }
