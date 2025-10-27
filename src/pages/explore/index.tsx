@@ -353,7 +353,7 @@ export default function StartupListing() {
                       onClick={() => handleExploreClick(startup)}
                       className="text-purple-400 hover:text-purple-300 hover:bg-purple-500/10 px-2 py-1 h-auto font-medium"
                     >
-                      Explore
+                      SnapShot
                       <ArrowRight className="w-4 h-4 ml-1" />
                     </Button>
                     <Button
@@ -366,7 +366,7 @@ export default function StartupListing() {
                       }}
                       className="text-blue-400 border-blue-400 hover:text-blue-300 hover:bg-blue-500/10 px-2 py-1 h-auto font-medium"
                     >
-                      Join
+                      Explore
                     </Button>
                   </div>
                 </div>

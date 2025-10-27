@@ -17,6 +17,7 @@ import EnhancedShareNeedsForm from "./pages/share-need-page";
 import StartupListing from "./pages/explore";
 import CreatePostPage from "./pages/my-create-post";
 import GetFundedPage from "./pages/get-funded";
+import PublicProfilePage from './pages/public-profile';
 import { Rocket } from "lucide-react";
 import { AuthProvider } from "./contexts/AuthContext";
 import { StartupProfileProvider } from "./contexts/StartupProfileContext";
@@ -76,6 +77,17 @@ const App: React.FC = () => {
                   </PublicRoute>
                 }
               />
+
+              <Route
+            path="/profile/:userId" // Use /users/ or keep /profile/ if you deleted the old one
+            element={
+              
+                
+                   <PublicProfilePage />
+                
+              
+            }
+          />
 
               {/* Post-login flow - only accessible to authenticated users */}
               <Route

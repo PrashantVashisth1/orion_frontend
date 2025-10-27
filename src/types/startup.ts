@@ -137,3 +137,19 @@ export interface StartupProfileRequest {
   offerings?: Partial<Offerings>;
   interests?: Partial<Interests>;
 }
+
+export interface PublicStartupProfile {
+  id: number; // StartupProfile ID
+  user_id: number; // User ID associated with this profile
+  is_complete?: boolean; // Optional fields
+  completion_percentage?: number;
+
+  // Included relations from backend
+  user: StartupProfile | null;
+  personal_info: PersonalInfo | null;
+  company_details: CompanyDetails | null;
+  business_details: BusinessDetails | null;
+  offerings: Offerings | null;
+  interests: Interests | null;
+  // Add other relations if included (innovation_focus, etc.)
+}
