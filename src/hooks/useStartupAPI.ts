@@ -4,6 +4,7 @@ import type {
   StartupProfileRequest, 
   StartupProfileResponse 
 } from '@/types/startup';
+import { useAuthStore } from '@/store/authStore';
 
 // Query keys for caching
 export const startupKeys = {
@@ -22,23 +23,48 @@ export const useStartupProfile = () => {
 };
 
 // Check profile completion
+// export const useProfileCompletion = () => {
+//   return useQuery({
+//     queryKey: startupKeys.completion(),
+//     queryFn: async () => {
+//       const res = await apiClient.get<any>('/startup/profile/completion');
+//       const payload = res?.data?.data ?? res?.data ?? {};
+//       return {
+//         isComplete: Boolean(payload.is_complete ?? payload.isComplete ?? false),
+//         completionPercentage: Number(payload.completion_percentage ?? payload.completionPercentage ?? 0),
+//         profileExists: Boolean(payload.profile_exists ?? payload.profileExists ?? false),
+//       } as { isComplete: boolean; completionPercentage: number; profileExists: boolean };
+//     },
+//     staleTime: 0,
+//     gcTime: 60_000,
+//     refetchOnMount: 'always',
+//     refetchOnWindowFocus: true,
+//     refetchInterval: 30_000,
+//   });
+// };
+
 export const useProfileCompletion = () => {
+  const { isAuthenticated } = useAuthStore(); 
+
   return useQuery({
     queryKey: startupKeys.completion(),
     queryFn: async () => {
+      
       const res = await apiClient.get<any>('/startup/profile/completion');
       const payload = res?.data?.data ?? res?.data ?? {};
+      console.log(res)
       return {
         isComplete: Boolean(payload.is_complete ?? payload.isComplete ?? false),
         completionPercentage: Number(payload.completion_percentage ?? payload.completionPercentage ?? 0),
         profileExists: Boolean(payload.profile_exists ?? payload.profileExists ?? false),
       } as { isComplete: boolean; completionPercentage: number; profileExists: boolean };
     },
+    enabled: isAuthenticated, // <-- 3. ADD THIS 'ENABLED' OPTION
     staleTime: 0,
     gcTime: 60_000,
     refetchOnMount: 'always',
     refetchOnWindowFocus: true,
-    refetchInterval: 30_000,
+    refetchInterval: 60_000,
   });
 };
 
