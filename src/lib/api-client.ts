@@ -305,7 +305,7 @@ export class ApiClient {
 
   async uploadFile<T>(endpoint: string, file: File, type: string): Promise<T> {
     const formData = new FormData();
-    formData.append('image', file); // Still assumes 'image' field for this specific method
+    formData.append('file', file); // Still assumes 'file' field for this specific method
     formData.append('type', type);
     return this.postFormData<T>(endpoint, formData);
   }

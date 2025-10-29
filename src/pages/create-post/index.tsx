@@ -30,7 +30,6 @@ export default function CreatePostPage() {
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || [])
-    console.log(files)
     files.forEach(file => {
       if (file.type.startsWith('image/') || file.type === 'application/pdf') {
         const url = URL.createObjectURL(file)
@@ -39,7 +38,7 @@ export default function CreatePostPage() {
         setUploadedFiles(prev => [...prev, { file, url, type }])
       }
     })
-    console.log(uploadedFiles)
+    // console.log(uploadedFiles)
   }
 
   const removeFile = (index: number) => {

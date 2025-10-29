@@ -24,17 +24,20 @@ export default function ProfileHeader({ profile }) {
     }
   };
   const handleEditImage = () => fileInputRef.current?.click();
+  console.log("profile", profile)
 
   const profilePictureUrl = profileImage || profile?.data?.personalInfo?.profilePicture || null;
   const companyName = profile?.data?.companyDetails?.companyName || "Startup Name";
   const foundedYear = profile?.data?.companyDetails?.foundedYear || "N/A";
+  // const bgURL = profile?.data?.personalInfo?.profilePicture || null;
+  const bgURL = profile?.data?.companyDetails?.companyLogo || null;
 
 
   return (
     <div
       className="bg-gray-800/50 backdrop-blur-sm rounded-2xl border-none p-8 shadow-xl relative w-full overflow-hidden"
       style={{
-        backgroundImage: `linear-gradient(rgba(31, 41, 55, 0.8), rgba(31, 41, 55, 0.9)), url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80')`,
+        backgroundImage: `linear-gradient(rgba(31, 41, 55, 0.8), rgba(31, 41, 55, 0.9)), url(${bgURL})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
