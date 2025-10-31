@@ -31,6 +31,7 @@ import ViewNeedsPage from "./pages/ViewNeeds";
 // import SinglePostPage from "./pages/singlePost";
 import UserActivitiesPage from "./pages/my-activities/index";
 import ResetPasswordPage from "./pages/reset-password";
+import StudentTempPage from "./pages/student-temp";
 
 
 
@@ -76,6 +77,15 @@ const App: React.FC = () => {
                   <PublicRoute>
                     <Prelogin />
                   </PublicRoute>
+                }
+              />
+
+              <Route
+                path="/student-temp"
+                element={
+                  <ProtectedRoute>
+                    <StudentTempPage />
+                  </ProtectedRoute>
                 }
               />
 

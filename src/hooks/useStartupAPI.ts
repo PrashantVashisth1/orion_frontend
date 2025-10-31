@@ -52,7 +52,6 @@ export const useProfileCompletion = () => {
       
       const res = await apiClient.get<any>('/startup/profile/completion');
       const payload = res?.data?.data ?? res?.data ?? {};
-      console.log(res)
       return {
         isComplete: Boolean(payload.is_complete ?? payload.isComplete ?? false),
         completionPercentage: Number(payload.completion_percentage ?? payload.completionPercentage ?? 0),

@@ -865,12 +865,12 @@ export default function SignupForm({ onSwitchToLogin }: SignupFormProps) {
                 className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-700/50 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 disabled={isLoading}
               >
-                <option value="" disabled>Select your role</option>
+                {/* <option value="" disabled>Select your role</option> */}
                 <option value="STARTUP">Startup</option>
-                <option value="INVESTOR">Investor</option>
-                <option value="MENTOR">Mentor</option>
+                {/* <option value="INVESTOR">Investor</option> */}
+                {/* <option value="MENTOR">Mentor</option> */}
                 <option value="STUDENT">Student</option>
-                <option value="ADMIN">Admin</option>
+                {/* <option value="ADMIN">Admin</option> */}
               </select>
             </div>
           </div>

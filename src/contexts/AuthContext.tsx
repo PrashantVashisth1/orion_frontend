@@ -144,6 +144,133 @@
 //   );
 // };
 
+
+// 2
+// import React, { createContext, useContext, useEffect, type ReactNode } from 'react';
+// import { useNavigate } from 'react-router-dom';
+// import { useAuthStore } from '@/store/authStore';
+// import { apiClient } from '@/lib/my-api-client';
+// import { toast } from 'react-hot-toast';
+// import type { User } from '@/lib/my-api-client';
+
+// interface AuthContextType {
+//   user: User | null;
+//   isAuthenticated: boolean;
+//   login: (email: string, password: string) => Promise<void>;
+//   sendOtp: (data: {
+//     full_name: string;
+//     email: string;
+//     password: string;
+//     mobile?: string;
+//     role: string;
+//   }) => Promise<boolean>;
+//   verifyOtp: (data: { email: string; otp: string }) => Promise<void>;
+//   logout: () => void;
+//   loading: boolean;
+// }
+
+// const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+// export const useAuth = () => {
+//   const context = useContext(AuthContext);
+//   if (!context) {
+//     throw new Error('useAuth must be used within an AuthProvider');
+//   }
+//   return context;
+// };
+
+// interface AuthProviderProps {
+//   children: ReactNode;
+// }
+
+// export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+//   const { user, isAuthenticated, login: zustandLogin, logout: zustandLogout } = useAuthStore();
+//   const navigate = useNavigate();
+//   const [loading, setLoading] = React.useState(true);
+
+//   useEffect(() => {
+//     setLoading(false);
+//   }, []);
+
+//   const login = async (email: string, password: string) => {
+//     try {
+//       const response = await apiClient.login(email, password);
+//       if (response.success) {
+//         zustandLogin(response.data.token, response.data.user);
+//         toast.success('Login successful!');
+//         navigate('/postlogin');
+//       } else {
+//         throw new Error('Login failed');
+//       }
+//     } catch (error: any) {
+//       toast.error(error.message || 'Login failed');
+//       throw error;
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   // 🟢 Updated sendOtp with role field
+//   const sendOtp = async (data: {
+//     full_name: string;
+//     email: string;
+//     password: string;
+//     mobile?: string;
+//     role: string;
+//   }) => {
+//     try {
+//       console.log("Sending OTP payload:", data);
+//       await apiClient.sendOtp(data);
+//       toast.success("OTP sent successfully to your email.");
+//       return true;
+//     } catch (error: any) {
+//       const errorMessage = error.message || "Failed to send OTP. Please try again.";
+//       toast.error(errorMessage);
+//       console.error("Send OTP error:", error);
+//       return false;
+//     }
+//   };
+
+//   const verifyOtp = async (data: { email: string; otp: string }) => {
+//     try {
+//       const response = await apiClient.verifyOtp(data);
+//       const { token, user } = response;
+//       zustandLogin(token, user);
+//       toast.success("OTP verified and account created successfully!");
+//       navigate("/postlogin");
+//     } catch (error: any) {
+//       const errorMessage = error.message || "OTP verification failed. Please try again.";
+//       toast.error(errorMessage);
+//       console.error("Verify OTP error:", error);
+//     }
+//   };
+
+//   const logout = () => {
+//     zustandLogout();
+//     toast.success('Logged out successfully');
+//     navigate('/prelogin');
+//   };
+
+//   const value: AuthContextType = {
+//     user,
+//     isAuthenticated,
+//     login,
+//     sendOtp,
+//     verifyOtp,
+//     logout,
+//     loading,
+//   };
+
+//   return (
+//     <AuthContext.Provider value={value}>
+//       {children}
+//     </AuthContext.Provider>
+//   );
+// };
+
+
+// src/contexts/AuthContext.tsx
+
 import React, { createContext, useContext, useEffect, type ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/store/authStore';
@@ -194,9 +321,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const response = await apiClient.login(email, password);
       if (response.success) {
-        zustandLogin(response.data.token, response.data.user);
+        const { token, user } = response.data;
+        zustandLogin(token, user);
         toast.success('Login successful!');
-        navigate('/postlogin');
+        
+        // --- 🟢 MODIFICATION: Role-based redirection ---
+        // console.log("user role: ", user.role);
+        if (user.role === 'STUDENT') {
+          console.log(user.role,"user role");
+          navigate('/student-temp');
+        } else {
+          // Default for 'startup' and any other roles
+          // console.log("first")
+          navigate('/postlogin');
+        }
+        // --- 🟢 END MODIFICATION ---
+
       } else {
         throw new Error('Login failed');
       }
@@ -217,7 +357,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     role: string;
   }) => {
     try {
-      console.log("Sending OTP payload:", data);
+      // console.log("Sending OTP payload:", data);
       await apiClient.sendOtp(data);
       toast.success("OTP sent successfully to your email.");
       return true;
@@ -235,7 +375,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const { token, user } = response;
       zustandLogin(token, user);
       toast.success("OTP verified and account created successfully!");
-      navigate("/postlogin");
+      
+      // --- 🟢 MODIFICATION: Role-based redirection after signup/verify ---
+      if (user.role === 'STUDENT') {
+        console.log(user.role,"user role");
+        navigate('/student-temp');
+      } else {
+        navigate('/postlogin');
+      }
+      // --- 🟢 END MODIFICATION ---
+
     } catch (error: any) {
       const errorMessage = error.message || "OTP verification failed. Please try again.";
       toast.error(errorMessage);

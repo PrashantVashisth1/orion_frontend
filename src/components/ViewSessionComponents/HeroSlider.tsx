@@ -20,7 +20,11 @@ export interface SlideData {
   alt: string
 }
 
-const HeroSlider: React.FC = () => {
+interface HeroSliderProps {
+  isStudent: boolean;
+}
+
+const HeroSlider: React.FC<HeroSliderProps> = ({ isStudent }) => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const navigate = useNavigate();
   const slides: SlideData[] = [
@@ -98,7 +102,7 @@ const HeroSlider: React.FC = () => {
               <h3 className="text-2xl font-semibold text-white mb-6">
                 Get Started in Minutes
               </h3>
-              <button onClick={() => navigate("/host-session")} className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-10 py-4 rounded-xl text-lg font-medium hover:from-purple-700 hover:to-blue-700 transition-all duration-300 inline-flex items-center shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+              {!isStudent && <button onClick={() => navigate("/host-session")} className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-10 py-4 rounded-xl text-lg font-medium hover:from-purple-700 hover:to-blue-700 transition-all duration-300 inline-flex items-center shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                 Host Session
                 <svg
                   className="ml-3 w-5 h-5"
@@ -113,7 +117,7 @@ const HeroSlider: React.FC = () => {
                     d="M17 8l4 4m0 0l-4 4m4-4H3"
                   />
                 </svg>
-              </button>
+              </button>}
             </div>
           </div>
 
