@@ -119,7 +119,7 @@ export default function SectionGrid({
   items: Item[];
 }) {
   return (
-    <section id={id} className="py-12 relative">
+    <section id={id} className="pt-16 pb-8 relative">
       <h2 className="text-3xl font-extrabold text-gray-900">{title}</h2>
       {subtitle && (
         <p className="text-slate-600 max-w-3xl mt-3">

@@ -1,15 +1,18 @@
 
-import { Link, useLocation } from "react-router-dom";
+// import { Link, useLocation } from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
+import { useLocation } from "react-router-dom";
+
 
 export default function Navbar() {
   const location = useLocation();
   const navItems = [
     { name: "Home", path: "/" },
-    { name: "Get Experience", path: "/#experience" },
-    { name: "Upskill", path: "/#upskill" },
-    { name: "Starting Up", path: "/#startup" },
-    { name: "Mentorship", path: "/#learn" },
-    { name: "Compete", path: "/#compete" },
+    { name: "Get Experience", path: "#experience" },
+    { name: "Upskill", path: "#upskill" },
+    { name: "Starting Up", path: "#startup" },
+    { name: "Mentorship", path: "#learn" },
+    { name: "Compete", path: "#compete" },
   ];
 
   return (
