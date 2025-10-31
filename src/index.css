@@ -195,3 +195,59 @@ button:focus-visible {
     padding: 0;
   }
 } */
+/* target Swiper prev button for any swiper with class "mentor-swiper" */
+.mentor-swiper .swiper-button-prev {
+  left: -1.5rem !important;   /* push left arrow outside the card */
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 30 !important;
+}
+
+/* keep the right arrow where it is (optional tweak) */
+.mentor-swiper .swiper-button-next {
+  right: -1.5rem !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 30 !important;
+}
+
+/* Slightly larger, rounded white buttons to match design */
+.mentor-swiper .swiper-button-prev,
+.mentor-swiper .swiper-button-next {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(17,24,39,0.08);
+  border: 1px solid rgba(15,23,42,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive: move buttons closer on very small screens */
+@media (max-width: 640px) {
+  .mentor-swiper .swiper-button-prev {
+    left: -1.25rem !important;
+  }
+  .mentor-swiper .swiper-button-next {
+    right: -1.25rem !important;
+  }
+}
+
+/* Remove native browser focus ring / blue outline on buttons */
+button:focus,
+button:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+
+button::-moz-focus-inner {
+  border: 0 !important;
+}
+
+button {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}

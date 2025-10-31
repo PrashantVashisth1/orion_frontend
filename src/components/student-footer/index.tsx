@@ -1,3 +1,4 @@
+import logo from '../../assets/logoimg.png'
 
 export default function Footer() {
   return (
@@ -7,8 +8,9 @@ export default function Footer() {
 
         {/* Left Logo Panel */}
         <div className="bg-gray-200 p-10 flex items-center justify-center">
-          <h2 className="text-3xl font-semibold text-slate-700">
-            Orion Eduverse
+          <img src={logo} alt="" className="w-16 h-16 mr-3" />
+          <h2 className="text-3xl font-semibold text-gray-500">
+            Om<span className='text-fuchsia-600'>Verg</span>
           </h2>
         </div>
 

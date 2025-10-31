@@ -2,7 +2,7 @@
 // import { Link, useLocation } from "react-router-dom";
 import { HashLink as Link } from "react-router-hash-link";
 import { useLocation } from "react-router-dom";
-
+import logo from '../../assets/logoimg.png'
 
 export default function Navbar() {
   const location = useLocation();
@@ -21,8 +21,8 @@ export default function Navbar() {
         
         {/* LOGO */}
         <div className="flex items-center gap-2">
-          <div className="w-10 h-10 bg-black rounded-full" />
-          <span className="font-semibold text-gray-900 tracking-wide">Home</span>
+          <img src={logo} alt="" className="w-12 h-12" />
+          <span className="font-semibold text-gray-900 tracking-wide">OmVerg</span>
         </div>
 
         {/* Nav Menu */}
