@@ -297,20 +297,20 @@ export default function ViewNeedsPage() {
         // --- Display fields ---
         // We now *prioritize* the details_json, falling back to top-level
         // This is the reverse of what we had, and is much safer.
-        companyName: details.companyName || 'OrionEduverse',
+        companyName: details.projectCompanyName || 'OrionEduverse',
         location: details.location || need.location || null,
         duration: details.duration || need.duration || null,
         skills: details.skills || need.skills || null,
         
         // Handle the different compensation/stipend fields
-        compensation: need.compensation || null,
+        compensation: need.compensation || undefined,
         
         // Handle the different extendable fields
         projectTeamSize: details.projectTeamSize || details.teamSize || null,
         
         // Handle the different contact fields
         contactInfo: details.contactInfo || { 
-          email: details.projectCvEmail || details.contactEmail || details.projectEmail || details.researchEmail || details.csrEmail || 'Not specified', 
+          email: details.contactEmail || details.projectEmail || details.researchEmail || details.csrEmail || 'Not specified', 
           phone: details.contactPhone || details.projectPhone || details.researchPhone || details.csrPhone || null
         },
       };
