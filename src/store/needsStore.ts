@@ -21,7 +21,7 @@ interface ActivityNeedPost {
 }
 
 // Backend need response interface
-interface BackendNeed {
+export interface BackendNeed {
   id: number;
   user_id: number;
   type: string;
@@ -44,6 +44,12 @@ interface BackendNeed {
   };
 }
 
+// This is the interface your frontend components (like NeedCard) use
+// It's helpful to have both defined.
+export interface Need extends Omit<BackendNeed, 'user_id'> {
+  userId: number | string; // <-- This is what your frontend NeedCard expects
+}
+
 interface NeedsState {
   // Activity feed posts (formatted for UI display)
   activityPosts: ActivityNeedPost[];
@@ -54,6 +60,8 @@ interface NeedsState {
   // Loading states
   isSubmitting: boolean;
   isLoading: boolean;
+  isDeleting: boolean;
+  isUpdating: boolean;
   error: string | null;
   
   // Actions for activity posts
@@ -71,6 +79,14 @@ interface NeedsState {
   setSubmitting: (isSubmitting: boolean) => void;
   setLoading: (isLoading: boolean) => void;
   setError: (error: string | null) => void;
+
+  deleteNeed: (needId: number, token: string) => Promise<void>;
+  updateNeed: (
+    needId: number, 
+    formType: string, 
+    formData: any, 
+    token: string
+  ) => Promise<void>;
   
   // Utility functions
   getActivityPostsByType: (formType?: string) => ActivityNeedPost[];
@@ -166,6 +182,9 @@ const createActivityPost = (formType: string, formData: any): ActivityNeedPost =
   };
 };
 
+
+const apiBase = import.meta.env.VITE_API_BASE || 'http://localhost:4000';
+
 export const useNeedsStore = create<NeedsState>()(
   persist(
     (set, get) => ({
@@ -174,6 +193,8 @@ export const useNeedsStore = create<NeedsState>()(
       backendNeeds: [],
       isSubmitting: false,
       isLoading: false,
+      isDeleting: false,
+      isUpdating: false,
       error: null,
 
       // Activity posts actions
@@ -226,6 +247,63 @@ export const useNeedsStore = create<NeedsState>()(
         const { activityPosts } = get();
         if (!formType) return activityPosts;
         return activityPosts.filter(post => post.formType === formType);
+      },
+
+      deleteNeed: async (needId, token) => {
+        set({ isDeleting: true, error: null });
+        try {
+          const response = await fetch(`${apiBase}/api/needs/${needId}`, {
+            method: 'DELETE',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+          });
+
+          if (!response.ok) {
+            const err = await response.json();
+            throw new Error(err.message || 'Failed to delete need');
+          }
+
+          // On success, call the existing local removal function
+          get().removeBackendNeed(needId);
+
+        } catch (error: any) {
+          set({ error: error.message });
+          throw error; // Re-throw to be caught by the component
+        } finally {
+          set({ isDeleting: false });
+        }
+      },
+
+      updateNeed: async (needId, formType, formData, token) => {
+        set({ isUpdating: true, error: null });
+        try {
+          const response = await fetch(`${apiBase}/api/needs/${needId}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({ formType, formData }),
+          });
+
+          if (!response.ok) {
+            const err = await response.json();
+            throw new Error(err.message || 'Failed to update need');
+          }
+
+          const result = await response.json();
+          const updatedNeed: BackendNeed = result.data.need; // <-- This is the raw BackendNeed
+
+          // On success, call the existing local update function
+          get().updateBackendNeed(needId, updatedNeed);
+
+        } catch (error: any) {
+          set({ error: error.message });
+          throw error; // Re-throw to be caught by the component
+        } finally {
+          set({ isUpdating: false });
+        }
       },
 
       getTotalActivityPosts: () => {

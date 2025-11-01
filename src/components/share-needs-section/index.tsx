@@ -1,127 +1,174 @@
+"use client";
+import { useNeedsStore, createAndAddActivityPost } from "@/store/needsStore";
+import { useState, useEffect } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import Navbarpostlogin from "@/components/postlogincomponents/Navbarpostlogin";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Users, Building, Briefcase, HandshakeIcon } from "lucide-react"
-// Assuming these paths are correct in your project setup
-import Internship from "../../assets/internship.png" 
-import LiveProject from "../../assets/Full Time employee.png"
-import Research from "../../assets/co-builders & tech partners.png"
-import Volunteering from "../../assets/volunteering.png"
+// Import your refactored components
+import { MainHeader } from "./MainHeader";
+import { AnimatedBackground } from "./AnimatedBackground";
+import { LiveProjectsForm } from "./forms/LiveProjectsForm";
+import { InternshipForm } from "./forms/InternshipForm";
+import { ResearchForm } from "./forms/ResearchForm";
+import { CSRForm } from "./forms/CSRForm";
 
-const ShareNeedsSection = () => {
-  const needsCategories = [
-    {
-      icon: Users,
-      title: "Internships",
-      description: "Find talented students to join your team",
-      // Stronger color accent for icon border and glow
-      color: "border-blue-500/80 text-blue-400 shadow-lg shadow-blue-500/40",
-      glowColor: "group-hover:shadow-blue-500/35",
-      image: Internship,
-    },
-    {
-      icon: Briefcase, // Changed Lightbulb to Briefcase for a better 'Full-Time' theme
-      title: "Full Timers",
-      description: "Find best fit for full time employees",
-      // Stronger color accent for icon border and glow
-      color: "border-green-500/80 text-green-400 shadow-lg shadow-green-500/40",
-      glowColor: "group-hover:shadow-green-500/35",
-      image: LiveProject,
-    },
-    {
-      icon: HandshakeIcon,
-      title: "Partners",
-      description: "Find co-builders & tech partners.",
-      // Stronger color accent for icon border and glow
-      color: "border-purple-500/80 text-purple-400 shadow-lg shadow-purple-500/40",
-      glowColor: "group-hover:shadow-purple-500/35",
-      image: Research,
-    },
-    {
-      icon: Building,
-      title: "Volunteer",
-      description: "Find volunteers to support your mission",
-      // Stronger color accent for icon border and glow
-      color: "border-orange-500/80 text-orange-400 shadow-lg shadow-orange-500/40",
-      glowColor: "group-hover:shadow-orange-500/35",
-      image: Volunteering,
-    },
-  ]
+export default function ShareNeedsSection() {
+  const [activeTab, setActiveTab] = useState("live-projects");
+  const [formData, setFormData] = useState<Record<string, any>>({});
+  const [uploadedImages, setUploadedImages] = useState<
+    Record<string, string | null>
+  >({});
+  const navigate = useNavigate();
 
-  return (
-    <section 
-      id="share-needs" 
-      className="relative mt-12 py-20 px-4 sm:px-6 lg:px-8 rounded-xl bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden"
-    >
-      {/* Animated background elements (unchanged) */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-green-500/5 rounded-full blur-3xl animate-pulse delay-2000"></div>
-      </div>
-      
-      {/* Subtle grid pattern (unchanged) */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_60%,transparent_100%)]"></div>
+  // 1. Get IS_SUBMITTING state from the store
+  const { isSubmitting, setSubmitting, addBackendNeed, setError } =
+    useNeedsStore();
 
-      <div className="relative max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <Badge 
-            variant="secondary" 
-            className="mb-4 text-sm bg-white/10 text-white border-white/20 backdrop-blur-sm hover:bg-white/20 transition-all duration-300"
-          >
-            Share Your Needs
-          </Badge>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6 animate-in fade-in-0 slide-in-from-top-4 duration-700">
-            Find {" "}
-            <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-pulse">
-              Talent,Teams & Co-Founders Instantly
-            </span>{" "}
-          </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto animate-in fade-in-0 slide-in-from-top-6 duration-700 delay-200">
-            Share hiring needs or collaboration requests and connect with blockchain verified students, professionals and other startups.
-          </p>
-        </div>
+  // Reset form data and image previews when the active tab changes
+  useEffect(() => {
+    setFormData({});
+    setUploadedImages({});
+  }, [activeTab]);
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {needsCategories.map((category, index) => {
-            const IconComponent = category.icon
-            return (
-              <Card 
-                key={index} 
-                className={`group hover:shadow-2xl transition-all duration-500 border-gray-700/50 shadow-xl bg-gray-800/50 backdrop-blur-sm hover:bg-gray-800/80 hover:border-gray-600/50 hover:-translate-y-2 ${category.glowColor} animate-in fade-in-0 slide-in-from-bottom-8 duration-700`}
-                style={{ animationDelay: `${index * 150}ms` }}
-              >
-                <CardContent className="p-0 relative overflow-hidden rounded-xl h-[550px]">
-                  <img
-                    src={category.image || "/placeholder.svg"}
-                    alt={category.title}
-                    width={300}
-                    height={400}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 brightness-90 group-hover:brightness-100"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent group-hover:from-gray-900/40 transition-all duration-300"></div>
-                  
-                  {/* --- ENHANCED ICON CONTAINER: Prominent, Glowing Circle --- */}
-                  <div className={`absolute top-4 left-4 p-3 rounded-full border-2 bg-gray-900 backdrop-blur-sm ${category.color} group-hover:scale-110 transition-all duration-300`}>
-                    <IconComponent className="h-6 w-6" />
-                  </div>
+  const handleChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      | { target: { name: string; value: any } }
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-                  {/* --- ENHANCED DESCRIPTION CONTAINER: Dark Frosted Glass & Bolder Text --- */}
-                  <div className="absolute bottom-4 left-4 right-4 bg-gray-900/60 backdrop-blur-lg rounded-xl p-6 text-white border border-white/10 hover:border-white/30 transition-all duration-300">
-                    {/* Bolder Title */}
-                    <h3 className="text-2xl font-extrabold mb-2 mt-1">{category.title}</h3>
-                    
-                    {/* Bolder Description */}
-                    <p className="text-gray-200 text-lg font-medium leading-relaxed">{category.description}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            )
-          })}
-        </div>
-      </div>
-    </section>
-  )
+  const handleImageUpload = (imageData: {
+    file: File | null;
+    url: string | null;
+    id: string;
+  }) => {
+    setUploadedImages((prev) => ({
+      ...prev,
+      [imageData.id]: imageData.url,
+    }));
+
+    const formTypePrefix = activeTab
+      .split("-")
+      .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+      .join("");
+    const backendImageKey = `${formTypePrefix}Image`;
+
+    setFormData((prev) => ({
+      ...prev,
+      [backendImageKey]: imageData.url,
+    }));
+  };
+
+  // 2. Updated handleSubmit function
+  const handleSubmit = async (formType: string) => {
+    console.log(`Submitting ${formType} form`);
+    
+    // REMOVED: const finalFormData = { ...formData, companyName: "OrionEduverse" };
+    // This should be handled by your backend based on the authenticated user.
+    // We will just send the formData.
+    
+    console.log("Form Data to send to backend:", formData);
+    const token = localStorage.getItem("token");
+    console.log("Authorization Token:", token);
+
+    // Set submitting state
+    setSubmitting(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE}/api/needs`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+        body: JSON.stringify({
+          formType, // e.g., 'live-projects'
+          formData: formData, // The state object
+        }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.data && result.data.need) {
+          addBackendNeed(result.data.need);
+        }
+        createAndAddActivityPost(formType, formData);
+
+        toast.success(`${formType.replace("-", " ").toUpperCase()} posted successfully!`);
+        navigate("/view-needs");
+        setFormData({});
+        setUploadedImages({});
+      } else {
+        const errorData = await response.json();
+        console.error(
+          "Failed to send data to backend:",
+          response.status,
+          errorData
+        );
+        setError(errorData.message || response.statusText);
+        toast.error(`Error: ${errorData.message || response.statusText}`);
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      const errorMessage = (error instanceof Error) ? error.message : "An unexpected error occurred.";
+      setError(
+        "An unexpected error occurred. Please check your internet connection and try again."
+      );
+      toast.error(errorMessage);
+    } finally {
+      // This ensures the button re-enables even if there's an error
+      setSubmitting(false);
+    }
+  };
+
+  const renderActiveForm = () => {
+    const commonProps = {
+      onSubmit: handleSubmit,
+      formData: formData,
+      handleChange: handleChange,
+      onImageUpload: handleImageUpload,
+      
+      // 3. Pass the loading state down to the forms
+      isSubmitting: isSubmitting, 
+
+      previewUrl: uploadedImages[`${activeTab}Image`] || null,
+      setPreviewUrl: (url: string | null) =>
+        handleImageUpload({ file: null, url: url, id: `${activeTab}Image` }),
+    };
+
+    switch (activeTab) {
+      case "live-projects":
+        return <LiveProjectsForm {...commonProps} />;
+      case "internship":
+        return <InternshipForm {...commonProps} />;
+      case "research":
+        return <ResearchForm {...commonProps} />;
+      case "csr-initiative":
+        return <CSRForm {...commonProps} />;
+      default:
+        return <LiveProjectsForm {...commonProps} />;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-purple-900 relative font-inter">
+      <AnimatedBackground />
+      <Navbarpostlogin />
+      <div className="relative z-10 p-6 px-[450px] py-[60px]">
+        <div className="mx-auto max-w-7xl">
+          <Card className="overflow-hidden shadow-2xl border-0 bg-gray-800/90 backdrop-blur-lg border-gray-700/50 relative z-20 rounded-xl">
+            <MainHeader activeTab={activeTab} onTabChange={setActiveTab} />
+            <CardContent className="p-0 bg-gradient-to-br from-gray-800/95 to-gray-900/95 backdrop-blur-sm relative z-30 overflow-hidden">
+              {renderActiveForm()}
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
 }
-
-export default ShareNeedsSection

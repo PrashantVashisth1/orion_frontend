@@ -6,9 +6,9 @@
 // import type { Need } from "@/components/ViewNeedsComponent/NeedCard";
 // import { Button } from "@/components/ui/button";
 // import { useAuth } from "@/contexts/AuthContext";
-// import { Plus, Loader2, Frown, Briefcase, Users, FlaskConical, Heart } from "lucide-react"; // Imported tab icons
-// import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"; // Imported Tabs components
-// // import { useNeedsStore } from "@/store/needsStore";
+// import { Plus, Loader2, Frown, Briefcase, Users, FlaskConical, Heart } from "lucide-react"; 
+// import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+// import { NeedDetailsModal } from "@/components/ViewNeedsComponent/NeedDetailModal"; 
 
 // // Re-defined needTypes for tab navigation
 // const needTypes = [
@@ -22,10 +22,11 @@
 //   const [activeType, setActiveType] = useState('live_projects');
 //   const [isLoading, setIsLoading] = useState(false);
 //   const [needs, setNeeds] = useState<Need[]>([]);
-//   // const { setBackendNeeds } = useNeedsStore();
 //   const navigate = useNavigate();
 //   const { user } = useAuth();
 //   const apiBase = import.meta.env.VITE_API_BASE || 'http://localhost:4000';
+
+//   const [selectedNeed, setSelectedNeed] = useState<Need | null>(null);
 
 //   useEffect(() => {
 //     const fetchNeeds = async () => {
@@ -43,10 +44,16 @@
 //           throw new Error('Failed to fetch needs.');
 //         }
 
+        
+
 //         const result = await response.json();
+
+//         console.log('Fetched needs:', result.data.needs[0].details_json); // Debug log
 //         const fetchedNeeds = result.data.needs.map((need: any) => ({
 //           ...need,
 //           id: need.id,
+//           userId: need.userId,
+//           details_json: need.details_json || {},
 //           type: need.type.toLowerCase(),
 //           companyName: need.details_json.companyName || 'OrionEduverse',
 //           title: need.title || need.details_json.jobTitle || need.details_json.projectTitle || need.details_json.researchTitle || need.details_json.initiativeType,
@@ -55,6 +62,16 @@
 //           duration: need.duration || need.details_json.duration || null,
 //           skills: need.skills || need.details_json.skills || null,
 //           compensation: need.compensation || need.details_json.compensation || null,
+          
+//           // 1. ADDED projectExtendable
+//           // (Adjust 'need.details_json.projectExtendable' to your actual API key)
+//           // projectExtendable: need.details_json.projectExtendable || null, 
+//           projectTeamSize: need.details_json.projectTeamSize || null,
+
+//           contactInfo: need.details_json.contactInfo || { 
+//             email: need.details_json.projectCvEmail || 'Not specified', 
+//             phone: need.details_json.projectPhone || null
+//           },
 //         }));
 
 //         setNeeds(fetchedNeeds);
@@ -73,6 +90,14 @@
 //     setActiveType(tabId);
 //   };
 
+//   const handleViewNeedClick = (need: Need) => {
+//     setSelectedNeed(need);
+//   };
+
+//   const handleCloseModal = () => {
+//     setSelectedNeed(null);
+//   };
+
 //   return (
 //     <div className="min-h-screen bg-slate-900">
 //       <Navbarpostlogin />
@@ -82,12 +107,12 @@
 //           {
 //             user && user.role === "STARTUP" && (
 //               <Button
-//             onClick={() => navigate('/share-needs')}
-//             className="bg-blue-600 hover:bg-blue-700 text-white"
-//           >
-//             <Plus className="w-4 h-4 mr-2" />
-//             Add New Need
-//           </Button>
+//                 onClick={() => navigate('/share-needs')}
+//                 className="bg-blue-600 hover:bg-blue-700 text-white"
+//               >
+//                 <Plus className="w-4 h-4 mr-2" />
+//                 Add New Need
+//               </Button>
 //             )
 //           }
 //         </div>
@@ -124,7 +149,11 @@
 //               ) : (
 //                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 //                   {needs.map((need) => (
-//                     <NeedCard key={need.id} need={need} />
+//                     <NeedCard 
+//                       key={need.id} 
+//                       need={need} 
+//                       onViewClick={handleViewNeedClick} 
+//                     />
 //                   ))}
 //                 </div>
 //               )}
@@ -133,25 +162,38 @@
 //         </Tabs>
 //       </div>
 //       <Footer />
+
+//       <NeedDetailsModal 
+//         need={selectedNeed} 
+//         onClose={handleCloseModal} 
+//       />
 //     </div>
 //   );
 // }
 
 
-import { useState, useEffect } from "react";
+// src/pages/ViewNeeds/index.tsx
+
+import { useState, useEffect, useMemo } from "react"; // <-- Import useMemo
 import { useNavigate } from "react-router-dom";
+// import { useToast } from "@/components/ui/use-toast";
 import Navbarpostlogin from "@/components/postlogincomponents/Navbarpostlogin";
 import Footer from "@/components/postlogincomponents/footer";
 import { NeedCard } from "@/components/ViewNeedsComponent/NeedCard";
-import type { Need } from "@/components/ViewNeedsComponent/NeedCard";
+import type { Need } from "@/components/ViewNeedsComponent/NeedCard"; // <-- Our new frontend interface
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { Plus, Loader2, Frown, Briefcase, Users, FlaskConical, Heart } from "lucide-react"; 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-// *** 1. IMPORT THE NEW MODAL ***
-import { NeedDetailsModal } from "@/components/ViewNeedsComponent/NeedDetailModal";; 
+import { NeedDetailsModal } from "@/components/ViewNeedsComponent/NeedDetailModal";
 
-// Re-defined needTypes for tab navigation
+// --- IMPORT STORE & MODALS ---
+import { useNeedsStore } from "@/store/needsStore";
+import type { BackendNeed } from "@/store/needsStore"; // <-- Import your raw backend type
+import { DeleteNeedModal } from "@/components/ViewNeedsComponent/DeleteNeedModal";
+import { EditNeedModal } from "@/components/ViewNeedsComponent/EditNeedModal";
+import toast from "react-hot-toast";
+
 const needTypes = [
   { id: 'live_projects', label: 'Live Projects', icon: Briefcase },
   { id: 'internship', label: 'Internships', icon: Users },
@@ -162,72 +204,160 @@ const needTypes = [
 export default function ViewNeedsPage() {
   const [activeType, setActiveType] = useState('live_projects');
   const [isLoading, setIsLoading] = useState(false);
-  const [needs, setNeeds] = useState<Need[]>([]);
+  
   const navigate = useNavigate();
   const { user } = useAuth();
+  // const { toast } = useToast();
   const apiBase = import.meta.env.VITE_API_BASE || 'http://localhost:4000';
 
-  // *** 2. ADD STATE FOR THE MODAL ***
-  const [selectedNeed, setSelectedNeed] = useState<Need | null>(null);
+  // --- GET ALL STATE FROM ZUSTAND STORE ---
+  const { 
+    backendNeeds, // <-- This is the raw data (BackendNeed[])
+    setBackendNeeds,
+    isDeleting,
+    isUpdating,
+    deleteNeed,
+    updateNeed
+  } = useNeedsStore();
 
+  // --- MODAL STATES ---
+  const [selectedNeed, setSelectedNeed] = useState<Need | null>(null);
+  const [needToDelete, setNeedToDelete] = useState<Need | null>(null);
+  const [needToEdit, setNeedToEdit] = useState<Need | null>(null);
+
+  // --- FETCH NEEDS & POPULATE STORE ---
   useEffect(() => {
     const fetchNeeds = async () => {
       setIsLoading(true);
-      
       try {
-        const response = await fetch(`${apiBase}/api/needs?type=${activeType.toUpperCase()}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch needs.');
-        }
-
+        const response = await fetch(`${apiBase}/api/needs?type=${activeType.toUpperCase()}`);
+        if (!response.ok) throw new Error('Failed to fetch needs.');
+        
         const result = await response.json();
-        const fetchedNeeds = result.data.needs.map((need: any) => ({
-          ...need,
-          id: need.id,
-          type: need.type.toLowerCase(),
-          companyName: need.details_json.companyName || 'OrionEduverse',
-          title: need.title || need.details_json.jobTitle || need.details_json.projectTitle || need.details_json.researchTitle || need.details_json.initiativeType,
-          description: need.description || need.details_json.description || need.details_json.projectDescription || need.details_json.researchDescription || need.details_json.csrDescription,
-          location: need.location || need.details_json.location || null,
-          duration: need.duration || need.details_json.duration || null,
-          skills: need.skills || need.details_json.skills || null,
-          compensation: need.compensation || need.details_json.compensation || null,
-          // *** ADD CONTACT INFO (adjust if your API response is different) ***
-          contactInfo: need.details_json.contactInfo || { 
-            email: need.details_json.contactEmail || 'Not specified', 
-            phone: need.details_json.contactPhone || null
-          },
-        }));
+        // Set the raw backend data in the store
+        setBackendNeeds(result.data.needs as BackendNeed[]); 
 
-        setNeeds(fetchedNeeds);
       } catch (error) {
         console.error('Fetch error:', error);
-        setNeeds([]);
+        setBackendNeeds([]); 
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchNeeds();
-  }, [activeType]);
+  }, [activeType, setBackendNeeds]); 
+
+  console.log("fetched needs", backendNeeds);
+
+  // --- MAP RAW BACKEND DATA TO FRONTEND 'Need' TYPE ---
+  // This is the bridge between your store and your components
+  // const needs: Need[] = useMemo(() => {
+  //   return backendNeeds.map((need: BackendNeed) => {
+  //     const details = need.details_json || {};
+  //     return {
+  //       ...need,
+  //       userId: need.user_id, // <-- Map user_id to userId
+  //       details_json: details, // <-- Ensure details_json is present
+  //       type: need.type.toLowerCase() as Need['type'],
+        
+  //       // --- Re-populate display fields from details_json (as before) ---
+  //       companyName: details.companyName || 'OrionEduverse',
+  //       title: need.title || details.jobTitle || details.projectTitle || details.researchTitle || details.initiativeType,
+  //       description: need.description || details.description || details.projectDescription || details.researchDescription || details.csrDescription,
+  //       location: need.location || details.location || null,
+  //       duration: need.duration || details.duration || null,
+  //       skills: need.skills || details.skills || null,
+  //       compensation: need.compensation || details.compensation || details.stipend || null,
+  //       projectTeamSize: details.projectTeamSize || details.teamSize || null, 
+  //       contactInfo: details.contactInfo || { 
+  //         email: details.contactEmail || details.projectEmail || details.researchEmail || details.csrEmail || 'Not specified', 
+  //         phone: details.contactPhone || details.projectPhone || details.researchPhone || details.csrPhone || null
+  //       },
+  //     };
+  //   });
+  // }, [backendNeeds]);
+
+  const needs: Need[] = useMemo(() => {
+    return backendNeeds.map((need: BackendNeed) => {
+      const details = need.details_json || {};
+      
+      // Build the object field-by-field to avoid spreading stale data
+      return {
+        // Core fields from the top level
+        id: need.id,
+        userId: need.user_id, // Map user_id to userId
+        type: need.type.toLowerCase() as Need['type'],
+        title: need.title, // This is now correctly updated from the backend
+        description: need.description, // This is also correct
+        
+        // The raw JSON blob, required for the Edit modal
+        details_json: details,
+
+        // --- Display fields ---
+        // We now *prioritize* the details_json, falling back to top-level
+        // This is the reverse of what we had, and is much safer.
+        companyName: details.companyName || 'OrionEduverse',
+        location: details.location || need.location || null,
+        duration: details.duration || need.duration || null,
+        skills: details.skills || need.skills || null,
+        
+        // Handle the different compensation/stipend fields
+        compensation: need.compensation || null,
+        
+        // Handle the different extendable fields
+        projectTeamSize: details.projectTeamSize || details.teamSize || null,
+        
+        // Handle the different contact fields
+        contactInfo: details.contactInfo || { 
+          email: details.projectCvEmail || details.contactEmail || details.projectEmail || details.researchEmail || details.csrEmail || 'Not specified', 
+          phone: details.contactPhone || details.projectPhone || details.researchPhone || details.csrPhone || null
+        },
+      };
+    });
+  }, [backendNeeds]);
 
   const handleTabChange = (tabId: string) => {
     setActiveType(tabId);
   };
 
-  // *** 3. CREATE HANDLER FUNCTIONS ***
-  const handleViewNeedClick = (need: Need) => {
-    setSelectedNeed(need);
+  // --- ALL CLICK HANDLERS ---
+  const handleViewNeedClick = (need: Need) => setSelectedNeed(need);
+  const handleCloseModal = () => setSelectedNeed(null);
+
+  const handleEditClick = (need: Need) => setNeedToEdit(need);
+  const handleDeleteClick = (need: Need) => setNeedToDelete(need);
+
+  const handleConfirmDelete = async (needId: number) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      toast.error("You are not authenticated.");
+      return;
+    }
+    
+    try {
+      await deleteNeed(needId, token);
+      toast.success("Need deleted successfully.");
+      setNeedToDelete(null); 
+    } catch (error: any) {
+      toast.error(error.message || "Failed to delete need.");
+    }
   };
 
-  const handleCloseModal = () => {
-    setSelectedNeed(null);
+  const handleConfirmUpdate = async (needId: number, formType: string, formData: any) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      toast.error("You are not authenticated.");
+      return;
+    }
+
+    try {
+      await updateNeed(needId, formType, formData, token);
+      toast.success("Need updated successfully.");
+      setNeedToEdit(null); 
+    } catch (error: any) {
+      toast.error(error.message || "Failed to update need.");
+    }
   };
 
   return (
@@ -236,34 +366,29 @@ export default function ViewNeedsPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-white">View Needs</h1>
-          {
-            user && user.role === "STARTUP" && (
-              <Button
-                onClick={() => navigate('/share-needs')}
-                className="bg-blue-600 hover:bg-blue-700 text-white"
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Add New Need
-              </Button>
-            )
-          }
+          {user && user.role === "STARTUP" && (
+            <Button
+              onClick={() => navigate('/share-needs')}
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Add New Need
+            </Button>
+          )}
         </div>
 
         <Tabs value={activeType} onValueChange={handleTabChange}>
           <TabsList className="w-full grid grid-cols-4 bg-slate-800/50 border border-slate-700/50 mb-8">
-            {needTypes.map(type => {
-              const IconComponent = type.icon;
-              return (
-                <TabsTrigger 
-                  key={type.id} 
-                  value={type.id} 
-                  className="flex items-center space-x-2 data-[state=active]:bg-purple-600/30 data-[state=active]:text-purple-300 data-[state=active]:border-purple-500/30"
-                >
-                  <IconComponent className="w-4 h-4" />
-                  <span>{type.label}</span>
-                </TabsTrigger>
-              )
-            })}
+            {needTypes.map(type => (
+              <TabsTrigger 
+                key={type.id} 
+                value={type.id} 
+                className="flex items-center space-x-2 data-[state=active]:bg-purple-600/30 data-[state=active]:text-purple-300 data-[state=active]:border-purple-500/30"
+              >
+                <type.icon className="w-4 h-4" />
+                <span>{type.label}</span>
+              </TabsTrigger>
+            ))}
           </TabsList>
 
           {needTypes.map(type => (
@@ -280,12 +405,15 @@ export default function ViewNeedsPage() {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {/* Map over the 'mapped' needs array */}
                   {needs.map((need) => (
-                    // *** 4. PASS THE HANDLER TO THE CARD ***
                     <NeedCard 
                       key={need.id} 
                       need={need} 
-                      onViewClick={handleViewNeedClick} 
+                      onViewClick={handleViewNeedClick}
+                      onEditClick={handleEditClick}
+                      onDeleteClick={handleDeleteClick}
+                      currentUserId={user?.id} // <-- Pass the logged-in user's ID
                     />
                   ))}
                 </div>
@@ -296,10 +424,24 @@ export default function ViewNeedsPage() {
       </div>
       <Footer />
 
-      {/* *** 5. RENDER THE MODAL *** */}
+      {/* --- RENDER ALL THREE MODALS --- */}
       <NeedDetailsModal 
         need={selectedNeed} 
         onClose={handleCloseModal} 
+      />
+
+      <DeleteNeedModal
+        need={needToDelete}
+        onClose={() => setNeedToDelete(null)}
+        onConfirmDelete={handleConfirmDelete}
+        isDeleting={isDeleting}
+      />
+
+      <EditNeedModal
+        need={needToEdit}
+        onClose={() => setNeedToEdit(null)}
+        onConfirmUpdate={handleConfirmUpdate}
+        isUpdating={isUpdating}
       />
     </div>
   );
