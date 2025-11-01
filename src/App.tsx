@@ -10,7 +10,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 import { queryClient } from "@/lib/my-api-client";
 // import Prelogin from "./pages/student-landing-Page";
-import Prelogin from "./pages/prelogin"
+import Prelogin from "./pages/student-temp"
 import HomePage from "./pages/postlogin";
 import ProfilePage from "./pages/profile";
 import EditProfile from "./pages/edit-profile";
