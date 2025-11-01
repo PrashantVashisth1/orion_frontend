@@ -250,33 +250,6 @@ export default function ViewNeedsPage() {
 
   console.log("fetched needs", backendNeeds);
 
-  // --- MAP RAW BACKEND DATA TO FRONTEND 'Need' TYPE ---
-  // This is the bridge between your store and your components
-  // const needs: Need[] = useMemo(() => {
-  //   return backendNeeds.map((need: BackendNeed) => {
-  //     const details = need.details_json || {};
-  //     return {
-  //       ...need,
-  //       userId: need.user_id, // <-- Map user_id to userId
-  //       details_json: details, // <-- Ensure details_json is present
-  //       type: need.type.toLowerCase() as Need['type'],
-        
-  //       // --- Re-populate display fields from details_json (as before) ---
-  //       companyName: details.companyName || 'OrionEduverse',
-  //       title: need.title || details.jobTitle || details.projectTitle || details.researchTitle || details.initiativeType,
-  //       description: need.description || details.description || details.projectDescription || details.researchDescription || details.csrDescription,
-  //       location: need.location || details.location || null,
-  //       duration: need.duration || details.duration || null,
-  //       skills: need.skills || details.skills || null,
-  //       compensation: need.compensation || details.compensation || details.stipend || null,
-  //       projectTeamSize: details.projectTeamSize || details.teamSize || null, 
-  //       contactInfo: details.contactInfo || { 
-  //         email: details.contactEmail || details.projectEmail || details.researchEmail || details.csrEmail || 'Not specified', 
-  //         phone: details.contactPhone || details.projectPhone || details.researchPhone || details.csrPhone || null
-  //       },
-  //     };
-  //   });
-  // }, [backendNeeds]);
 
   const needs: Need[] = useMemo(() => {
     return backendNeeds.map((need: BackendNeed) => {
