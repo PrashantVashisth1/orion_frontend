@@ -204,9 +204,11 @@ import {
   MapPin,
   Calendar,
   DollarSign,
-  TrendingUp,
   ChevronDown,
   ChevronUp,
+  Send,
+  Users,
+  Briefcase
 } from "lucide-react"
 
 interface NeedDetailsModalProps {
@@ -267,6 +269,10 @@ export function NeedDetailsModal({ need, onClose }: NeedDetailsModalProps) {
       displayText: `${description.substring(0, DESCRIPTION_CHAR_LIMIT)}...`
     };
   }, [need.description, isExpanded]);
+
+  const contactEmail = need.contactInfo?.email;
+  const contactPhone = need.contactInfo?.phone;
+  const cvEmail = need.contactInfo?.cvEmail;
 
   return (
     <Dialog open={!!need} onOpenChange={(isOpen) => !isOpen && onClose()}>
@@ -355,11 +361,36 @@ export function NeedDetailsModal({ need, onClose }: NeedDetailsModalProps) {
             )}
             {need.projectTeamSize && (
               <div className="flex items-start space-x-3">
-                <TrendingUp className="w-4 h-4 text-pink-400 mt-1 flex-shrink-0" />
+                <Users className="w-4 h-4 text-pink-400 mt-1 flex-shrink-0" />
                 <div>
                   <span className="text-slate-400">Team Size:</span>
                   <span className="block font-medium text-white">
                     {need.projectTeamSize}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* --- NEW INTERNSHIP FIELDS --- */}
+            {need.type === 'internship' && need.open_for && (
+              <div className="flex items-start space-x-3">
+                <Users className="w-4 h-4 text-cyan-400 mt-1 flex-shrink-0" />
+                <div>
+                  <span className="text-slate-400">Open For:</span>
+                  <span className="block font-medium text-white">
+                    {need.open_for}
+                  </span>
+                </div>
+              </div>
+            )}
+            
+            {need.type === 'internship' && need.fulltime && (
+              <div className="flex items-start space-x-3">
+                <Briefcase className="w-4 h-4 text-green-400 mt-1 flex-shrink-0" />
+                <div>
+                  <span className="text-slate-400">Full-Time Opportunity:</span>
+                  <span className="block font-medium text-white">
+                    {need.fulltime}
                   </span>
                 </div>
               </div>
@@ -383,31 +414,60 @@ export function NeedDetailsModal({ need, onClose }: NeedDetailsModalProps) {
           )}
 
           {/* Contact Information Section */}
-          {need.contactInfo && (need.contactInfo.email || need.contactInfo.phone) && (
+          {(contactEmail || contactPhone) && (
             <div className="pt-4 border-t border-slate-700">
               <h4 className="font-semibold text-lg text-purple-300 mb-4">
                 Contact Information
               </h4>
               <div className="space-y-3">
-                {need.contactInfo.email && (
+                {contactEmail && (
                   <div className="flex items-center space-x-3">
                     <Mail className="w-5 h-5 text-purple-400" />
                     <a
-                      href={`mailto:${need.contactInfo.email}`}
+                      href={`https://mail.google.com/mail/?view=cm&fs=1&to=${contactEmail}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="text-white hover:text-purple-300 transition-colors"
                     >
-                      {need.contactInfo.email}
+                      {contactEmail}
                     </a>
                   </div>
                 )}
-                {need.contactInfo.phone && (
+                {contactPhone && (
                   <div className="flex items-center space-x-3">
                     <Phone className="w-5 h-5 text-purple-400" />
                     <span className="text-white">
-                      {need.contactInfo.phone}
+                      {contactPhone}
                     </span>
                   </div>
                 )}
+              </div>
+            </div>
+          )}
+
+          {/* --- ADDED CV/APPLY SECTION --- */}
+          {cvEmail && (
+            <div className="pt-4 border-t border-slate-700">
+              <h4 className="font-semibold text-lg text-purple-300 mb-4">
+                How to Apply
+              </h4>
+              <p className="text-slate-400 text-sm mb-3">Send your CV/resume to the email address below:</p>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div className="flex items-center space-x-3">
+                  <Mail className="w-5 h-5 text-purple-400" />
+                  <span className="text-white font-medium text-base">
+                    {cvEmail}
+                  </span>
+                </div>
+                <a
+                  href={`https://mail.google.com/mail/?view=cm&fs=1&to=${cvEmail}&su=Application for ${encodeURIComponent(need.title)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors flex items-center justify-center space-x-2 text-sm font-medium"
+                >
+                  <Send className="w-4 h-4" />
+                  <span>Apply Now</span>
+                </a>
               </div>
             </div>
           )}

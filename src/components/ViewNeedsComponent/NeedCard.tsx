@@ -202,8 +202,18 @@ export interface Need {
   contactInfo?: {
     email: string
     phone: string
+    cvEmail?: string
   }
   details_json: any;
+  // INTERNSHIP FIELDS
+  open_for?: string;
+  fulltime?: string;
+  // --- ADDED/UPDATED FIELDS ---
+  extendable?: string; // <-- This is the standardized name
+  research_open_for?: string; // <-- Add research-specific fields
+  members?: string;           // <-- Add CSR-specific fields
+  mode?: string;              // <-- Add CSR-specific fields
+  // --- END ADD ---
 }
 
 // ... (getBadgeInfo, getIconForType, getSkills functions remain the same) ...

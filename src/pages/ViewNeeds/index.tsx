@@ -248,12 +248,28 @@ export default function ViewNeedsPage() {
     fetchNeeds();
   }, [activeType, setBackendNeeds]); 
 
-  console.log("fetched needs", backendNeeds);
+  // console.log("fetched needs", backendNeeds);
 
 
   const needs: Need[] = useMemo(() => {
     return backendNeeds.map((need: BackendNeed) => {
       const details = need.details_json || {};
+
+      console.log("details: ", details)
+
+      let cvEmail = null;
+      const lowerCaseType = need.type.toLowerCase();
+      if (lowerCaseType === 'live_projects') {
+        cvEmail = details.projectCvEmail;
+      } else if (lowerCaseType === 'internship') {
+        cvEmail = details.internship_cv_email || details.internshipCvEmail;
+      } else if (lowerCaseType === 'research') {
+        cvEmail = details.researchCvEmail;
+      }
+
+      const title = need.title || details.projectTitle || details.job_title || details.researchTitle || details.initiativeType;
+      const skills = need.skills || details.projectSkills || details.min_skills || details.researchSkills;
+      // const contactInfo = need.contact_info || {};
       
       // Build the object field-by-field to avoid spreading stale data
       return {
@@ -261,8 +277,8 @@ export default function ViewNeedsPage() {
         id: need.id,
         userId: need.user_id, // Map user_id to userId
         type: need.type.toLowerCase() as Need['type'],
-        title: need.title, // This is now correctly updated from the backend
-        description: need.description, // This is also correct
+        title: title, // This is now correctly updated from the backend
+        description: need.description || details.description || details.projectDescription || details.researchDescription || details.csrDescription, // This is also correct
         
         // The raw JSON blob, required for the Edit modal
         details_json: details,
@@ -273,18 +289,24 @@ export default function ViewNeedsPage() {
         companyName: details.projectCompanyName || 'OrionEduverse',
         location: details.location || need.location || null,
         duration: details.duration || need.duration || null,
-        skills: details.skills || need.skills || null,
+        skills: skills || null,
         
         // Handle the different compensation/stipend fields
         compensation: need.compensation || undefined,
         
         // Handle the different extendable fields
         projectTeamSize: details.projectTeamSize || details.teamSize || null,
+
+        // INTERNSHIP FIELDS
+        open_for: details.open_for || details.openFor || null,
+        fulltime: details.fulltime || null,
         
         // Handle the different contact fields
-        contactInfo: details.contactInfo || { 
-          email: details.contactEmail || details.projectEmail || details.researchEmail || details.csrEmail || 'Not specified', 
-          phone: details.contactPhone || details.projectPhone || details.researchPhone || details.csrPhone || null
+        contactInfo: details.contactInfo || details.contactInfo || { 
+          email: details.contact_email || details.contactEmail || details.projectEmail
+          || details.researchEmail || details.csrEmail || 'Not specified', 
+          phone: details.contact_phone || details.contactPhone || details.projectPhone || details.researchPhone || details.csrPhone || null,
+          cvEmail: cvEmail
         },
       };
     });

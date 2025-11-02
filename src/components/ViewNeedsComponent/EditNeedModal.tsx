@@ -36,9 +36,34 @@ export function EditNeedModal({
 
   // When the 'need' prop changes, update the local form state
   useEffect(() => {
-    // THIS IS THE FIX:
-    // Safely access details_json (which now exists on the Need type)
-    setFormData(need?.details_json || {}); 
+    if (need && need.details_json) {
+      // --- THIS IS THE FIX ---
+      // 1. Create a copy of the raw details_json
+      const cleanedData = { ...need.details_json };
+
+      // 2. Map old camelCase keys to new snake_case keys
+      // This handles data that might have 'jobTitle' or 'job_title'
+      cleanedData.job_title = cleanedData.jobTitle || cleanedData.job_title;
+      cleanedData.min_skills = cleanedData.minSkills || cleanedData.min_skills;
+      cleanedData.open_for = cleanedData.openFor || cleanedData.open_for;
+      cleanedData.contact_email = cleanedData.contactEmail || cleanedData.contact_email;
+      cleanedData.contact_phone = cleanedData.contactPhone || cleanedData.contact_phone;
+      cleanedData.internship_cv_email = cleanedData.internshipCvEmail || cleanedData.internship_cv_email;
+
+      // 3. Delete the old camelCase keys to prevent data duplication
+      delete cleanedData.jobTitle;
+      delete cleanedData.minSkills;
+      delete cleanedData.openFor;
+      delete cleanedData.contactEmail;
+      delete cleanedData.contactPhone;
+      delete cleanedData.internshipCvEmail;
+      
+      // 4. Set the form state with the *cleaned* data
+      setFormData(cleanedData);
+      // --- END FIX ---
+    } else {
+      setFormData({}); // Clear form if no need
+    }
   }, [need]);
 
   // Handle changes in the form fields
@@ -71,6 +96,8 @@ export function EditNeedModal({
       isSubmitting: isUpdating, // Pass the loading state
     };
 
+    console.log("commonProps", commonProps)
+
     // Note: The 'image' props are omitted, assuming you'll add them later
     // if you re-enable image uploads on edits.
 
@@ -87,6 +114,7 @@ export function EditNeedModal({
         return <p className="text-red-400">Error: Unknown need type.</p>;
     }
   };
+
 
   return (
     <Dialog open={!!need} onOpenChange={(isOpen) => !isOpen && onClose()}>
