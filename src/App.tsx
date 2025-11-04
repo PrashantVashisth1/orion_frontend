@@ -10,6 +10,13 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 import { queryClient } from "@/lib/my-api-client";
 // import Prelogin from "./pages/student-landing-Page";
+// import Prelogin from "./pages/student-temp"
+// import Prelogin from "./pages/MentorPage"
+// import Prelogin from "./pages/ViewNeeds"
+// import Prelogin from "./pages/ViewSession"
+// import Prelogin from "./pages/LearningResources"
+// import Prelogin from "./pages/prelogin"
+// import Prelogin from "./pages/share-project"
 import Prelogin from "./pages/prelogin"
 import HomePage from "./pages/postlogin";
 import ProfilePage from "./pages/profile";

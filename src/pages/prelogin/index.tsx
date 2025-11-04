@@ -39,7 +39,7 @@ import { Suspense, lazy } from 'react'
 
 import Navigation from '@/components/navigation'
 import HeroSection from '@/components/hero-section'
-const ShareNeedsSection = lazy(() => import('@/components/share-needs-section'))
+const ShareNeedsSection = lazy(() => import('@/components/Prelogin-share-needs-startup'))
 const GetFundedComponent = lazy(() => import('@/components/postlogincomponents/GetFuded'))
 const HostSessionsSection = lazy(() => import('@/components/host-sessions/host-sessions-section'))
 const ExploreSection = lazy(() => import('@/components/explore-section'))

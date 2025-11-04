@@ -10,7 +10,8 @@ const Navbar = () => {
       <ul className="flex space-x-10 text-blue-600 font-medium">
         <li>Home</li>
         <li className="text-blue-700 border-b-2 border-blue-700">List of Mentors</li>
-        <li>Explore Sessions</li>
+        <li>Explore Possibilities</li>
+        <li>Explore StartUp</li>
         <li>Learning Resources</li>
         <li>Share Project/Idea</li>
       </ul>
