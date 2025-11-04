@@ -571,6 +571,12 @@ const Navbarpostlogin = ({
   const navigate = useNavigate()
   const logout = useAuthStore((state) => state.logout)
   const token = useAuthStore((state) => state.token)
+  const { user } = useAuthStore();
+
+  // We will show nav links IF:
+  // - The user is NOT a STARTUP (e.g., a Student)
+  // - OR the user IS a STARTUP and IS VERIFIED
+  const showNavLinks = user?.role !== 'STARTUP' || user?.is_startup_verified;
 
   // Use the notifications hook with Socket.IO
   const {
@@ -668,7 +674,7 @@ const Navbarpostlogin = ({
     { icon: <Edit className="h-4 w-4" />, label: "Edit Profile", path: "/edit-profile" },
     { icon: <List className="h-4 w-4" />, label: "My Activities", path: "/activities" },
     { icon: <LogOut className="h-4 w-4" />, label: "Logout", path: "/logout", action: "logout" },
-    { icon: <Trash2 className="h-4 w-4 text-red-500" />, label: "Delete Profile", path: "/delete" },
+    // { icon: <Trash2 className="h-4 w-4 text-red-500" />, label: "Delete Profile", path: "/delete" },
   ]
 
   const renderNavLinks = () =>
@@ -935,9 +941,9 @@ const Navbarpostlogin = ({
 
           {/* Desktop Nav */}
           <div className="hidden md:flex flex-1 justify-center space-x-8">
-            {renderNavLinks()}
-            {renderSplitShareNeeds()}
-            {renderSplitOnlineSession()}
+            {showNavLinks && renderNavLinks()}
+            {showNavLinks && renderSplitShareNeeds()}
+            {showNavLinks && renderSplitOnlineSession()}
           </div>
 
           {/* Right Icons */}
@@ -953,8 +959,8 @@ const Navbarpostlogin = ({
                 {/* <Filter className="h-6 w-6 text-gray-300" /> */}
               </Button>
             )}
-            {renderNotificationMenu()}
-            {renderUserMenu()}
+            {showNavLinks && renderNotificationMenu()}
+            { renderUserMenu()}
           </div>
 
           {/* Mobile Menu Button */}
@@ -973,9 +979,9 @@ const Navbarpostlogin = ({
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-700 bg-gray-900/90">
             <div className="flex flex-col space-y-4 px-4">
-              {renderNavLinks()}
-              {renderSplitShareNeeds()}
-              {renderSplitOnlineSession()}
+              {showNavLinks && renderNavLinks()}
+              {showNavLinks && renderSplitShareNeeds()}
+              {showNavLinks && renderSplitOnlineSession()}
               <div className="pt-4 border-t border-gray-700 flex space-x-4">
                 {onFilterToggle && (
                   <Button 
@@ -988,8 +994,8 @@ const Navbarpostlogin = ({
                     <Filter className="h-6 w-6 text-gray-300" />
                   </Button>
                 )}
-                {renderNotificationMenu()}
-                {renderUserMenu()}
+                { showNavLinks &&renderNotificationMenu()}
+                {showNavLinks && renderUserMenu()}
               </div>
             </div>
           </div>

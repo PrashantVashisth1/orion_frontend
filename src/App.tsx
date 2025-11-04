@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   Navigate,
+  Outlet,
 } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
 // import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -17,6 +18,7 @@ import { queryClient } from "@/lib/my-api-client";
 // import Prelogin from "./pages/LearningResources"
 // import Prelogin from "./pages/prelogin"
 // import Prelogin from "./pages/share-project"
+import PendingVerificationPage from './pages/pending-verification';
 import Prelogin from "./pages/prelogin"
 import HomePage from "./pages/postlogin";
 import ProfilePage from "./pages/profile";
@@ -27,7 +29,7 @@ import CreatePostPage from "./pages/my-create-post";
 import GetFundedPage from "./pages/get-funded";
 import PublicProfilePage from './pages/public-profile';
 import { Rocket } from "lucide-react";
-import { AuthProvider } from "./contexts/AuthContext";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { StartupProfileProvider } from "./contexts/StartupProfileContext";
 import ProtectedRoute from "./components/auth/routes/ProtectedRoute";
 import PublicRoute from "./components/auth/routes/PublicRoute";
@@ -41,6 +43,20 @@ import ResetPasswordPage from "./pages/reset-password";
 import StudentTempPage from "./pages/student-temp";
 
 
+// We use this for /edit-profile and /pending-verification
+const AuthCheckLayout = () => {
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return <div>Loading...</div>; // Or a spinner
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/prelogin" replace />;
+  }
+
+  return <Outlet />; // User is logged in, show the child route
+};
 
 const App: React.FC = () => {
   return (
@@ -86,6 +102,12 @@ const App: React.FC = () => {
                   </PublicRoute>
                 }
               />
+
+              {/* We wrap /edit-profile and /pending-verification here */}
+          <Route element={<AuthCheckLayout />}>
+            <Route path="/edit-profile" element={<EditProfile />} />
+            <Route path="/pending-verification" element={<PendingVerificationPage />} />
+          </Route>
 
               <Route
                 path="/student-temp"

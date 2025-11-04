@@ -309,7 +309,17 @@ export class ApiClient {
     formData.append('type', type);
     return this.postFormData<T>(endpoint, formData);
   }
+
+  async submitForReview<T>(endpoint: string): Promise<T> {
+    // We don't need to send a body, the backend uses the auth token
+    return this.makeRequest<T>(endpoint, {
+      method: 'POST',
+    });
+  }
+  
 }
+
+
 
 // Export singleton instance
 export const apiClient = new ApiClient();

@@ -5,6 +5,7 @@ import type {
   StartupProfileResponse 
 } from '@/types/startup';
 import { useAuthStore } from '@/store/authStore';
+import toast from 'react-hot-toast';
 
 // Query keys for caching
 export const startupKeys = {
@@ -42,6 +43,36 @@ export const useStartupProfile = () => {
 //     refetchInterval: 30_000,
 //   });
 // };
+
+export const useSubmitForReview = () => {
+  const { updateUser } = useAuthStore(); // <-- 2. Get the updateUser function from Zustand
+
+  return useMutation<any, any, void>({
+    // The mutation function just calls our apiClient
+    mutationFn: () => apiClient.submitForReview('/startup/profile/submit-for-review'),
+    
+    onSuccess: (response: any) => {
+      // The backend sends back the updated user object on success
+      if (response.success && response.data.user) {
+        
+        // 3. THIS IS THE KEY: Update the global auth store
+        updateUser(response.data.user); 
+        
+        toast.success(response.message || "Profile submitted for review!");
+      } else {
+        // Handle cases where API call succeeded but business logic failed
+        toast.error(response.message || "Submission failed.");
+      }
+    },
+    onError: (error: any) => {
+      // The backend sends a specific error if the profile is incomplete
+      const errorMessage = 
+        error.response?.data?.error?.message || 
+        "Submission failed. Please ensure all 5 sections are complete and saved.";
+      toast.error(errorMessage);
+    },
+  });
+};
 
 export const useProfileCompletion = () => {
   const { isAuthenticated } = useAuthStore(); 

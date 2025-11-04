@@ -9,7 +9,8 @@ import {
   useUpdateStartupProfile, 
   useUpdateProfileSection, 
   useDeleteStartupProfile, 
-  useUploadImage 
+  useUploadImage,
+  useSubmitForReview
 } from '@/hooks/useStartupAPI';
 
 interface StartupProfileContextType {
@@ -26,6 +27,7 @@ interface StartupProfileContextType {
   deleteProfile: () => Promise<void>;
   uploadImage: (file: File, type: 'profile' | 'logo') => Promise<string>;
   clearError: () => void;
+  handleSubmitForReview: () => Promise<void>;
 }
 
 const StartupProfileContext = createContext<StartupProfileContextType | undefined>(undefined);
@@ -53,6 +55,7 @@ export const StartupProfileProvider: React.FC<StartupProfileProviderProps> = ({ 
   const updateSectionMutation = useUpdateProfileSection();
   const deleteProfileMutation = useDeleteStartupProfile();
   const uploadImageMutation = useUploadImage();
+  const submitForReviewMutation = useSubmitForReview();
 
   // Extract data from responses
   const profile = profileData?.data || null;
@@ -107,6 +110,18 @@ export const StartupProfileProvider: React.FC<StartupProfileProviderProps> = ({ 
     }
   };
 
+  const handleSubmitForReview = async () => {
+    try {
+      // Just call the mutation. The hook's onSuccess/onError will handle all toasts.
+      await submitForReviewMutation.mutateAsync();
+    } catch (err) {
+      // The hook already showed a toast, but we re-throw
+      // so the button in the UI can stop its loading spinner.
+      console.error("Submit for review mutation failed:", err);
+      throw err;
+    }
+  };
+
   const value: StartupProfileContextType = {
     profile,
     isLoading,
@@ -119,6 +134,7 @@ export const StartupProfileProvider: React.FC<StartupProfileProviderProps> = ({ 
     deleteProfile,
     uploadImage,
     clearError,
+    handleSubmitForReview,
   };
 
   return (

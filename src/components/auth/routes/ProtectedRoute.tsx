@@ -58,27 +58,50 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     return <Navigate to="/prelogin" replace />;
   }
 
-  // --- 🟢 NEW ROLE-BASED REDIRECTION LOGIC ---
+  // --- 🟢 NEW STARTUP VERIFICATION LOGIC ---
+  // This is the main gate for Startups.
+  // We assume this ProtectedRoute wraps /postlogin, /share-need, etc.
+  // We assume it does NOT wrap /edit-profile or /pending-verification.
+  if (user?.role === 'STARTUP') {
+    if (user.is_startup_verified) {
+      // State 3: Verified!
+      // Now we just run your existing check to make sure they aren't on the wrong dashboard.
+      if (location.pathname === '/student-temp') {
+        return <Navigate to="/postlogin" replace />;
+      }
+      // Verified and on a correct startup page, allow access.
+      return <>{children}</>;
+    }
 
-  // 3. Check role (ensure case matches your backend: 'student' or 'STUDENT')
-  const isStudent = user?.role === 'STUDENT'; 
-  // const isStudent = user?.role === 'STUDENT'; // Use this if your backend sends uppercase
-
-  const currentPath = location.pathname;
-
-  // 4. If a student lands on the startup dashboard (/postlogin)
-  if (isStudent && currentPath === '/postlogin') {
-    // Redirect them to their correct dashboard
-    return <Navigate to="/student-temp" replace />;
+    // --- If startup is NOT verified ---
+    
+    if (!user.has_submitted_profile) {
+      // State 1: New Startup (not submitted). Force to edit profile.
+      return <Navigate to="/edit-profile" replace />;
+    } else {
+      // State 2: Pending Startup (submitted, not verified). Force to pending page.
+      return <Navigate to="/pending-verification" replace />;
+    }
   }
+  // --- 🟢 END OF NEW STARTUP LOGIC ---
 
-  // 5. If a non-student (e.g., startup) lands on the student dashboard
-  if (!isStudent && currentPath === '/student-temp') {
-    // Redirect them to their correct dashboard
-    return <Navigate to="/postlogin" replace />;
+
+  // --- 🟢 STUDENT DASHBOARD CHECK ---
+  // If the code reaches here, the user is a STUDENT (or other role).
+  if (user?.role === 'STUDENT') {
+    // If a student lands on the startup dashboard (/postlogin)
+    if (location.pathname === '/postlogin') {
+      return <Navigate to="/student-temp" replace />;
+    }
+    // Student is on a correct page (e.g., /student-temp or /share-need)
+    return <>{children}</>;
   }
   
-  // --- 🟢 END OF NEW LOGIC ---
+  // --- 🟢 OTHER ROLES (MENTOR, ADMIN, etc.) ---
+  // Assuming they use the /postlogin dashboard
+  if (location.pathname === '/student-temp') {
+    return <Navigate to="/postlogin" replace />;
+  }
 
   // 6. If all checks pass, render the requested page
   return <>{children}</>;

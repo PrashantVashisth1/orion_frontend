@@ -289,7 +289,7 @@ interface AuthContextType {
     mobile?: string;
     role: string;
   }) => Promise<boolean>;
-  verifyOtp: (data: { email: string; otp: string }) => Promise<void>;
+  verifyOtp: (data: { email: string; otp: string }) => Promise<User | undefined>;
   logout: () => void;
   loading: boolean;
 }
@@ -326,13 +326,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         toast.success('Login successful!');
         
         // --- 🟢 MODIFICATION: Role-based redirection ---
-        // console.log("user role: ", user.role);
         if (user.role === 'STUDENT') {
           console.log(user.role,"user role");
           navigate('/student-temp');
+        } else if (user.role === 'STARTUP') {
+          // This is our new startup logic
+          if (user.is_startup_verified) {
+            // State 3: Verified user
+            navigate('/postlogin');
+          } else if (!user.has_submitted_profile) {
+            // State 1: New user, never submitted profile
+            navigate('/edit-profile');
+          } else {
+            // State 2: Pending user, submitted but not verified
+            navigate('/pending-verification');
+          }
         } else {
-          // Default for 'startup' and any other roles
-          // console.log("first")
+          // Default for other roles (MENTOR, ADMIN, etc.)
           navigate('/postlogin');
         }
         // --- 🟢 END MODIFICATION ---
@@ -380,10 +390,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (user.role === 'STUDENT') {
         console.log(user.role,"user role");
         navigate('/student-temp');
+      } else if (user.role === 'STARTUP') {
+        // A new startup will always be false for both flags,
+        // so this will correctly send them to /edit-profile.
+        if (user.is_startup_verified) {
+          navigate('/postlogin');
+        } else if (!user.has_submitted_profile) {
+          navigate('/edit-profile'); // <-- THIS IS THE CORRECT REDIRECT
+        } else {
+          navigate('/pending-verification');
+        }
       } else {
+        // Default for other roles (MENTOR, ADMIN, etc.)
         navigate('/postlogin');
       }
       // --- 🟢 END MODIFICATION ---
+      return user;
 
     } catch (error: any) {
       const errorMessage = error.message || "OTP verification failed. Please try again.";

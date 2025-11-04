@@ -728,7 +728,7 @@ export default function SignupForm({ onSwitchToLogin }: SignupFormProps) {
 
   const handleSubmitDetails = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    console.log(formData)
     if (!formData.full_name || !formData.email || !formData.password || !formData.role) {
       toast.error('Please fill in all required fields');
       return;
@@ -865,7 +865,7 @@ export default function SignupForm({ onSwitchToLogin }: SignupFormProps) {
                 className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-700/50 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 disabled={isLoading}
               >
-                {/* <option value="" disabled>Select your role</option> */}
+                <option value="" disabled>Select your role</option>
                 <option value="STARTUP">Startup</option>
                 {/* <option value="INVESTOR">Investor</option> */}
                 {/* <option value="MENTOR">Mentor</option> */}

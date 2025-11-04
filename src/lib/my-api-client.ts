@@ -26,6 +26,8 @@ export interface User {
   role: 'STARTUP' | 'INVESTOR' | 'MENTOR' | 'STUDENT' | 'ADMIN';
   mobile?: string;
   emailVerified: boolean;
+  is_startup_verified: boolean;
+  has_submitted_profile: boolean;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
@@ -183,6 +185,13 @@ export class ApiClient {
     return this.makeRequest<VerifyOtpResponse>('/auth/verify-otp', {
         method: 'POST',
         body: JSON.stringify(data),
+    });
+  }
+
+  async submitForReview(): Promise<any> { // You can create a more specific type if you want
+    return this.makeRequest('/profile/submit-for-review', {
+      method: 'POST',
+      // No body is needed, the backend gets the user from the token
     });
   }
 
