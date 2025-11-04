@@ -1,3 +1,4 @@
+import type { PostAuthor } from '@/components/feed/my-activity-post';
 import { QueryClient } from '@tanstack/react-query';
 
 // API Base URL from environment
@@ -41,7 +42,7 @@ export interface Post {
   published: boolean;
   created_at: string;
   updated_at: string;
-  author: User;
+  author: PostAuthor;
   likes: Like[];
   comments: Comment[];
   userId: number;
