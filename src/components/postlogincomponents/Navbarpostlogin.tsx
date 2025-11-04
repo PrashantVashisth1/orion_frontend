@@ -652,7 +652,7 @@ const Navbarpostlogin = ({
     const apiNotif = apiNotifications.find(n => n.id.toString() === notification.id)
     if (apiNotif) {
       if (apiNotif.postId) {
-        navigate(`/posts/${apiNotif.postId}`)
+        navigate(`/post/${apiNotif.postId}`)
       } else if (apiNotif.sessionId) {
         navigate(`/sessions/${apiNotif.sessionId}`)
       } else if (apiNotif.needId) {
