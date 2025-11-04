@@ -247,13 +247,15 @@ export default function CompanyDetailsSection({
     formData.companyEmail &&
     formData.companyPhone &&
     formData.companyLocation &&
+    formData.companyWebsite &&
     formData.companyDescription &&
-    formData.vision &&
-    formData.mission &&
+    formData.registrationDate &&
+    formData.businessLicense &&
+    formData.taxId &&
+    formData.legalName &&
     formData.industry &&
-    formData.companyDescription.length >= 10 &&
-    formData.vision.length >= 10 &&
-    formData.mission.length >= 10;
+    formData.companyDescription.length >= 10;
+    
   const isLoading = isUpdating || isUploading;
 
   return (
@@ -413,7 +415,7 @@ export default function CompanyDetailsSection({
               </div>
               <div className="space-y-2">
                 <Label htmlFor="company-website" className="text-zinc-300">
-                  Company Website
+                  Company Website *
                 </Label>
                 <Input
                   id="company-website"
@@ -480,7 +482,7 @@ export default function CompanyDetailsSection({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <Label htmlFor="vision" className="text-zinc-300">
-                  Vision *
+                  Vision 
                 </Label>
                 <Textarea
                   id="vision"
@@ -510,7 +512,7 @@ export default function CompanyDetailsSection({
               </div>
               <div className="space-y-2">
                 <Label htmlFor="mission" className="text-zinc-300">
-                  Mission *
+                  Mission 
                 </Label>
                 <Textarea
                   id="mission"
@@ -616,7 +618,7 @@ export default function CompanyDetailsSection({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <Label htmlFor="legal-name" className="text-zinc-300">
-                  Legal Name
+                  Legal Name *
                 </Label>
                 <Input
                   id="legal-name"
@@ -630,7 +632,7 @@ export default function CompanyDetailsSection({
               </div>
               <div className="space-y-2">
                 <Label htmlFor="tax-id" className="text-zinc-300">
-                  Tax ID
+                  Tax ID *
                 </Label>
                 <Input
                   id="tax-id"
@@ -642,7 +644,7 @@ export default function CompanyDetailsSection({
               </div>
               <div className="space-y-2">
                 <Label htmlFor="registration-date" className="text-zinc-300">
-                  Registration Date
+                  Registration Date *
                 </Label>
                 <Input
                   id="registration-date"
@@ -656,11 +658,11 @@ export default function CompanyDetailsSection({
               </div>
               <div className="space-y-2">
                 <Label htmlFor="business-license" className="text-zinc-300">
-                  Business License
+                  CIN Number *
                 </Label>
                 <Input
                   id="business-license"
-                  placeholder="Business License Number"
+                  placeholder="CIN Number"
                   value={formData.businessLicense || ""}
                   onChange={(e) =>
                     handleInputChange("businessLicense", e.target.value)

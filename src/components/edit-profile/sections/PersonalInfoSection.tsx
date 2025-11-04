@@ -466,7 +466,7 @@ export default function PersonalInfoSection({ onSectionChange }: PersonalInfoSec
     }
   };
 
-  const isFormValid = formData.firstName && formData.lastName && formData.email && formData.phone && formData.location;
+  const isFormValid = formData.firstName && formData.email && formData.phone && formData.location;
   const isLoading = isUpdating || isUploading;
   return (
     <div className="relative z-10 p-6 px-[154px] py-[60px]">
@@ -547,7 +547,7 @@ export default function PersonalInfoSection({ onSectionChange }: PersonalInfoSec
               </div>
               <div className="space-y-2">
                 <Label htmlFor="last-name" className="text-zinc-300">
-                  Last Name *
+                  Last Name 
                 </Label>
                 <Input
                   id="last-name"

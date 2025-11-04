@@ -78,7 +78,7 @@ export default function BusinessDetailsSection({ onSectionChange }: BusinessDeta
     }
   };
 
-  const isFormValid = formData.jobTitle && formData.industry;
+  const isFormValid = formData.jobTitle && formData.company && formData.industry && formData.linkedinProfile;
   const isLoading = isUpdating;
 
   return (
@@ -115,7 +115,7 @@ export default function BusinessDetailsSection({ onSectionChange }: BusinessDeta
               </div>
               <div className="space-y-2">
                 <Label htmlFor="company" className="text-zinc-300">
-                  Company/Organization
+                  Company/Organization *
                 </Label>
                 <Input
                   id="company"
@@ -165,7 +165,7 @@ export default function BusinessDetailsSection({ onSectionChange }: BusinessDeta
                 </Label>
                 <Input
                   id="business-type"
-                  placeholder="e.g., Startup, Enterprise, Freelance"
+                  placeholder="e.g., Startup, Enterprise"
                   value={formData.businessType}
                   onChange={(e) => handleInputChange('businessType', e.target.value)}
                   className="bg-zinc-800 border-zinc-700 text-white"
@@ -214,7 +214,7 @@ export default function BusinessDetailsSection({ onSectionChange }: BusinessDeta
           <div className="space-y-4">
             <div className="flex items-center gap-2 text-lg font-semibold text-white">
               <Target className="w-5 h-5" />
-              Skills & Expertise
+              Professional Information
             </div>
             <div className="space-y-2">
               <Label htmlFor="skills" className="text-zinc-300">
@@ -261,7 +261,7 @@ export default function BusinessDetailsSection({ onSectionChange }: BusinessDeta
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <Label htmlFor="linkedin" className="text-zinc-300">
-                  LinkedIn Profile
+                  LinkedIn Profile *
                 </Label>
                 <Input
                   id="linkedin"
