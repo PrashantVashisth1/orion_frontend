@@ -706,6 +706,7 @@ const OtpForm: React.FC<OtpFormProps> = ({ email, onBack }) => {
 // --- Signup Form with Role Selection ---
 interface SignupFormProps {
   onSwitchToLogin?: () => void;
+  onClose?: () => void;
 }
 
 export default function SignupForm({ onSwitchToLogin }: SignupFormProps) {
