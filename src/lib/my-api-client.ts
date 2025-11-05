@@ -436,7 +436,7 @@ export class ApiClient {
     endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {
-    const url = `${this.baseURL}/api${endpoint}`;
+    const url = `${this.baseURL}${endpoint}`;
     const config: RequestInit = {
       headers: this.getAuthHeaders(),
       ...options,
@@ -576,7 +576,7 @@ export class ApiClient {
     
     const token = localStorage.getItem('token');
     
-    const response = await fetch(`${this.baseURL}/api/startup/upload`, {
+    const response = await fetch(`${this.baseURL}/startup/upload`, {
       method: 'POST',
       headers: {
         ...(token && { Authorization: `Bearer ${token}` }),

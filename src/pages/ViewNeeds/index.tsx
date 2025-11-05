@@ -230,7 +230,7 @@ export default function ViewNeedsPage() {
     const fetchNeeds = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`${apiBase}/api/needs?type=${activeType.toUpperCase()}`);
+        const response = await fetch(`${apiBase}/needs?type=${activeType.toUpperCase()}`);
         if (!response.ok) throw new Error('Failed to fetch needs.');
         
         const result = await response.json();

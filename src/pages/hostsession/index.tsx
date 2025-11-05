@@ -140,7 +140,7 @@ const HostSessionPage = () => {
       // --- API Call ---
       const token = localStorage.getItem('token');
 
-      const response = await fetch(`${import.meta.env.VITE_API_BASE}/api/sessions`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE}/sessions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

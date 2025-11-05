@@ -217,7 +217,7 @@ import type { Session } from './types';
 
 
 const fetchSessions = async (): Promise<Session[]> => {
-  const response = await fetch(`${import.meta.env.VITE_API_BASE}/api/sessions`);
+  const response = await fetch(`${import.meta.env.VITE_API_BASE}/sessions`);
 
   if (!response.ok) {
     throw new Error('Failed to fetch sessions');

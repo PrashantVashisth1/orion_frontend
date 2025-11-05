@@ -31,7 +31,7 @@ interface Notification {
   };
 }
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+const API_URL = import.meta.env.VITE_API_BASE || 'http://localhost:4000';
 
 export const useNotifications = (token: string | null) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -48,7 +48,7 @@ export const useNotifications = (token: string | null) => {
 
     try {
       setLoading(true);
-      const response = await axios.get(`${API_URL}/api/notifications`, {
+      const response = await axios.get(`${API_URL}/notifications`, {
         headers: { Authorization: `Bearer ${token}` },
         params: { page: 1, limit: 20 }
       });
@@ -68,7 +68,7 @@ export const useNotifications = (token: string | null) => {
     if (!token) return;
 
     try {
-      const response = await axios.get(`${API_URL}/api/notifications/unread-count`, {
+      const response = await axios.get(`${API_URL}/notifications/unread-count`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUnreadCount(response.data.data.count);
@@ -168,7 +168,7 @@ export const useNotifications = (token: string | null) => {
 
     try {
       await axios.post(
-        `${API_URL}/api/notifications/mark-read`,
+        `${API_URL}/notifications/mark-read`,
         { notificationIds },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -194,7 +194,7 @@ export const useNotifications = (token: string | null) => {
 
     try {
       await axios.post(
-        `${API_URL}/api/notifications/mark-all-read`,
+        `${API_URL}/notifications/mark-all-read`,
         null,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -216,7 +216,7 @@ export const useNotifications = (token: string | null) => {
     if (!token) return;
 
     try {
-      await axios.delete(`${API_URL}/api/notifications/${notificationId}`, {
+      await axios.delete(`${API_URL}/notifications/${notificationId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -233,7 +233,7 @@ export const useNotifications = (token: string | null) => {
     try {
       // Delete all notifications one by one
       const deletePromises = notifications.map(n => 
-        axios.delete(`${API_URL}/api/notifications/${n.id}`, {
+        axios.delete(`${API_URL}/notifications/${n.id}`, {
           headers: { Authorization: `Bearer ${token}` }
         })
       );

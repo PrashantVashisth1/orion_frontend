@@ -8,7 +8,7 @@ import { Loader2, Frown } from "lucide-react";
 
 const fetchUserActivities = async () => {
   const token = localStorage.getItem("token");
-  const response = await fetch(`${import.meta.env.VITE_API_BASE}/api/activities/me`, {
+  const response = await fetch(`${import.meta.env.VITE_API_BASE}/activities/me`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,

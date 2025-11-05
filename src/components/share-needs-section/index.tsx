@@ -80,7 +80,7 @@ export default function ShareNeedsSection() {
     setError(null);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE}/api/needs`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE}/needs`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
