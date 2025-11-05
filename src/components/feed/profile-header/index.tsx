@@ -26,11 +26,12 @@ export default function ProfileHeader({ profile }) {
   const handleEditImage = () => fileInputRef.current?.click();
   console.log("profile", profile)
 
-  const profilePictureUrl = profileImage || profile?.data?.personalInfo?.profilePicture || null;
+  // const profilePictureUrl = profileImage || profile?.data?.personalInfo?.profilePicture || null;
   const companyName = profile?.data?.companyDetails?.companyName || "Startup Name";
   const foundedYear = profile?.data?.companyDetails?.foundedYear || "N/A";
   // const bgURL = profile?.data?.personalInfo?.profilePicture || null;
-  const bgURL = profile?.data?.companyDetails?.companyLogo || null;
+  const profilePictureUrl = profileImage || profile?.data?.companyDetails?.companyLogo || null;
+  const bgURL = "https://images.presentationgo.com/2025/04/blue-technology-wave-background.jpg";
 
 
   return (
