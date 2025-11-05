@@ -44,7 +44,7 @@ const GetFundedComponent = lazy(() => import('@/components/postlogincomponents/G
 const HostSessionsSection = lazy(() => import('@/components/host-sessions/host-sessions-section'))
 const ExploreSection = lazy(() => import('@/components/explore-section'))
 // const FAQComponent = lazy(() => import('@/components/postlogincomponents/FAQComponent'))
-// const Footer = lazy(() => import('@/components/postlogincomponents/footer'))
+const Footer = lazy(() => import('@/components/postlogincomponents/footer'))
 import Mentor from '../../components/mentors'
 const Prelogin = () => {
 
@@ -93,7 +93,7 @@ const Prelogin = () => {
   </h2>
   
 </>
-          {/* <Footer /> */}
+          <Footer />
         </Suspense>
       </main>
     </div>

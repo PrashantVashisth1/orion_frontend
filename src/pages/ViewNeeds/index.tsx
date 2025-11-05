@@ -209,6 +209,7 @@ export default function ViewNeedsPage() {
   const { user } = useAuth();
   // const { toast } = useToast();
   const apiBase = import.meta.env.VITE_API_BASE || 'http://localhost:4000';
+  const isStudent = user?.role === 'STUDENT';
 
   // --- GET ALL STATE FROM ZUSTAND STORE ---
   const { 
@@ -357,7 +358,7 @@ export default function ViewNeedsPage() {
 
   return (
     <div className="min-h-screen bg-slate-900">
-      <Navbarpostlogin />
+      {!isStudent && <Navbarpostlogin />}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-white">View Needs</h1>

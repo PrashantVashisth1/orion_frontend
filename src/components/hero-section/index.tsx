@@ -187,7 +187,7 @@ const canvasRef = useRef<HTMLCanvasElement>(null);
             text-2xl md:text-5xl mt-8 // Responsive font size
             text-white font-bold
         ">
-            Uniting Opportunities !
+            Uniting Possibilities !
         </h4>
     </div>
 </div>

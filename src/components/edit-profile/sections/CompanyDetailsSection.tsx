@@ -168,8 +168,6 @@ export default function CompanyDetailsSection({
       errors.push("Company location is required");
     if (!formData.companyDescription?.trim())
       errors.push("Company description is required");
-    if (!formData.vision?.trim()) errors.push("Vision is required");
-    if (!formData.mission?.trim()) errors.push("Mission is required");
     if (!formData.industry?.trim()) errors.push("Industry is required");
 
     // Length validation (matching backend requirements)
