@@ -283,11 +283,11 @@ const SessionDetailsModal = ({ session, isOpen, onClose }: SessionDetailsModalPr
 
 
         {/* Join Session button */}
-        <div className="flex justify-center mt-8">
+        {/* <div className="flex justify-center mt-8">
           <button className="bg-gradient-to-r from-blue-600 to-purple-700 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:from-blue-700 hover:to-purple-800 transition-colors">
             Join Session
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );
