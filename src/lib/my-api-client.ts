@@ -1,3 +1,307 @@
+// import type { PostAuthor } from '@/components/feed/my-activity-post';
+// import { QueryClient } from '@tanstack/react-query';
+
+// // API Base URL from environment
+// const API_BASE_URL = import.meta.env.VITE_API_BASE || 'http://localhost:4000';
+// console.log(API_BASE_URL)
+
+// // Create QueryClient instance
+// export const queryClient = new QueryClient({
+//   defaultOptions: {
+//     queries: {
+//       retry: 1,
+//       refetchOnWindowFocus: false,
+//       staleTime: 1000 * 60 * 5, // 5 minutes
+//     },
+//     mutations: {
+//       retry: 1,
+//     },
+//   },
+// });
+
+// // Types
+// export interface User {
+//   id: number;
+//   full_name: string;
+//   email: string;
+//   role: 'STARTUP' | 'INVESTOR' | 'MENTOR' | 'STUDENT' | 'ADMIN';
+//   mobile?: string;
+//   emailVerified: boolean;
+//   is_startup_verified: boolean;
+//   has_submitted_profile: boolean;
+//   isActive: boolean;
+//   createdAt: string;
+//   updatedAt: string;
+// }
+
+// export interface Post {
+//   id: number;
+//   text: string;
+//   images: string[];
+//   documents: string[];
+//   published: boolean;
+//   created_at: string;
+//   updated_at: string;
+//   author: PostAuthor;
+//   likes: Like[];
+//   comments: Comment[];
+//   userId: number;
+// }
+
+// export interface Like {
+//   id: number;
+//   user_id: number;
+//   post_id: number;
+//   user: User;
+//   createdAt: string;
+// }
+
+// export interface Comment {
+//   id: number;
+//   user_id: number;
+//   post_id: number;
+//   content: string;
+//   user: User;
+//   created_at: string;
+//   updatedAt: string;
+// }
+
+// export interface CreatePostData {
+//   text: string;
+//   images?: string[];
+//   documents?: string[];
+// }
+
+// // Add this new response type
+// export interface SimpleSuccessResponse {
+//     success: boolean;
+//     message: string;
+// }
+
+// export interface AuthResponse {
+//   success: boolean;
+  
+//     data: {
+//       token: string;
+//       user: User;
+//     }
+  
+//   message: string;
+// }
+
+// export interface VerifyOtpResponse {
+//   success: boolean;
+//   token: string;
+//   user: User;
+// }
+
+// export interface PostsResponse {
+//   success: boolean;
+//   data: Post[];
+// }
+
+// export interface PostResponse {
+//   success: boolean;
+//   data: Post;
+//   message?: string;
+// }
+
+// // API Client class for making authenticated requests
+// export class ApiClient {
+//   private baseURL: string;
+
+//   constructor(baseURL: string = API_BASE_URL) {
+//     this.baseURL = baseURL;
+//   }
+
+//   private getAuthHeaders(): HeadersInit {
+//     const token = localStorage.getItem('token');
+    
+//     const headers: HeadersInit = {
+//       'Content-Type': 'application/json',
+//     };
+    
+//     if (token && token !== 'undefined') {
+//       headers.Authorization = `Bearer ${token}`;
+//     }
+    
+//     return headers;
+//   }
+
+//   private async makeRequest<T>(
+//     endpoint: string,
+//     options: RequestInit = {}
+//   ): Promise<T> {
+//     const url = `${this.baseURL}/api${endpoint}`;
+//     const config: RequestInit = {
+//       headers: this.getAuthHeaders(),
+//       ...options,
+//     };
+
+//     // Merge headers properly
+//     if (options.headers) {
+//       config.headers = { ...config.headers, ...options.headers };
+//     }
+
+//     try {
+//       const response = await fetch(url, config);
+      
+//       if (!response.ok) {
+//         const errorData = await response.json().catch(() => ({ 
+//           message: `HTTP error! status: ${response.status}` 
+//         }));
+//         throw new Error(errorData.message || errorData.error || `HTTP error! status: ${response.status}`);
+//       }
+
+//       return await response.json();
+//     } catch (error) {
+//       console.error('API Request failed:', error);
+//       throw error;
+//     }
+//   }
+
+//   // Auth endpoints
+//   async login(email: string, password: string): Promise<AuthResponse> {
+//     return this.makeRequest<AuthResponse>('/auth/login', {
+//       method: 'POST',
+//       body: JSON.stringify({ email, password }),
+//     });
+//   }
+
+//   // async signup(userData: { fullName: string; email: string; password: string; mobile?: string }): Promise<AuthResponse> {
+//   //   return this.makeRequest<AuthResponse>('/auth/signup', {
+//   //     method: 'POST',
+//   //     body: JSON.stringify(userData),
+//   //   });
+//   // }
+
+//   async sendOtp(userData: { full_name: string; email: string; password: string; mobile?: string }): Promise<{ success: boolean; message: string }> {
+//     return this.makeRequest<{ success: boolean; message: string }>('/auth/send-otp', {
+//       method: 'POST',
+//       body: JSON.stringify(userData),
+//     });
+//   }
+
+//   async verifyOtp(data: { email: string, otp: string }): Promise<VerifyOtpResponse> {
+//     return this.makeRequest<VerifyOtpResponse>('/auth/verify-otp', {
+//         method: 'POST',
+//         body: JSON.stringify(data),
+//     });
+//   }
+
+//   async submitForReview(): Promise<any> { // You can create a more specific type if you want
+//     return this.makeRequest('/profile/submit-for-review', {
+//       method: 'POST',
+//       // No body is needed, the backend gets the user from the token
+//     });
+//   }
+
+//   // Add the new forgotPassword method here
+//   async forgotPassword(email: string): Promise<SimpleSuccessResponse> {
+//     return this.makeRequest<SimpleSuccessResponse>('/auth/forgot-password', {
+//         method: 'POST',
+//         body: JSON.stringify({ email }),
+//     });
+//   }
+
+//   // Add the new resetPassword method here
+//   async resetPassword(token: string, password: string): Promise<SimpleSuccessResponse> {
+//     return this.makeRequest<SimpleSuccessResponse>('/auth/reset-password', {
+//         method: 'POST',
+//         body: JSON.stringify({ token, password }),
+//     });
+//   }
+
+
+//   // Post endpoints
+//   async getPosts(): Promise<PostsResponse> {
+//     return this.makeRequest<PostsResponse>('/posts');
+//   }
+
+//   async getPost(id: number): Promise<PostResponse> {
+//     return this.makeRequest<PostResponse>(`/posts/${id}`);
+//   }
+
+//   async createPost(data: CreatePostData): Promise<PostResponse> {
+//     return this.makeRequest<PostResponse>('/posts', {
+//       method: 'POST',
+//       body: JSON.stringify(data),
+//     });
+//   }
+
+//   async updatePost(id: number, data: Partial<CreatePostData>): Promise<PostResponse> {
+//     return this.makeRequest<PostResponse>(`/posts/${id}`, {
+//       method: 'PUT',
+//       body: JSON.stringify(data),
+//     });
+//   }
+
+//   async deletePost(id: number): Promise<{ success: boolean; message: string }> {
+//     return this.makeRequest<{ success: boolean; message: string }>(`/posts/${id}`, {
+//       method: 'DELETE',
+//     });
+//   }
+
+//   // Like endpoints
+//   async likePost(postId: number): Promise<{ success: boolean; data: Like }> {
+//     return this.makeRequest<{ success: boolean; data: Like }>(`/posts/${postId}/likes`, {
+//       method: 'POST',
+//     });
+//   }
+
+//   async unlikePost(postId: number): Promise<{ success: boolean; message: string }> {
+//     return this.makeRequest<{ success: boolean; message: string }>(`/posts/${postId}/likes`, {
+//       method: 'DELETE',
+//     });
+//   }
+
+//   // Comment endpoints
+//   async createComment(postId: number, content: string): Promise<{ success: boolean; data: Comment }> {
+//     return this.makeRequest<{ success: boolean; data: Comment }>('/comments', {
+//       method: 'POST',
+//       body: JSON.stringify({ postId, content }),
+//     });
+//   }
+
+//   async updateComment(commentId: number, content: string): Promise<{ success: boolean; data: Comment }> {
+//     return this.makeRequest<{ success: boolean; data: Comment }>(`/comments/${commentId}`, {
+//       method: 'PUT',
+//       body: JSON.stringify({ content }),
+//     });
+//   }
+
+//   async deleteComment(commentId: number): Promise<{ success: boolean; message: string }> {
+//     return this.makeRequest<{ success: boolean; message: string }>(`/comments/${commentId}`, {
+//       method: 'DELETE',
+//     });
+//   }
+
+//   // File upload
+//   async uploadFile(file: File): Promise<{ success: boolean; data: { url: string } }> {
+//     const formData = new FormData();
+//     formData.append('file', file);
+    
+//     const token = localStorage.getItem('token');
+    
+//     const response = await fetch(`${this.baseURL}/api/startup/upload`, {
+//       method: 'POST',
+//       headers: {
+//         ...(token && { Authorization: `Bearer ${token}` }),
+//       },
+//       body: formData,
+//     });
+
+//     if (!response.ok) {
+//       throw new Error('File upload failed');
+//     }
+
+//     return response.json();
+//   }
+// }
+
+// export const apiClient = new ApiClient();
+
+import type { PostAuthor, AuthorProfile } from '@/components/feed/my-activity-post';
 import { QueryClient } from '@tanstack/react-query';
 
 // API Base URL from environment
@@ -31,6 +335,7 @@ export interface User {
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
+  startup_profile: AuthorProfile | null; // Changed from optional to required (but can be null)
 }
 
 export interface Post {
@@ -41,7 +346,7 @@ export interface Post {
   published: boolean;
   created_at: string;
   updated_at: string;
-  author: User;
+  author: PostAuthor;
   likes: Like[];
   comments: Comment[];
   userId: number;
@@ -60,7 +365,7 @@ export interface Comment {
   user_id: number;
   post_id: number;
   content: string;
-  user: User;
+  user: User; // Now includes startup_profile
   created_at: string;
   updatedAt: string;
 }
@@ -131,7 +436,7 @@ export class ApiClient {
     endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {
-    const url = `${this.baseURL}/api${endpoint}`;
+    const url = `${this.baseURL}${endpoint}`;
     const config: RequestInit = {
       headers: this.getAuthHeaders(),
       ...options,
@@ -167,13 +472,6 @@ export class ApiClient {
     });
   }
 
-  // async signup(userData: { fullName: string; email: string; password: string; mobile?: string }): Promise<AuthResponse> {
-  //   return this.makeRequest<AuthResponse>('/auth/signup', {
-  //     method: 'POST',
-  //     body: JSON.stringify(userData),
-  //   });
-  // }
-
   async sendOtp(userData: { full_name: string; email: string; password: string; mobile?: string }): Promise<{ success: boolean; message: string }> {
     return this.makeRequest<{ success: boolean; message: string }>('/auth/send-otp', {
       method: 'POST',
@@ -188,14 +486,12 @@ export class ApiClient {
     });
   }
 
-  async submitForReview(): Promise<any> { // You can create a more specific type if you want
+  async submitForReview(): Promise<any> {
     return this.makeRequest('/profile/submit-for-review', {
       method: 'POST',
-      // No body is needed, the backend gets the user from the token
     });
   }
 
-  // Add the new forgotPassword method here
   async forgotPassword(email: string): Promise<SimpleSuccessResponse> {
     return this.makeRequest<SimpleSuccessResponse>('/auth/forgot-password', {
         method: 'POST',
@@ -203,14 +499,12 @@ export class ApiClient {
     });
   }
 
-  // Add the new resetPassword method here
   async resetPassword(token: string, password: string): Promise<SimpleSuccessResponse> {
     return this.makeRequest<SimpleSuccessResponse>('/auth/reset-password', {
         method: 'POST',
         body: JSON.stringify({ token, password }),
     });
   }
-
 
   // Post endpoints
   async getPosts(): Promise<PostsResponse> {
@@ -282,7 +576,7 @@ export class ApiClient {
     
     const token = localStorage.getItem('token');
     
-    const response = await fetch(`${this.baseURL}/api/startup/upload`, {
+    const response = await fetch(`${this.baseURL}/startup/upload`, {
       method: 'POST',
       headers: {
         ...(token && { Authorization: `Bearer ${token}` }),
@@ -299,3 +593,12 @@ export class ApiClient {
 }
 
 export const apiClient = new ApiClient();
+
+// Helper type for transformed posts with user interaction state
+export interface TransformedPost extends Post {
+  isLiked: boolean;
+  likeCount: number;
+  commentCount: number;
+  canEdit: boolean;
+  canDelete: boolean;
+}

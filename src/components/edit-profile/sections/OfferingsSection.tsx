@@ -144,7 +144,7 @@ const handleSubmit = async () => {
         toast.error(`Error: ${err}`);
     }
 };
-  const isFormValid = formData.products.length > 0 || formData.services.length > 0;
+  const isFormValid = true;
   const isLoading = isUpdating;
 
   return (

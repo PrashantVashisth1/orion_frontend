@@ -15,7 +15,7 @@ export const usePosts = () => {
 };
 
 export const usePost = (id) => {
-  return useQuery({
+  return useQuery<Post, Error>({
     queryKey: ['posts', id],
     queryFn: async () => {
       const response = await apiClient.getPost(id);
@@ -43,35 +43,36 @@ export const useCreatePost = () => {
 
 export const useUpdatePost = () => {
   const queryClient = useQueryClient();
-  
   return useMutation({
-    mutationFn: ({ id, data }: { id: number; data: Partial<CreatePostData> }) => 
-      apiClient.updatePost(id, data),
-    onSuccess: (response, variables) => {
-      queryClient.setQueryData(['posts', variables.id], response.data);
+    // Your API client expects (id, data)
+    mutationFn: ({ postId, text }: { postId: number; text: string }) =>
+      apiClient.updatePost(postId, { text }), // 'text' matches your CreatePostData
+
+    onSuccess: () => {
+      toast.success("Post updated successfully!");
+      // Refetch the posts to show the update
       queryClient.invalidateQueries({ queryKey: ['posts'] });
-      toast.success('Post updated successfully!');
+      // Also refetch single post queries if any are active
+      queryClient.invalidateQueries({ queryKey: ['post'] });
     },
-    onError: (error: Error) => {
-      toast.error(error.message || 'Failed to update post');
+    onError: (error: any) => {
+      toast.error(error.message || "Failed to update post.");
     },
   });
 };
 
 export const useDeletePost = () => {
   const queryClient = useQueryClient();
-  
   return useMutation({
-    mutationFn: (id: number) => apiClient.deletePost(id),
-    onSuccess: (_, deletedId) => {
-      queryClient.removeQueries({ queryKey: ['posts', deletedId] });
-      queryClient.setQueryData(['posts'], (old: Post[] | undefined) => 
-        old?.filter(post => post.id !== deletedId) || []
-      );
-      toast.success('Post deleted successfully!');
+    mutationFn: (postId: number) => apiClient.deletePost(postId),
+
+    onSuccess: () => {
+      toast.success("Post deleted successfully!");
+      // Refetch the posts to remove it from the list
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
     },
-    onError: (error: Error) => {
-      toast.error(error.message || 'Failed to delete post');
+    onError: (error: any) => {
+      toast.error(error.message || "Failed to delete post.");
     },
   });
 };

@@ -89,7 +89,7 @@ export default function EditProfile() {
           {renderSection()}
           {/* --- 4. ADD THE NEW SUBMIT BUTTON BLOCK --- */}
           {/* Only show this block if the user exists AND is NOT verified */}
-          {user &&  (
+          {user && !user.is_startup_verified && (
             <div className="mt-10 ml-40 pt-6 border-t-2 border-gray-700">
               <h3 className="text-xl font-semibold text-white">Submit for Verification</h3>
               <p className="text-sm text-gray-400 mt-2 mb-4">

@@ -252,7 +252,7 @@ export const useNeedsStore = create<NeedsState>()(
       deleteNeed: async (needId, token) => {
         set({ isDeleting: true, error: null });
         try {
-          const response = await fetch(`${apiBase}/api/needs/${needId}`, {
+          const response = await fetch(`${apiBase}/needs/${needId}`, {
             method: 'DELETE',
             headers: {
               'Authorization': `Bearer ${token}`,
@@ -278,7 +278,7 @@ export const useNeedsStore = create<NeedsState>()(
       updateNeed: async (needId, formType, formData, token) => {
         set({ isUpdating: true, error: null });
         try {
-          const response = await fetch(`${apiBase}/api/needs/${needId}`, {
+          const response = await fetch(`${apiBase}/needs/${needId}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',

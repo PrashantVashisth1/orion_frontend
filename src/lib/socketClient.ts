@@ -20,15 +20,30 @@ class NotificationSocket {
 
     console.log('🔌 Connecting to Socket.IO server:', apiUrl);
 
-    this.socket = io(apiUrl, {
-      auth: {
-        token: token
-      },
-      reconnection: true,
-      reconnectionDelay: 1000,
-      reconnectionAttempts: 5,
-      transports: ['websocket', 'polling']
-    });
+    // this.socket = io(apiUrl, {
+    //   auth: {
+    //     token: token
+    //   },
+    //   reconnection: true,
+    //   reconnectionDelay: 1000,
+    //   reconnectionAttempts: 5,
+    //   transports: ['websocket', 'polling']
+    // });
+
+    this.socket = io({
+  // This explicitly tells the client to use the /socket.io/ path,
+  // which is what our Nginx server is configured to listen for.
+  path: "/socket.io/",
+  
+  // The rest of your options are correct
+  auth: {
+    token: token
+  },
+  reconnection: true,
+  reconnectionDelay: 1000,
+  reconnectionAttempts: 5,
+  transports: ['websocket', 'polling']
+});
 
     this.setupListeners();
   }

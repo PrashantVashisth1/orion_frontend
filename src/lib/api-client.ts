@@ -210,7 +210,7 @@ export class ApiClient {
     endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {
-    const url = `${this.baseURL}/api${endpoint}`;
+    const url = `${this.baseURL}${endpoint}`;
 
     // Determine if body is FormData
     const isFormData = options.body instanceof FormData;

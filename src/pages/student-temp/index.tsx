@@ -2,10 +2,10 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import Navbarpostlogin from "@/components/postlogincomponents/Navbarpostlogin";
-import Footer from "@/components/postlogincomponents/footer";
+// import Footer from "@/components/postlogincomponents/footer";
 import { useAuth } from "@/contexts/AuthContext";
 import { Video, ListChecks, ArrowRight } from "lucide-react";
+import StudentPostLoginNavbar from "@/components/StudentPostLoginNavbartemp";
 
 // A reusable card component for this page
 const SectionCard: React.FC<{
@@ -32,10 +32,11 @@ const SectionCard: React.FC<{
 
 const StudentTempPage: React.FC = () => {
   const { user } = useAuth();
+  
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-900 text-white">
-      <Navbarpostlogin />
+    <div className="min-h-screen flex flex-col bg-slate-900 text-white mt-4">
+      <StudentPostLoginNavbar />
       
       <main className="flex-grow container mx-auto px-4 py-16">
         <div className="text-center mb-12">
@@ -66,7 +67,7 @@ const StudentTempPage: React.FC = () => {
         </div>
       </main>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

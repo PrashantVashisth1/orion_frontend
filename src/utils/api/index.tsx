@@ -1,7 +1,7 @@
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:4000';
 
 export async function signup(data) {
-  const res = await fetch(`${API_BASE}/api/auth/signup`, {
+  const res = await fetch(`${API_BASE}/auth/signup`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
@@ -21,7 +21,7 @@ export async function signup(data) {
 }
 
 export async function login(data) {
-  const res = await fetch(`${API_BASE}/api/auth/login`, {
+  const res = await fetch(`${API_BASE}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
@@ -41,7 +41,7 @@ export async function login(data) {
 }
 
 export async function postShareNeed(formType, formData, userId) {
-  const API_URL = `${API_BASE}/api/needs`;
+  const API_URL = `${API_BASE}/needs`;
   const payload = { formType, formData, userId };
   const res = await fetch(API_URL, {
     method: 'POST',

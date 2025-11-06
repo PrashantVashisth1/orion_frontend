@@ -25,9 +25,9 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
         title: "1. Information We Collect",
         content: [
           "We may collect the following categories of information:",
-          "**a. From Students**\nName, email address, phone number, profile details\nEducational background, skills, interests, uploaded documents (e.g., resumes, certificates)\nCourse participation, learning activity, assessments",
-          "**b. From Startups**\nFounder/team details, company name, contact information\nStartup profiles, pitch decks, documents, and progress updates\nHiring or collaboration preferences",
-          "**c. Automatically Collected Data**\nDevice information (browser, OS, IP address)\nPlatform usage data (logins, activity, interactions)\nCookies and similar technologies (for session management and analytics)",
+          "*a. From Students*\nName, email address, phone number, profile details\nEducational background, skills, interests, uploaded documents (e.g., resumes, certificates)\nCourse participation, learning activity, assessments",
+          "*b. From Startups*\nFounder/team details, company name, contact information\nStartup profiles, pitch decks, documents, and progress updates\nHiring or collaboration preferences",
+          "*c. Automatically Collected Data*\nDevice information (browser, OS, IP address)\nPlatform usage data (logins, activity, interactions)\nCookies and similar technologies (for session management and analytics)",
         ]
       },
       {
@@ -64,7 +64,7 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
           "* Restrict or object to processing of your data",
           "* Withdraw consent for optional data uses",
           "* Request data portability",
-          "To exercise these rights, contact us at **contact@omverg.com**",
+          "To exercise these rights, contact us at *contact@omverg.com*",
         ]
       },
       {
@@ -73,7 +73,7 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
       },
       {
         title: "7. Use by Minors",
-        content: ["Our Platform is intended for individuals **16 years or older** (or the applicable minimum age in your jurisdiction). If we learn that we have collected data from a minor without proper consent, we will delete it."],
+        content: ["Our Platform is intended for individuals *16 years or older* (or the applicable minimum age in your jurisdiction). If we learn that we have collected data from a minor without proper consent, we will delete it."],
       },
       {
         title: "8. International Users",
@@ -87,7 +87,7 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
         title: "10. Contact Us",
         content: [
           "If you have questions about this Privacy Policy, please contact us at:",
-          "**Orion Eduverse Pvt Ltd.**",
+          "*Orion Eduverse Pvt Ltd.*",
           "Email: contact@omverg.com",
           "Address: Ranchi, Jharkhand, India.",
         ]
@@ -113,8 +113,8 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
 
         {/* Dates */}
         <div className="text-sm text-gray-400 mb-6 space-y-1">
-          <p>Effective Date: **{policyContent.effectiveDate}**</p>
-          <p>Last Updated: **{policyContent.lastUpdated}**</p>
+          <p>Effective Date: *{policyContent.effectiveDate}*</p>
+          <p>Last Updated: *{policyContent.lastUpdated}*</p>
         </div>
 
         {/* Introduction */}
@@ -138,8 +138,8 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose
                       );
                     }
                     // Simple bolding for sub-sections like a, b, c
-                    if (line.startsWith('**')) {
-                       const boldedText = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    if (line.startsWith('')) {
+                       const boldedText = line.replace(/\\(.?)\\*/g, '<strong>$1</strong>');
                        return <p key={pIndex + lIndex} dangerouslySetInnerHTML={{ __html: boldedText }} />;
                     }
                     // Regular paragraph
@@ -314,7 +314,7 @@ const TermsOfServiceModal: React.FC<TermsOfServiceModalProps> = ({ isOpen, onClo
       title: '✅ 16. Contact',
       content: [
         'For questions or support:',
-        '📩 Email: **contact@omverg.com**',
+        '📩 Email: *contact@omverg.com*',
       ],
     },
   ];
@@ -337,8 +337,8 @@ const TermsOfServiceModal: React.FC<TermsOfServiceModalProps> = ({ isOpen, onClo
 
         {/* Dates */}
         <div className="text-sm text-gray-400 mb-6 space-y-1">
-          <p>Effective Date: **4th Nov 2025**</p>
-          <p>Last Updated: **4th Nov 2025**</p>
+          <p>Effective Date: *4th Nov 2025*</p>
+          <p>Last Updated: *4th Nov 2025*</p>
         </div>
 
         {/* Introduction */}
@@ -362,7 +362,7 @@ const TermsOfServiceModal: React.FC<TermsOfServiceModalProps> = ({ isOpen, onClo
                     );
                   }
                   // Simple bolding for contact email
-                  const formattedLine = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                  const formattedLine = line.replace(/\\(.?)\\*/g, '<strong>$1</strong>');
                   return <p key={pIndex} dangerouslySetInnerHTML={{ __html: formattedLine }} />;
                 })}
               </div>
@@ -383,12 +383,12 @@ const Footer: React.FC = () => {
   
   const footerLinks = {
     platform: [
-      { label: "Explore Startups", href: "/" },
-      { label: "Find Funding", href: "#funding" },
+      { label: "Explore Startups", href: "/explore" },
+      { label: "Find Funding", href: "/get-funded" },
       { label: "Host Events", href: "/host-session" },
-      { label: "Share Needs", href: "#share-needs" },
-      { label: "Hiring AI Companions", href: "#share-needs" },
-      { label: "AI Tools", href: "#share-needs" },
+      { label: "Share Needs", href: "/share-needs" },
+      { label: "Hiring AI Companions", href: "/get-funded" },
+      { label: "AI Tools", href: "/get-funded" },
     ],
     legal: [
       { label: "Privacy Policy", action: () => setIsPrivacyModalOpen(true) }, 

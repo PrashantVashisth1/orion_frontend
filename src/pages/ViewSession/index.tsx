@@ -31,7 +31,7 @@ function ViewSession() {
 
   return (
     <div className="min-h-screen bg-slate-900">
-      <Navbarpostlogin />
+      {!isStudent && <Navbarpostlogin />}
    
       {/* 🟢 PASS PROP TO HIDE HOST BUTTON FOR STUDENTS */}
       <HeroSlider isStudent={isStudent} /> 

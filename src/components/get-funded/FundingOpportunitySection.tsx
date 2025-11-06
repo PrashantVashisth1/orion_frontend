@@ -83,7 +83,7 @@ export function FundingOpportunitySection() {
     formData.append("pitchDeck", selectedFile);
 
     // --- Direct Fetch Implementation ---
-    const url = `${import.meta.env.VITE_API_BASE || 'http://localhost:3000'}/api/get-funded/funding-opportunity/submit`;
+    const url = `${import.meta.env.VITE_API_BASE || 'http://localhost:3000'}/get-funded/funding-opportunity/submit`;
     const token = localStorage.getItem('token');
     const headers = new Headers(); // Create Headers object
 
