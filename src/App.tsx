@@ -17,7 +17,7 @@ import { queryClient } from "@/lib/my-api-client";
 // import Prelogin from "./pages/ViewSession"
 // import Prelogin from "./pages/LearningResources"
 // import Prelogin from "./pages/prelogin"
-// import Prelogin from "./pages/share-project"
+// import Prelogin from "./pages/postlogin"
 import PendingVerificationPage from './pages/pending-verification';
 import Prelogin from "./pages/prelogin"
 import HomePage from "./pages/postlogin";
