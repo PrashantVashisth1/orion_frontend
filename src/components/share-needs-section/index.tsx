@@ -159,7 +159,7 @@ export default function ShareNeedsSection() {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-purple-900 relative font-inter">
       <AnimatedBackground />
       <Navbarpostlogin />
-      <div className="relative z-10 p-6 px-[450px] py-[60px]">
+      <div className="relative z-10 p-6 px-[100px] py-[60px]">
         <div className="mx-auto max-w-7xl">
           <Card className="overflow-hidden shadow-2xl border-0 bg-gray-800/90 backdrop-blur-lg border-gray-700/50 relative z-20 rounded-xl">
             <MainHeader activeTab={activeTab} onTabChange={setActiveTab} />
