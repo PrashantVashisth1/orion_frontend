@@ -1,15 +1,16 @@
-
+import { useNavigate } from "react-router-dom"
 import { Mail, Phone, Globe, MapPin } from "lucide-react"
 // import type { StartupProfileResponse } from "@/types/startup"
 
 // interface ProfileInfoProps { profile: StartupProfileResponse | null | undefined }
 
 export default function ProfileInfo({ profile }) {
-  const email = profile?.data?.personalInfo?.email || "N/A"
-  const phone = profile?.data?.personalInfo?.phone || "N/A"
-  const website = profile?.data?.personalInfo?.website || "N/A"
-  const location = profile?.data?.personalInfo?.location || "N/A"
-  const completionPercentage = profile?.data?.completionPercentage || 0; 
+  const navigate = useNavigate();
+  const email = profile?.data?.companyDetails?.companyEmail || "N/A"
+  const phone = profile?.data?.companyDetails?.companyPhone || "N/A"
+  const website = profile?.data?.companyDetails?.companyWebsite || "N/A"
+  const location = profile?.data?.companyDetails?.companyLocation || "N/A"
+  const completionPercentage = profile?.data?.completionPercentage || 0;
 
   return (
     <div className="space-y-6 h-full flex flex-col justify-between">
@@ -74,7 +75,7 @@ export default function ProfileInfo({ profile }) {
             </div>
           </div>
           <h4 className="font-semibold text-white mb-2">Profile Completion</h4>
-          <button className="text-blue-400 text-sm font-medium hover:text-blue-300 transition-colors">
+          <button className="text-blue-400 text-sm font-medium hover:text-blue-300 transition-colors" onClick={() => navigate('/edit-profile')}>
             {completionPercentage < 100 ? 'Complete Your Profile →' : 'Edit Your Profile →'}
           </button>
         </div>
