@@ -6,7 +6,7 @@ import Footer from "@/components/postlogincomponents/footer";
 import { Loader2, Frown } from "lucide-react";
 import { usePost, useLikePost, useUnlikePost } from "@/hooks/usePosts";
 import { useCreateComment } from "@/hooks/useComments";
-import { SinglePost } from "@/components/feed/my-activity-post";
+import  {SinglePost}  from "@/components/feed/my-activity-post";
 
 export default function SinglePostPage() {
   const { id } = useParams<{ id: string }>();
