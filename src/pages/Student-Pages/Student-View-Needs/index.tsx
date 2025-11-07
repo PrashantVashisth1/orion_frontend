@@ -1,22 +1,18 @@
-
-// src/pages/ViewNeeds/index.tsx
-
-import { useState, useEffect, useMemo } from "react"; // <-- Import useMemo
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-// import { useToast } from "@/components/ui/use-toast";
-import Navbarpostlogin from "@/components/postlogincomponents/Navbarpostlogin";
-import Footer from "@/components/postlogincomponents/footer";
-import { NeedCard } from "@/components/ViewNeedsComponent/NeedCard";
-import type { Need } from "@/components/ViewNeedsComponent/NeedCard"; // <-- Our new frontend interface
+import Navbarpostlogin from "@/components/Students-Components/StudentPostLoginNavbar";
+import Footer from "@/components/Students-Components/student-footer";
+import { NeedCard } from "@/components/Students-Components/ViewNeedsComponents/NeedCard";
+import type { Need } from "@/components/ViewNeedsComponent/NeedCard";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { Plus, Loader2, Frown, Briefcase, Users, FlaskConical, Heart } from "lucide-react"; 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { NeedDetailsModal } from "@/components/ViewNeedsComponent/NeedDetailModal";
+import { NeedDetailsModal } from "@/components/Students-Components/ViewNeedsComponents/NeedDetailModel";
 
 // --- IMPORT STORE & MODALS ---
 import { useNeedsStore } from "@/store/needsStore";
-import type { BackendNeed } from "@/store/needsStore"; // <-- Import your raw backend type
+import type { BackendNeed } from "@/store/needsStore";
 import { DeleteNeedModal } from "@/components/ViewNeedsComponent/DeleteNeedModal";
 import { EditNeedModal } from "@/components/ViewNeedsComponent/EditNeedModal";
 import toast from "react-hot-toast";
@@ -34,13 +30,11 @@ export default function ViewNeedsPage() {
   
   const navigate = useNavigate();
   const { user } = useAuth();
-  // const { toast } = useToast();
   const apiBase = import.meta.env.VITE_API_BASE || 'http://localhost:4000';
-  const isStudent = user?.role === 'STUDENT';
 
   // --- GET ALL STATE FROM ZUSTAND STORE ---
   const { 
-    backendNeeds, // <-- This is the raw data (BackendNeed[])
+    backendNeeds,
     setBackendNeeds,
     isDeleting,
     isUpdating,
@@ -58,11 +52,10 @@ export default function ViewNeedsPage() {
     const fetchNeeds = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`${apiBase}/needs?type=${activeType.toUpperCase()}`);
+        const response = await fetch(`${apiBase}/api/needs?type=${activeType.toUpperCase()}`);
         if (!response.ok) throw new Error('Failed to fetch needs.');
         
         const result = await response.json();
-        // Set the raw backend data in the store
         setBackendNeeds(result.data.needs as BackendNeed[]); 
 
       } catch (error) {
@@ -76,65 +69,33 @@ export default function ViewNeedsPage() {
     fetchNeeds();
   }, [activeType, setBackendNeeds]); 
 
-  // console.log("fetched needs", backendNeeds);
-
+  console.log("fetched needs", backendNeeds);
 
   const needs: Need[] = useMemo(() => {
     return backendNeeds.map((need: BackendNeed) => {
       const details = need.details_json || {};
-
-      console.log("details: ", details)
-
-      let cvEmail = null;
-      const lowerCaseType = need.type.toLowerCase();
-      if (lowerCaseType === 'live_projects') {
-        cvEmail = details.projectCvEmail;
-      } else if (lowerCaseType === 'internship') {
-        cvEmail = details.internship_cv_email || details.internshipCvEmail;
-      } else if (lowerCaseType === 'research') {
-        cvEmail = details.researchCvEmail;
-      }
-
-      const title = need.title || details.projectTitle || details.job_title || details.researchTitle || details.initiativeType;
-      const skills = need.skills || details.projectSkills || details.min_skills || details.researchSkills;
-      // const contactInfo = need.contact_info || {};
       
-      // Build the object field-by-field to avoid spreading stale data
       return {
-        // Core fields from the top level
         id: need.id,
-        userId: need.user_id, // Map user_id to userId
+        userId: need.user_id,
         type: need.type.toLowerCase() as Need['type'],
-        title: title, // This is now correctly updated from the backend
-        description: need.description || details.description || details.projectDescription || details.researchDescription || details.csrDescription, // This is also correct
+        title: need.title,
+        description: need.description,
         
-        // The raw JSON blob, required for the Edit modal
         details_json: details,
 
-        // --- Display fields ---
-        // We now *prioritize* the details_json, falling back to top-level
-        // This is the reverse of what we had, and is much safer.
         companyName: details.projectCompanyName || 'OrionEduverse',
         location: details.location || need.location || null,
         duration: details.duration || need.duration || null,
-        skills: skills || null,
+        skills: details.skills || need.skills || null,
         
-        // Handle the different compensation/stipend fields
         compensation: need.compensation || undefined,
         
-        // Handle the different extendable fields
         projectTeamSize: details.projectTeamSize || details.teamSize || null,
-
-        // INTERNSHIP FIELDS
-        open_for: details.open_for || details.openFor || null,
-        fulltime: details.fulltime || null,
         
-        // Handle the different contact fields
-        contactInfo: details.contactInfo || details.contactInfo || { 
-          email: details.contact_email || details.contactEmail || details.projectEmail
-          || details.researchEmail || details.csrEmail || 'Not specified', 
-          phone: details.contact_phone || details.contactPhone || details.projectPhone || details.researchPhone || details.csrPhone || null,
-          cvEmail: cvEmail
+        contactInfo: details.contactInfo || { 
+          email: details.contactEmail || details.projectEmail || details.researchEmail || details.csrEmail || 'Not specified', 
+          phone: details.contactPhone || details.projectPhone || details.researchPhone || details.csrPhone || null
         },
       };
     });
@@ -184,15 +145,15 @@ export default function ViewNeedsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900">
-      {!isStudent && <Navbarpostlogin />}
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      <Navbarpostlogin />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-white">View Needs</h1>
+          <h1 className="text-3xl font-bold text-gray-900">View Needs</h1>
           {user && user.role === "STARTUP" && (
             <Button
               onClick={() => navigate('/share-needs')}
-              className="bg-blue-600 hover:bg-blue-700 text-white"
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md hover:shadow-lg transition-all"
             >
               <Plus className="w-4 h-4 mr-2" />
               Add New Need
@@ -201,12 +162,12 @@ export default function ViewNeedsPage() {
         </div>
 
         <Tabs value={activeType} onValueChange={handleTabChange}>
-          <TabsList className="w-full grid grid-cols-4 bg-slate-800/50 border border-slate-700/50 mb-8">
+          <TabsList className="w-full grid grid-cols-4 bg-white border border-gray-200 mb-8 shadow-sm">
             {needTypes.map(type => (
               <TabsTrigger 
                 key={type.id} 
                 value={type.id} 
-                className="flex items-center space-x-2 data-[state=active]:bg-purple-600/30 data-[state=active]:text-purple-300 data-[state=active]:border-purple-500/30"
+                className="flex items-center space-x-2 data-[state=active]:bg-purple-50 data-[state=active]:text-purple-600 data-[state=active]:border-purple-200 text-gray-600 hover:text-gray-900 transition-colors"
               >
                 <type.icon className="w-4 h-4" />
                 <span>{type.label}</span>
@@ -218,17 +179,16 @@ export default function ViewNeedsPage() {
             <TabsContent key={type.id} value={type.id} className="mt-6">
               {isLoading ? (
                 <div className="text-center py-12">
-                  <Loader2 className="h-8 w-8 text-blue-400 animate-spin mx-auto mb-4" />
-                  <p className="text-gray-400">Loading needs...</p>
+                  <Loader2 className="h-8 w-8 text-blue-600 animate-spin mx-auto mb-4" />
+                  <p className="text-gray-600">Loading needs...</p>
                 </div>
               ) : needs.length === 0 ? (
                 <div className="text-center py-12">
-                  <Frown className="h-12 w-12 text-gray-500 mx-auto mb-4" />
-                  <p className="text-gray-400 text-lg">No needs found for this category.</p>
+                  <Frown className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                  <p className="text-gray-600 text-lg">No needs found for this category.</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {/* Map over the 'mapped' needs array */}
                   {needs.map((need) => (
                     <NeedCard 
                       key={need.id} 
@@ -236,7 +196,7 @@ export default function ViewNeedsPage() {
                       onViewClick={handleViewNeedClick}
                       onEditClick={handleEditClick}
                       onDeleteClick={handleDeleteClick}
-                      currentUserId={user?.id} // <-- Pass the logged-in user's ID
+                      currentUserId={user?.id}
                     />
                   ))}
                 </div>
@@ -269,4 +229,3 @@ export default function ViewNeedsPage() {
     </div>
   );
 }
-

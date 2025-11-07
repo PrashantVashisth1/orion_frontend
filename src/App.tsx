@@ -10,14 +10,17 @@ import { QueryClientProvider } from "@tanstack/react-query";
 // import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
 import { queryClient } from "@/lib/my-api-client";
-// import Prelogin from "./pages/student-landing-Page";
-// import Prelogin from "./pages/student-temp"
-// import Prelogin from "./pages/MentorPage"
-// import Prelogin from "./pages/ViewNeeds"
-// import Prelogin from "./pages/ViewSession"
-// import Prelogin from "./pages/LearningResources"
+// import Prelogin from "./pages/Student-Pages/student-landing-Page"
+// import Prelogin from "./pages/Student-Pages/MentorPage"
+// import Prelogin from "./pages/Student-Pages/Student-View-Needs"
+// import Prelogin from "./pages/Student-Pages/Student-View-Sessions"
+// import Prelogin from "./pages/Student-Pages/LearningResources"
 // import Prelogin from "./pages/prelogin"
 // import Prelogin from "./pages/postlogin"
+// import Prelogin from "./pages/Student-Pages/Student-temp"
+// import Prelogin from "./pages/Student-Pages/share-project"
+// import Prelogin from "./pages/Student-Pages/Create-Post-Page"
+// import Prelogin from "./pages/Student-Pages/PostLogin"
 import PendingVerificationPage from './pages/pending-verification';
 import Prelogin from "./pages/prelogin"
 import HomePage from "./pages/postlogin";

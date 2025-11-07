@@ -211,9 +211,9 @@ import { useQuery } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import {  useState } from 'react';
 import SessionCard from './SessionCard';
-import SessionDetailsModal from './SessionDetailsModal';
+import SessionDetailsModal from './SessionDetailModel';
 import type { Session } from './types';
-// import { motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 
 const fetchSessions = async (): Promise<Session[]> => {
@@ -278,29 +278,73 @@ const SessionsSection = () => {
   }
 
   return (
-    <section className="bg-slate-900 py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-4xl font-bold text-center text-white mb-12">Upcoming Sessions</h2>
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {sessions && sessions.length > 0 ? (
-            sessions.map((session) => (
-              <SessionCard key={session.id} session={session} onJoinClick={openModal} />
-            ))
-          ) : (
-            <div className="col-span-full text-center text-slate-400 text-lg">
-              No sessions available.
-            </div>
-          )}
-        </div>
-      </div>
-      {selectedSession && (
-        <SessionDetailsModal
-          session={selectedSession}
-          isOpen={isModalOpen}
-          onClose={closeModal}
-        />
-      )}
-    </section>
+    // <section className="bg-slate-900 py-16">
+    //   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    //     <h2 className="text-4xl font-bold text-center text-white mb-12">Upcoming Sessions</h2>
+    //     <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    //       {sessions && sessions.length > 0 ? (
+    //         sessions.map((session) => (
+    //           <SessionCard key={session.id} session={session} onJoinClick={openModal} />
+    //         ))
+    //       ) : (
+    //         <div className="col-span-full text-center text-slate-400 text-lg">
+    //           No sessions available.
+    //         </div>
+    //       )}
+    //     </div>
+    //   </div>
+    //   {selectedSession && (
+    //     <SessionDetailsModal
+    //       session={selectedSession}
+    //       isOpen={isModalOpen}
+    //       onClose={closeModal}
+    //     />
+    //   )}
+    // </section>
+    <section className="relative py-20 bg-gradient-to-b from-white via-indigo-50 to-purple-50 overflow-hidden">
+
+  {/* Soft glowing blobs for depth */}
+  <div className="absolute -top-20 -left-20 w-96 h-96 bg-purple-300 opacity-30 blur-3xl rounded-full"></div>
+  <div className="absolute top-40 right-[-10rem] w-96 h-96 bg-blue-300 opacity-20 blur-3xl rounded-full"></div>
+  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[32rem] h-[32rem] bg-pink-200 opacity-20 blur-[120px] rounded-full"></div>
+
+  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    {/* Heading */}
+    <h2 className="text-4xl font-bold text-center bg-clip-text text-transparent 
+      bg-gradient-to-r from-indigo-600 to-purple-600 mb-4">
+      Upcoming Sessions
+    </h2>
+    <p className="text-center text-gray-500 mb-12">
+      Join expert-led discussions, workshops and live webinars.
+    </p>
+
+    {/* Cards Grid — NO parent white box now */}
+    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {sessions?.map((session) => (
+        <motion.div
+  key={session.id}
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.4 }}
+  viewport={{ once: true }}
+>
+  <SessionCard session={session} onJoinClick={openModal} />
+</motion.div>
+
+      ))}
+    </div>
+  </div>
+
+  {selectedSession && (
+    <SessionDetailsModal
+      session={selectedSession}
+      isOpen={isModalOpen}
+      onClose={closeModal}
+    />
+  )}
+</section>
+
   );
 };
 
