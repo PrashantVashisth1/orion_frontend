@@ -324,6 +324,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const { token, user } = response.data;
         zustandLogin(token, user);
         toast.success('Login successful!');
+
+        // Send User-ID to Google Analytics
+        if (typeof window.gtag === 'function') {
+          window.gtag('set', { 'user_id': user.id.toString() });
+        }
+      
         
         // --- 🟢 MODIFICATION: Role-based redirection ---
         if (user.role === 'STUDENT') {
@@ -385,6 +391,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const { token, user } = response;
       zustandLogin(token, user);
       toast.success("OTP verified and account created successfully!");
+
+      // Send User-ID to Google Analytics
+      if (typeof window.gtag === 'function') {
+        window.gtag('set', { 'user_id': user.id.toString() });
+      }
       
       // --- 🟢 MODIFICATION: Role-based redirection after signup/verify ---
       if (user.role === 'STUDENT') {
