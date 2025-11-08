@@ -1,4 +1,4 @@
-import Navbarpostlogin from '@/components/postlogincomponents/Navbarpostlogin'
+import Navbarpostlogin from '@/components/Students-Components/StudentPostLoginNavbar'
 import Footer from '@/components/Students-Components/student-footer'
 import HeroSlider from '@/components/Students-Components/ViewSessionComponents/HeroSlider'
 import SessionsSection from '@/components/Students-Components/ViewSessionComponents/SessionSection'

@@ -64,7 +64,7 @@ export default function CreatePostPage() {
         <div className="w-full flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <button
-              onClick={() => navigate("/postlogin")}
+              onClick={() => navigate("/students/postlogin")}
               className="p-2 hover:bg-gray-100 rounded-xl transition-all duration-200 group"
             >
               <ArrowLeft className="h-6 w-6 text-gray-600 group-hover:text-gray-900" />
@@ -84,7 +84,7 @@ export default function CreatePostPage() {
                 <span>Posting...</span>
               </div>
             ) : (
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 cursor-pointer">
                 <Send className="h-4 w-4" />
                 <span>Post</span>
               </div>
@@ -232,10 +232,10 @@ export default function CreatePostPage() {
                   variant="outline"
                   onClick={() => {
                     clearForm()
-                    navigate("/postlogin")
+                    navigate("/students/postlogin")
                   }}
                   disabled={isSubmitting}
-                  className="border-gray-300 text-gray-700 hover:bg-gray-100 px-4 py-2"
+                  className="border-gray-300 cursor-pointer text-gray-700 hover:bg-gray-100 px-4 py-2"
                 >
                   Cancel
                 </Button>

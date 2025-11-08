@@ -176,7 +176,7 @@ export default function ViewNeedsPage() {
           </TabsList>
 
           {needTypes.map(type => (
-            <TabsContent key={type.id} value={type.id} className="mt-6">
+            <TabsContent key={type.id} value={type.id} className="mt-6 ">
               {isLoading ? (
                 <div className="text-center py-12">
                   <Loader2 className="h-8 w-8 text-blue-600 animate-spin mx-auto mb-4" />

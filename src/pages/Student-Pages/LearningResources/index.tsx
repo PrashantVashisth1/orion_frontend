@@ -123,7 +123,7 @@ const LearningResource: React.FC = () => {
         {/* Tabs */}
         <div className="flex justify-center gap-10 mb-8 relative">
           {[
-            { key: "platform", label: "By Orion Platform" },
+            { key: "platform", label: "By OmVerg Platform" },
             { key: "community", label: "By Community" },
             { key: "mentor", label: "By Mentor" },
           ].map((tab) => (

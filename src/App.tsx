@@ -10,17 +10,17 @@ import { QueryClientProvider } from "@tanstack/react-query";
 // import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
 import { queryClient } from "@/lib/my-api-client";
-// import Prelogin from "./pages/Student-Pages/student-landing-Page"
-// import Prelogin from "./pages/Student-Pages/MentorPage"
-// import Prelogin from "./pages/Student-Pages/Student-View-Needs"
-// import Prelogin from "./pages/Student-Pages/Student-View-Sessions"
-// import Prelogin from "./pages/Student-Pages/LearningResources"
+import StudentPrelogin from "./pages/Student-Pages/student-landing-Page"
+import MentorPage from "./pages/Student-Pages/MentorPage"
+import StudentViewNeeds from "./pages/Student-Pages/Student-View-Needs"
+import StudentViewSessions from "./pages/Student-Pages/Student-View-Sessions"
+import LearningResources from "./pages/Student-Pages/LearningResources"
 // import Prelogin from "./pages/prelogin"
 // import Prelogin from "./pages/postlogin"
-// import Prelogin from "./pages/Student-Pages/Student-temp"
-// import Prelogin from "./pages/Student-Pages/share-project"
-// import Prelogin from "./pages/Student-Pages/Create-Post-Page"
-// import Prelogin from "./pages/Student-Pages/PostLogin"
+import ExplorePossibilities from "./pages/Student-Pages/Student-temp"
+import ShareProjectIdeas from "./pages/Student-Pages/share-project"
+import StudentCreatePost from "./pages/Student-Pages/Create-Post-Page"
+import StudentPostlogin from "./pages/Student-Pages/PostLogin"
 import PendingVerificationPage from './pages/pending-verification';
 import Prelogin from "./pages/prelogin"
 import HomePage from "./pages/postlogin";
@@ -258,11 +258,90 @@ const App: React.FC = () => {
                 }
               />
 
+              <Route
+                path="/students/prelogin"
+                element={
+                    <StudentPrelogin/>
+                }
+              />
+
+              <Route
+                path="/students/postlogin"
+                element={
+                  // <ProtectedRoute>
+                    <StudentPostlogin/>
+                  // </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/students/mentor"
+                element={
+                  // <ProtectedRoute>
+                    <MentorPage/>
+                  // </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/students/learning"
+                element={
+                  // <ProtectedRoute>
+                    <LearningResources />
+                  // </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/students/explore-possibilities"
+                element={
+                  // <ProtectedRoute>
+                    <ExplorePossibilities/>
+                  // </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/students/share"
+                element={
+                  // <ProtectedRoute>
+                    <ShareProjectIdeas/>
+                  // </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/students/view-sessions"
+                element={
+                  // <ProtectedRoute>
+                    <StudentViewSessions/>
+                  // </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/students/view-needs"
+                element={
+                  // <ProtectedRoute>
+                    <StudentViewNeeds/>
+                  //  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/students/create-posts"
+                element={
+                  // <ProtectedRoute>
+                    <StudentCreatePost/>
+                  //  </ProtectedRoute>
+                }
+              />
+
               {/* Catch-all 404 */}
               <Route
                 path="*"
                 element={
-                  <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
+                  <div className="flex flex-col bg-white items-center justify-center min-h-[100vh] text-center px-4">
                     <div className="bg-gradient-to-r from-indigo-500 to-purple-600 p-4 rounded-full mb-4 shadow-lg animate-bounce">
                       <Rocket className="h-10 w-10 text-white" />
                     </div>

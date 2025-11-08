@@ -51,7 +51,7 @@ const StudentTempPage: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {/* View Sessions Card */}
           <SectionCard
-            to="/view-session"
+            to="/students/view-sessions"
             title="View Sessions"
             description="Browse upcoming webinars, workshops, and panel discussions hosted by startups and industry experts."
             icon={<Video className="h-6 w-6 text-blue-600" />}
@@ -59,7 +59,7 @@ const StudentTempPage: React.FC = () => {
 
           {/* View Needs Card */}
           <SectionCard
-            to="/view-needs"
+            to="/students/view-needs"
             title="View Needs"
             description="Discover projects, internships, and other opportunities shared by startups looking for talent."
             icon={<ListChecks className="h-6 w-6 text-green-600" />}

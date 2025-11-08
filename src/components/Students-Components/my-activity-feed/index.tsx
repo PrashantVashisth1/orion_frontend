@@ -63,7 +63,7 @@ export default function ActivityFeed() {
           </div>
 
           <button
-            onClick={() => navigate("/create-post")}
+            onClick={() => navigate("/students/create-posts")}
             className="inline-flex items-center space-x-2 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-700 hover:via-purple-700 hover:to-pink-700 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/25 transform hover:scale-[1.05] active:scale-[0.98] group cursor-pointer"
           >
             <Plus className="h-5 w-5 transition-transform duration-300 group-hover:rotate-90" />
