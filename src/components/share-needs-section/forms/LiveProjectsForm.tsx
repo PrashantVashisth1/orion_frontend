@@ -7,14 +7,17 @@ import { StyledTextarea } from "../ui/StyledTextarea";
 import { CheckboxGroup } from "../ui/CheckboxGroup";
 import { SectionHeader } from "../ui/SectionHeader";
 import { SubmitButton } from "../ui/SubmitButton";
+import { ImageUpload } from "../ui/ImageUpload";
+
+
 
 export const LiveProjectsForm = ({
   onSubmit,
   formData,
   handleChange,
-  isSubmitting
-  // onImageUpload,
-  // previewUrl,
+  isSubmitting,
+  onImageUpload,
+  previewUrl,
   // setPreviewUrl,
 }) => {
   const modeOptions = [
@@ -70,13 +73,13 @@ export const LiveProjectsForm = ({
           />
         </FormField>
 
-        {/* <ImageUpload
+        <ImageUpload
           label="Project Image/Poster"
-          id="projectImage"
-          onImageChange={onImageUpload}
+          id="live-projectsImage"
+          onImageUpload={onImageUpload}
           previewUrl={previewUrl}
-          setPreviewUrl={setPreviewUrl}
-        /> */}
+          // setPreviewUrl={setPreviewUrl}
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <FormField label="Skills Required" id="projectSkills" required>

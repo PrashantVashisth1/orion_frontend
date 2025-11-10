@@ -5,14 +5,15 @@ import { Users } from "lucide-react";
 import { StyledTextarea } from "../ui/StyledTextarea";
 import { CheckboxGroup } from "../ui/CheckboxGroup";
 import { SubmitButton } from "../ui/SubmitButton";
+import { ImageUpload } from "../ui/ImageUpload";
 
 export const InternshipForm = ({
   onSubmit,
   formData,
   handleChange,
-  isSubmitting
-  // onImageUpload,
-  // previewUrl,
+  isSubmitting,
+  onImageUpload,
+  previewUrl,
   // setPreviewUrl,
 }) => {
   const stipendOptions = [
@@ -63,13 +64,13 @@ export const InternshipForm = ({
         </FormField>
 
         {/* This 'id' won't directly map to a SQL column, but its URL will go into details_json */}
-        {/* <ImageUpload
+        <ImageUpload
           label="Internship Poster"
-          id="internship_image_url" // Renamed ID for clarity of what will be stored
-          onImageChange={onImageUpload}
+          id="internshipImage" // Renamed ID for clarity of what will be stored
+          onImageUpload={onImageUpload}
           previewUrl={previewUrl}
-          setPreviewUrl={setPreviewUrl}
-        /> */}
+          // setPreviewUrl={setPreviewUrl}
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Maps to 'open_for' */}

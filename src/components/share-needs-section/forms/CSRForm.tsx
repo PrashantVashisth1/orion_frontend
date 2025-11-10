@@ -1,5 +1,6 @@
 import { CheckboxGroup } from "../ui/CheckboxGroup";
 import { FormField } from "../ui/FormField";
+import { ImageUpload } from "../ui/ImageUpload";
 import { SectionHeader } from "../ui/SectionHeader";
 import { StyledInput } from "../ui/StyledInput";
 import { StyledTextarea } from "../ui/StyledTextarea";
@@ -11,9 +12,9 @@ export const CSRForm = ({
   onSubmit,
   formData,
   handleChange,
-  isSubmitting
-  // onImageUpload,
-  // previewUrl,
+  isSubmitting,
+  onImageUpload,
+  previewUrl,
   // setPreviewUrl,
 }) => {
   const modeOptions = [
@@ -64,13 +65,13 @@ export const CSRForm = ({
           />
         </FormField>
 
-        {/* <ImageUpload
+        <ImageUpload
           label="CSR Poster"
-          id="csrImage"
-          onImageChange={onImageUpload}
+          id="csr-initiativeImage"
+          onImageUpload={onImageUpload}
           previewUrl={previewUrl}
-          setPreviewUrl={setPreviewUrl}
-        /> */}
+          // setPreviewUrl={setPreviewUrl}
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <FormField label="Duration" id="csrDuration" required>

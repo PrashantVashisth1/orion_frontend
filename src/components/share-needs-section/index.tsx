@@ -46,6 +46,15 @@ export default function ShareNeedsSection() {
     url: string | null;
     id: string;
   }) => {
+    // --- ADD THESE DEBUG LINES ---
+    const expectedKey = `${activeTab}Image`;
+    console.log("--- ImageUpload Parent Debug ---");
+    console.log("Active Tab:", activeTab);
+    console.log("Expected Key for State:", expectedKey);
+    console.log("Received ID from Child:", imageData.id);
+    console.log("Do they match?", expectedKey === imageData.id);
+    console.log("---------------------------------");
+    // --- END DEBUG LINES ---
     setUploadedImages((prev) => ({
       ...prev,
       [imageData.id]: imageData.url,

@@ -418,7 +418,7 @@ export default function CompanyDetailsSection({
                 <Input
                   id="company-website"
                   placeholder="https://yourcompany.com"
-                  type="url"
+                  type="text"
                   value={formData.companyWebsite || ""}
                   onChange={(e) =>
                     handleInputChange("companyWebsite", e.target.value)
