@@ -37,7 +37,7 @@ function ViewSession() {
       <HeroSlider isStudent={isStudent} /> 
       
       <SessionsSection />
-      <Footer />
+      {!isStudent && <Footer />}
     </div>
   )
 }

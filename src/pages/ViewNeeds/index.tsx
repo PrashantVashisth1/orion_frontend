@@ -245,7 +245,7 @@ export default function ViewNeedsPage() {
           ))}
         </Tabs>
       </div>
-      <Footer />
+      {!isStudent && <Footer />}
 
       {/* --- RENDER ALL THREE MODALS --- */}
       <NeedDetailsModal 
