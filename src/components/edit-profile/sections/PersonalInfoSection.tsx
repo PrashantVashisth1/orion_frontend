@@ -461,12 +461,12 @@ export default function PersonalInfoSection({ onSectionChange }: PersonalInfoSec
           onSectionChange('business-details');
         }
       }, 1000);
-    } catch (err) {
+    } catch (err: any) {
       toast.error('Failed to update personal information');
     }
   };
 
-  const isFormValid = formData.firstName && formData.email && formData.phone && formData.location;
+  const isFormValid = formData.firstName && formData.email && formData.phone;
   const isLoading = isUpdating || isUploading;
   return (
     <div className="relative z-10 p-6 px-[154px] py-[60px]">
@@ -591,7 +591,7 @@ export default function PersonalInfoSection({ onSectionChange }: PersonalInfoSec
               </div>
               <div className="space-y-2">
                 <Label htmlFor="location" className="text-zinc-300">
-                  Location *
+                  Location 
                 </Label>
                 <div className="relative">
                   <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />

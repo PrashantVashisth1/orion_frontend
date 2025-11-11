@@ -78,7 +78,7 @@ export default function BusinessDetailsSection({ onSectionChange }: BusinessDeta
     }
   };
 
-  const isFormValid = formData.jobTitle && formData.company && formData.industry && formData.linkedinProfile;
+  const isFormValid = formData.jobTitle && formData.company && formData.linkedinProfile;
   const isLoading = isUpdating;
 
   return (
@@ -127,7 +127,7 @@ export default function BusinessDetailsSection({ onSectionChange }: BusinessDeta
               </div>
               <div className="space-y-2">
                 <Label htmlFor="industry" className="text-zinc-300">
-                  Industry *
+                  Industry
                 </Label>
                 <Input
                   id="industry"

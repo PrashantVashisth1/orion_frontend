@@ -806,8 +806,8 @@ export default function InterestsSection({ onSectionChange }: InterestsSectionPr
   const validateForm = () => {
     const errors: string[] = [];
     
-    if (!formData.primaryIndustry?.trim() && !formData.primaryTargetMarket?.trim()) {
-      errors.push('Primary industry and target Marget is required');
+    if (!formData.primaryIndustry?.trim()) {
+      errors.push('Primary industry is required');
     }
     
     return errors;
@@ -1036,7 +1036,7 @@ export default function InterestsSection({ onSectionChange }: InterestsSectionPr
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="target-market" className="text-zinc-300">
-                    Primary Target Market *
+                    Primary Target Market 
                   </Label>
                   <Input
                     id="target-market"

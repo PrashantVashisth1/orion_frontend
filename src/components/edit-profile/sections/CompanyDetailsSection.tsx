@@ -164,11 +164,6 @@ export default function CompanyDetailsSection({
       errors.push("Company email is required");
     if (!formData.companyPhone?.trim())
       errors.push("Company phone is required");
-    if (!formData.companyLocation?.trim())
-      errors.push("Company location is required");
-    if (!formData.companyDescription?.trim())
-      errors.push("Company description is required");
-    if (!formData.industry?.trim()) errors.push("Industry is required");
 
     // Length validation (matching backend requirements)
     if (
@@ -243,16 +238,7 @@ export default function CompanyDetailsSection({
     formData.companyName &&
     formData.foundedYear &&
     formData.companyEmail &&
-    formData.companyPhone &&
-    formData.companyLocation &&
-    formData.companyWebsite &&
-    formData.companyDescription &&
-    formData.registrationDate &&
-    formData.businessLicense &&
-    formData.taxId &&
-    formData.legalName &&
-    formData.industry &&
-    formData.companyDescription.length >= 10;
+    formData.companyPhone;
     
   const isLoading = isUpdating || isUploading;
 
@@ -399,7 +385,7 @@ export default function CompanyDetailsSection({
               </div>
               <div className="space-y-2">
                 <Label htmlFor="company-location" className="text-zinc-300">
-                  Company Location *
+                  Company Location 
                 </Label>
                 <Input
                   id="company-location"
@@ -413,7 +399,7 @@ export default function CompanyDetailsSection({
               </div>
               <div className="space-y-2">
                 <Label htmlFor="company-website" className="text-zinc-300">
-                  Company Website *
+                  Company Website 
                 </Label>
                 <Input
                   id="company-website"
@@ -437,7 +423,7 @@ export default function CompanyDetailsSection({
             </div>
             <div className="space-y-2">
               <Label htmlFor="company-description" className="text-zinc-300">
-                Company Description *
+                Company Description 
               </Label>
               <Textarea
                 id="company-description"
@@ -578,7 +564,7 @@ export default function CompanyDetailsSection({
               </div>
               <div className="space-y-2">
                 <Label htmlFor="industry" className="text-zinc-300">
-                  Industry *
+                  Industry 
                 </Label>
                 <Input
                   id="industry"
@@ -616,7 +602,7 @@ export default function CompanyDetailsSection({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <Label htmlFor="legal-name" className="text-zinc-300">
-                  Legal Name *
+                  Legal Name 
                 </Label>
                 <Input
                   id="legal-name"
@@ -630,7 +616,7 @@ export default function CompanyDetailsSection({
               </div>
               <div className="space-y-2">
                 <Label htmlFor="tax-id" className="text-zinc-300">
-                  Tax ID *
+                  Tax ID 
                 </Label>
                 <Input
                   id="tax-id"
@@ -642,7 +628,7 @@ export default function CompanyDetailsSection({
               </div>
               <div className="space-y-2">
                 <Label htmlFor="registration-date" className="text-zinc-300">
-                  Registration Date *
+                  Registration Date 
                 </Label>
                 <Input
                   id="registration-date"
@@ -656,7 +642,7 @@ export default function CompanyDetailsSection({
               </div>
               <div className="space-y-2">
                 <Label htmlFor="business-license" className="text-zinc-300">
-                  CIN Number *
+                  CIN Number 
                 </Label>
                 <Input
                   id="business-license"
