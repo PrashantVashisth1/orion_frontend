@@ -1,7 +1,7 @@
 
-import { ExternalLink, Camera } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+// import { ExternalLink, Camera } from "lucide-react";
+// import { Button } from "@/components/ui/button";
+// import { useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 // Assuming the full response structure is now available in the profile prop
 // import type { StartupProfileResponse } from "@/types/startup";
@@ -10,11 +10,11 @@ import { useState, useRef } from "react";
 
 export default function ProfileHeader({ profile }) {
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleViewFullInfo = () => navigate("/profile/detailed");
+  // const handleViewFullInfo = () => navigate("/profile/detailed");
   const handleImageChange = (event) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -23,7 +23,7 @@ export default function ProfileHeader({ profile }) {
       reader.readAsDataURL(file);
     }
   };
-  const handleEditImage = () => fileInputRef.current?.click();
+  // const handleEditImage = () => fileInputRef.current?.click();
   console.log("profile", profile)
 
   // const profilePictureUrl = profileImage || profile?.data?.personalInfo?.profilePicture || null;
@@ -46,14 +46,14 @@ export default function ProfileHeader({ profile }) {
     >
       <div className="absolute inset-0 bg-black/30"></div> {/* Dark overlay for better text contrast */}
       
-      <Button
+      {/* <Button
         variant="ghost"
         size="icon"
         className="absolute top-6 right-6 text-gray-400 hover:text-white hover:bg-gray-700/50 z-20 rounded-full w-10 h-10"
         onClick={handleEditImage}
       >
         <Camera className="h-5 w-5" />
-      </Button>
+      </Button> */}
 
       <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center space-y-6 md:space-y-0 md:space-x-8 pr-16">
         {/* Profile Picture / Logo */}
@@ -88,13 +88,13 @@ export default function ProfileHeader({ profile }) {
               <span className="text-xs font-medium text-gray-300">Followers</span>
               <span className="text-sm font-bold text-blue-400">1.2K</span>
             </div>
-            <div className="flex items-center gap-2 bg-green-600/20 px-3 py-1 rounded-full border border-green-500/30">
+            {/* <div className="flex items-center gap-2 bg-green-600/20 px-3 py-1 rounded-full border border-green-500/30">
               <span className="text-xs font-medium text-gray-300">Growth</span>
               <span className="text-sm font-bold text-green-400">+12.5%</span>
-            </div>
+            </div> */}
           </div>
 
-          <Button
+          {/* <Button
             variant="outline"
             size="sm"
             className="bg-blue-600/20 border-blue-600/50 text-blue-300 hover:bg-blue-600/30 hover:text-white flex items-center gap-2 transition duration-300"
@@ -102,7 +102,7 @@ export default function ProfileHeader({ profile }) {
           >
             View full information
             <ExternalLink className="h-4 w-4" />
-          </Button>
+          </Button> */}
         </div>
       </div>
 
