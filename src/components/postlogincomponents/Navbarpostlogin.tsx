@@ -532,7 +532,7 @@ import {
   LogOut,
   Trash2,
   ChevronDown,
-  Filter,
+  // Filter,
   Check,
   PanelLeft,
 } from "lucide-react"
@@ -562,7 +562,7 @@ interface NavbarpostloginProps {
 }
 
 const Navbarpostlogin = ({ 
-  onFilterToggle, 
+  // onFilterToggle, 
   onSidebarToggle, 
   showSidebarButton 
 }: NavbarpostloginProps) => {
@@ -948,7 +948,7 @@ const Navbarpostlogin = ({
 
           {/* Right Icons */}
           <div className="hidden md:flex items-center space-x-4">
-            {onFilterToggle && (
+            {/* {onFilterToggle && (
               <Button 
                 variant="ghost" 
                 size="icon" 
@@ -956,9 +956,9 @@ const Navbarpostlogin = ({
                 onClick={onFilterToggle}
                 className="hover:bg-purple-600/20 hover:text-purple-400 transition-colors duration-200"
               >
-                {/* <Filter className="h-6 w-6 text-gray-300" /> */}
+                <Filter className="h-6 w-6 text-gray-300" />
               </Button>
-            )}
+            )} */}
             {showNavLinks && renderNotificationMenu()}
             { renderUserMenu()}
           </div>
@@ -983,7 +983,7 @@ const Navbarpostlogin = ({
               {showNavLinks && renderSplitShareNeeds()}
               {showNavLinks && renderSplitOnlineSession()}
               <div className="pt-4 border-t border-gray-700 flex space-x-4">
-                {onFilterToggle && (
+                {/* {onFilterToggle && (
                   <Button 
                     variant="ghost" 
                     size="icon" 
@@ -993,7 +993,7 @@ const Navbarpostlogin = ({
                   >
                     <Filter className="h-6 w-6 text-gray-300" />
                   </Button>
-                )}
+                )} */}
                 { showNavLinks &&renderNotificationMenu()}
                 {showNavLinks && renderUserMenu()}
               </div>

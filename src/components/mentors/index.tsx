@@ -4,6 +4,9 @@ import bhanu from "../../assets/Bhanu.png"
 import jayant from "../../assets/jayant.jpeg"
 import mandal from "../../assets/ankur_mandal.jpeg"
 import saurav from "../../assets/Saurav.png"
+import ashishG from "../../assets/AshishGupta.jpeg"
+import jainendraK from "../../assets/JainendraKumar.jpeg"
+import vivekanandaU from "../../assets/VivekanandaUppunda.png"
 
 "use client";
 
@@ -16,6 +19,9 @@ const mentors = [
   { name: "Bhanu Pratap", role: "Co-founder at Mediversal HealthCare", image: bhanu },
   { name: "Jayant Gandhi", role: "Co-founder at Mediversal HealthCare", image: jayant },
   { name: "Ankur Mandal", role: "DoppleIQ, IIM Calcutta", image: mandal },
+  { name: "Ashish Gupta", role: "Principal Product Manager, Microsoft, IIM Calcutta", image: ashishG },
+  { name: "Jainendra Kumar", role: "Senior Dev. Engineer, Microsoft", image: jainendraK },
+  { name: "Vivekananda Uppunda", role: "Co-founder Aayaama Technologies, Ex AWS, Motorola", image: vivekanandaU },
 ];
 
 export default function MentorsSection() {

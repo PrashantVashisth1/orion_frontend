@@ -37,7 +37,7 @@ const WebinarForm = ({ formData, setFormData }: WebinarFormProps) => (
     <div>
       <label className="block text-sm font-medium text-gray-200 mb-3">Audience Intended</label>
       <div className="flex gap-6">
-        {['Students', 'Professionals'].map((audience) => (
+        {['Students', 'Startups'].map((audience) => (
           <label key={audience} className="flex items-center gap-3 cursor-pointer">
             <Checkbox
               checked={formData.audience.includes(audience)}

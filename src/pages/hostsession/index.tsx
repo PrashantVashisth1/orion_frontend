@@ -12,6 +12,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from 'lucide-react';
 import type { EventType, EventFormData } from '@/components/hostsession-forms/types';
 import { useAuth } from '@/contexts/AuthContext';
+import Navbarpostlogin from '@/components/postlogincomponents/Navbarpostlogin';
 // import { toast } from '@/components/ui/use-toast';
 
 // Initial state for the combined form data
@@ -170,7 +171,11 @@ const HostSessionPage = () => {
   };
 
   return (
+    
+    <>
+    <Navbarpostlogin/>
     <div className="min-h-screen bg-gray-900 text-white p-8 sm:p-12 md:p-20">
+      
       <div className="max-w-4xl mx-auto bg-gray-800/60 backdrop-blur-sm rounded-2xl shadow-2xl p-6 sm:p-8 md:p-10 border border-gray-700/50">
         <h1 className="text-4xl font-extrabold text-center mb-10 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-600">
           Host a New Session
@@ -199,6 +204,7 @@ const HostSessionPage = () => {
         </form>
       </div>
     </div>
+    </>
   );
 };
 

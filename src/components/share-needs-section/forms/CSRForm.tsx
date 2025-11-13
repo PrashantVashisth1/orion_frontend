@@ -162,7 +162,7 @@ export const CSRForm = ({
         </div>
 
         <SubmitButton
-          onClick={() => onSubmit("csr-initiative")}
+          onClick={() => onSubmit("csr_initiative")}
           gradientFrom="from-rose-600"
           gradientTo="to-pink-700"
           emoji="❤️"
