@@ -294,7 +294,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { useState, useRef, useEffect } from "react";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { toast } from "react-hot-toast"; // <-- Using your react-hot-toast
 
 // --- NEW: Type for the review status ---
