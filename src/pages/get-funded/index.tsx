@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Menu } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { ResourcesSection } from "@/components/get-funded/ResourcesSection";
 import { AIPitchReviewSection } from "@/components/get-funded/AIPitchReviewSection";
 import { TrendingSection } from "@/components/get-funded/TrendingSection";
@@ -20,19 +18,15 @@ const GetFundedPage = () => {
 
   return (
     <div className="min-h-screen w-full bg-slate-900">
-      <Navbarpostlogin />
-      <div className="flex h-full">
-        {/* Toggle button for closed sidebar */}
-        {!isSidebarOpen && (
-          <Button
-            variant="ghost"
-            size="icon"
-            className="fixed left-4 top-4 z-40 bg-gray-800/50 text-gray-400 hover:bg-gray-800 hover:text-white"
-            onClick={toggleSidebar}
-          >
-            <Menu className="h-6 w-6" />
-          </Button>
-        )}
+      {/* Navbar with higher z-index and Sidebar Toggle */}
+      <div className="relative z-50">
+        <Navbarpostlogin 
+          onSidebarToggle={toggleSidebar}
+          showSidebarButton={true} 
+        />
+      </div>
+
+      <div className="flex h-full relative">
         <Sidebar
           isSidebarOpen={isSidebarOpen}
           activeSection={activeSection}
@@ -43,8 +37,10 @@ const GetFundedPage = () => {
         {/* Main Content */}
         <main
           className={cn(
-            "flex-1 overflow-y-auto p-8 transition-all duration-300 ease-in-out",
-            isSidebarOpen ? "ml-72" : "ml-0"
+            "flex-1 overflow-y-auto p-8 pt-24 transition-all duration-300 ease-in-out",
+            // Adjusted margin to match the new w-80 (320px) sidebar width
+            // 80 * 4px = 320px
+            isSidebarOpen ? "ml-80" : "ml-0"
           )}
         >
           <div className="mx-auto max-w-4xl">

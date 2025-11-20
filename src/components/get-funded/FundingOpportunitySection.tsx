@@ -655,12 +655,12 @@ export function FundingOpportunitySection() {
         <CardContent className="p-8">
           <div className="mb-12 space-y-4 text-center">
             <h2 className="text-3xl font-bold text-white">
-              Funding Opportunity:{" "}
-              <span className="text-purple-400">AI Pitch Review</span>
+              Your AI Lens To{" "}
+              <span className="text-purple-400">Investor's Thinking</span>
             </h2>
             <p className="text-xl text-gray-300">
-              Upload your pitch deck for a free AI-powered evaluation.
-              <br />
+              Upload your pitch deck to receive AI-Powered feedback.
+              <br /> 
               This service is available once every 24 hours.
             </p>
           </div>

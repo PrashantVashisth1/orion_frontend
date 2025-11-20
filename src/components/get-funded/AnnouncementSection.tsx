@@ -15,26 +15,26 @@ type Announcement = {
 };
 
 const sampleAnnouncements: Announcement[] = [
-  {
-    id: "1",
-    type: "investor",
-    title: "Welcoming our top Investor",
-    date: "2025-09-10",
-    content:
-      "We are excited to welcome one of the top venture capital firms to our platform.",
-    investor: {
-      name: "Volt VC",
-      profileUrl: "/investor/volt-vc",
-    },
-  },
-  {
-    id: "2",
-    type: "general",
-    title: "Upcoming Pitch Day",
-    date: "2025-09-08",
-    content:
-      "Join us for our monthly virtual pitch day. Selected startups will get a chance to present to our investor panel.",
-  },
+  // {
+  //   id: "1",
+  //   type: "investor",
+  //   title: "Welcoming our top Investor",
+  //   date: "2025-09-10",
+  //   content:
+  //     "We are excited to welcome one of the top venture capital firms to our platform.",
+  //   investor: {
+  //     name: "Volt VC",
+  //     profileUrl: "/investor/volt-vc",
+  //   },
+  // },
+  // {
+  //   id: "2",
+  //   type: "general",
+  //   title: "Upcoming Pitch Day",
+  //   date: "2025-09-08",
+  //   content:
+  //     "Join us for our monthly virtual pitch day. Selected startups will get a chance to present to our investor panel.",
+  // },
 ];
 
 export function AnnouncementSection() {

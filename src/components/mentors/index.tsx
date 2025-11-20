@@ -21,7 +21,7 @@ const mentors = [
   { name: "Ankur Mandal", role: "DoppleIQ, IIM Calcutta", image: mandal },
   { name: "Ashish Gupta", role: "Principal Product Manager, Microsoft, IIM Calcutta", image: ashishG },
   { name: "Jainendra Kumar", role: "Senior Dev. Engineer, Microsoft", image: jainendraK },
-  { name: "Vivekananda Uppunda", role: "Co-founder Aayaama Technologies, Ex AWS, Motorola", image: vivekanandaU },
+  { name: "Vivekananda Uppunda", role: "Co-founder Aayaama Technologies, Ex-Amazon Lab126, Ex-Motorola", image: vivekanandaU },
 ];
 
 export default function MentorsSection() {
