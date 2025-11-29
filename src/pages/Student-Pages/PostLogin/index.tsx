@@ -1,6 +1,6 @@
 import { useState } from "react"
 import TrendingSection from "../../../components/Students-Components/TrendingSection"
-import ActivityFeed from "../../../components/Students-Components/my-activity-feed"
+import ActivityFeed from "../../../components/feed/my-activity-feed"
 import Navbarpostlogin from "../../../components/Students-Components/StudentPostLoginNavbar"
 import FeedSidebar from "../../../components/feed/sidebar"
 import HomeBanner from "../../../components/Students-Components/HomeBanner"

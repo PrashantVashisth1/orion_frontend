@@ -21,8 +21,8 @@
 
 import Navbarpostlogin from '@/components/postlogincomponents/Navbarpostlogin'
 import Footer from '@/components/postlogincomponents/footer'
-import HeroSlider from '@/components/ViewSessionComponents/HeroSlider'
-import SessionsSection from '@/components/ViewSessionComponents/SessionSection'
+import HeroSlider from '@/components/Students-Components/ViewSessionComponents/HeroSlider'
+import SessionsSection from '@/components/Students-Components/ViewSessionComponents/SessionSection'
 import { useAuth } from '@/contexts/AuthContext' // 🟢 IMPORT useAuth
 
 function ViewSession() {

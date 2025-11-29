@@ -2,13 +2,13 @@ import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbarpostlogin from "@/components/Students-Components/StudentPostLoginNavbar";
 import Footer from "@/components/Students-Components/student-footer";
-import { NeedCard } from "@/components/Students-Components/ViewNeedsComponents/NeedCard";
+import { NeedCard } from "@/components/ViewNeedsComponent/NeedCard";
 import type { Need } from "@/components/ViewNeedsComponent/NeedCard";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { Plus, Loader2, Frown, Briefcase, Users, FlaskConical, Heart } from "lucide-react"; 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { NeedDetailsModal } from "@/components/Students-Components/ViewNeedsComponents/NeedDetailModel";
+import { NeedDetailsModal } from "@/components/ViewNeedsComponent/NeedDetailModal";
 
 // --- IMPORT STORE & MODALS ---
 import { useNeedsStore } from "@/store/needsStore";

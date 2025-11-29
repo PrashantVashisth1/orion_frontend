@@ -28,7 +28,7 @@ const TrendingSection = () => {
     const fetchTrendingPosts = async () => {
         try {
             setLoading(true);
-            const response = await fetch(`${import.meta.env.VITE_API_BASE}/api/trending-posts`);
+            const response = await fetch(`${import.meta.env.VITE_API_BASE}/trending-posts`);
             
             if (!response.ok) {
                 console.warn("API call failed, using placeholder data for visual demonstration.");

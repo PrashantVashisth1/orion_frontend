@@ -21,7 +21,7 @@ import StudentProfile from "./pages/Student-Pages/Profile";
 // import Prelogin from "./pages/postlogin"
 import ExplorePossibilities from "./pages/Student-Pages/Student-temp"
 import ShareProjectIdeas from "./pages/Student-Pages/share-project"
-import StudentCreatePost from "./pages/Student-Pages/Create-Post-Page"
+import CreatePost from "./pages/Student-Pages/Create-Post-Page"
 import StudentPostlogin from "./pages/Student-Pages/PostLogin"
 import PendingVerificationPage from './pages/pending-verification';
 import Prelogin from "./pages/master-page"
@@ -32,7 +32,7 @@ import EditProfile from "./pages/edit-profile";
 import EnhancedShareNeedsForm from "./pages/share-need-page";
 import StartupListing from "./pages/explore";
 import  ExploreStartup  from "./components/Students-Components/Explore-Section";
-import CreatePostPage from "./pages/my-create-post";
+// import CreatePostPage from "./pages/Student-Pages/Create-Post-Page";
 import GetFundedPage from "./pages/get-funded";
 import PublicProfilePage from './pages/public-profile';
 import { Rocket } from "lucide-react";
@@ -278,7 +278,7 @@ const App: React.FC = () => {
                 path="/create-post"
                 element={
                   <ProtectedRoute>
-                    <CreatePostPage />
+                    <CreatePost />
                   </ProtectedRoute>
                 }
               />
@@ -373,7 +373,7 @@ const App: React.FC = () => {
                 path="/students/create-posts"
                 element={
                   // <ProtectedRoute>
-                    <StudentCreatePost/>
+                    <CreatePost/>
                   //  </ProtectedRoute>
                 }
               />

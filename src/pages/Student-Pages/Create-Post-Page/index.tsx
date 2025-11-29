@@ -21,7 +21,10 @@ export default function CreatePostPage() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
   const { checkProfileForPost } = useProfileRequirement()
-
+  const handleGoBack = () => {
+    // Calling navigate(-1) simulates clicking the browser's back button.
+    navigate(-1);
+  };
   const {
     text,
     uploadedFiles,
@@ -47,7 +50,7 @@ export default function CreatePostPage() {
     if (!checkProfileForPost()) return
     const result = await handleSubmit()
     if (result?.success) {
-      navigate("/postlogin")
+      handleGoBack();
     }
   }
 
@@ -64,7 +67,7 @@ export default function CreatePostPage() {
         <div className="w-full flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <button
-              onClick={() => navigate("/students/postlogin")}
+              onClick={handleGoBack}
               className="p-2 hover:bg-gray-100 rounded-xl transition-all duration-200 group"
             >
               <ArrowLeft className="h-6 w-6 text-gray-600 group-hover:text-gray-900" />
