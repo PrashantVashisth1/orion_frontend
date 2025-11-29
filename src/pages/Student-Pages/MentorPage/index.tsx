@@ -7,7 +7,7 @@ import Footer from "../../../components/Students-Components/student-footer";
 const MentorPage = () => {
   return (
     <div className="font-sans bg-white text-gray-900">
-      <Navbar />
+      <Navbar onSidebarToggle={false} />
       <HeroSection />
       <MentorSection />
       <Footer />

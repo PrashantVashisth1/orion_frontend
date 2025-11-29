@@ -225,12 +225,20 @@ button:focus-visible {
   justify-content: center;
 }
 
+.mentor-swip .swiper-pagination {
+  position: relative !important;
+  bottom: 0 !important;
+  margin-top: 10px !important;
+}
+
+
+
 /* Responsive: move buttons closer on very small screens */
 @media (max-width: 640px) {
-  .mentor-swiper .swiper-button-prev {
+  .mentor-swip .swiper-button-prev {
     left: -1.25rem !important;
   }
-  .mentor-swiper .swiper-button-next {
+  .mentor-swip .swiper-button-next {
     right: -1.25rem !important;
   }
 }

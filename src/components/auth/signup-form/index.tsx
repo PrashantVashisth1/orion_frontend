@@ -955,7 +955,7 @@ export default function SignupForm({ onSwitchToLogin }: SignupFormProps) {
             Already have an account?{" "}
             <button
               onClick={onSwitchToLogin}
-              className="font-medium text-blue-400 hover:text-blue-300 transition-colors"
+              className="font-medium text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
             >
               Sign in
             </button>

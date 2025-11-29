@@ -40,6 +40,7 @@ type MentorProps = {
   avatar: string; // note: use `string` not `String`
   rating: number;
   bg?: string;
+  link : string;
 };
 
 const bgMap: Record<string, string> = {
@@ -49,12 +50,12 @@ const bgMap: Record<string, string> = {
 };
 
 const MentorCard: React.FC<{ mentor: MentorProps }> = ({ mentor }) => {
-  const { name, role, avatar, rating, bg } = mentor;
+  const { name, role, avatar, rating, bg,link } = mentor;
   const bgClass = bg ? bgMap[bg] ?? "bg-white" : "bg-white";
 
   return (
     <div
-      className={`${bgClass} rounded-2xl p-5 card-shadow w-80 h-50 md:w-64 flex flex-col justify-between`}
+      className={`${bgClass} rounded-2xl p-5 card-shadow  w-85 h-50 md:w-75 flex flex-col justify-between`}
       role="group"
     >
       <div className="flex items-start gap-4">
@@ -84,9 +85,9 @@ const MentorCard: React.FC<{ mentor: MentorProps }> = ({ mentor }) => {
         </div>
       </div>
 
-      <div className="mt-4 flex items-center justify-between">
-        <button className="text-sm px-3 py-2 border rounded-md">View Profile</button>
-        <button className="text-sm px-3 py-2 bg-[#0F172A] text-white rounded-md">Connect</button>
+      <div className="mt-4 ml-[32%] flex items-center justify-between">
+        <button className="text-sm text-white px-3 py-2 rounded-md cursor-pointer bg-black"><a href={link}>View Profile</a></button>
+        {/* <button className="text-sm px-3 py-2 bg-[#0F172A] text-white rounded-md cursor-pointer">Connect</button> */}
       </div>
     </div>
   );

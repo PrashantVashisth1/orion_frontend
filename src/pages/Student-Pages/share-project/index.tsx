@@ -190,7 +190,7 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 font-sans">
-      <Navbar/>
+      <Navbar onSidebarToggle={false}/>
       {/* Submission Modal */}
       <SubmissionModal
         isOpen={isModalOpen}

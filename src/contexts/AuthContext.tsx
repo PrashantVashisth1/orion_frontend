@@ -333,8 +333,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         
         // --- 🟢 MODIFICATION: Role-based redirection ---
         if (user.role === 'STUDENT') {
-          console.log(user.role,"user role");
-          navigate('/student-temp');
+          console.log(user.role,"user role login");
+          navigate('/students/edit-profile');
         } else if (user.role === 'STARTUP') {
           // This is our new startup logic
           if (user.is_startup_verified) {
@@ -400,7 +400,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       // --- 🟢 MODIFICATION: Role-based redirection after signup/verify ---
       if (user.role === 'STUDENT') {
         console.log(user.role,"user role");
-        navigate('/student-temp');
+        navigate('/students/postlogin');
       } else if (user.role === 'STARTUP') {
         // A new startup will always be false for both flags,
         // so this will correctly send them to /edit-profile.

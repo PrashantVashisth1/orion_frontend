@@ -24,7 +24,7 @@ const SectionCard: React.FC<{
       <div className="p-3 bg-gray-100 rounded-full">{icon}</div>
     </div>
     <p className="text-gray-600 mb-6">{description}</p>
-    <div className="flex items-center text-white font-medium bg-black py-3 px-22 rounded-lg">
+    <div className="flex items-center text-white font-medium bg-blue-500 py-3 px-22 rounded-lg">
       Go to {title}
       <ArrowRight className="h-5 w-5 ml-2" />
     </div>
@@ -36,12 +36,12 @@ const StudentTempPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 text-gray-800">
-      <Navbarpostlogin />
+      <Navbarpostlogin onSidebarToggle={false} />
 
       <main className="flex-grow container mx-auto px-4 py-16">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Welcome, {user?.full_name || "Student"}!
+            Welcome, <span className="bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 text-transparent bg-clip-text">{user?.full_name || "Student"} !</span>
           </h1>
           <p className="text-xl text-gray-600">
             Explore opportunities and resources available for you.

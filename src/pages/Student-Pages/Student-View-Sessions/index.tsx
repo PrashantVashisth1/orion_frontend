@@ -10,7 +10,7 @@ function ViewSession() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white via-indigo-50 to-purple-50 ">
-      <Navbarpostlogin />
+      <Navbarpostlogin onSidebarToggle={false} />
    
       {/* 🟢 PASS PROP TO HIDE HOST BUTTON FOR STUDENTS */}
       <HeroSlider isStudent={isStudent} /> 

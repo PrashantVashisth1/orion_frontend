@@ -43,7 +43,7 @@ export default function SocialFeedApp() {
       <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.04)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_60%,transparent_100%)] pointer-events-none"></div>
 
       {/* Header */}
-      <Navbarpostlogin/>
+      <Navbarpostlogin onSidebarToggle={false}/>
       {/* <img src={HomeHeader} className="h-[500px] w-[80%] m-auto" /> */}
       <HomeBanner/> 
       {/* Main Content */}

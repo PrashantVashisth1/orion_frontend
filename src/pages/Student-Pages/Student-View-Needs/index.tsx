@@ -52,7 +52,7 @@ export default function ViewNeedsPage() {
     const fetchNeeds = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`${apiBase}/api/needs?type=${activeType.toUpperCase()}`);
+        const response = await fetch(`${apiBase}/needs?type=${activeType.toUpperCase()}`);
         if (!response.ok) throw new Error('Failed to fetch needs.');
         
         const result = await response.json();
@@ -146,7 +146,7 @@ export default function ViewNeedsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      <Navbarpostlogin />
+      <Navbarpostlogin onSidebarToggle={false} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">View Needs</h1>

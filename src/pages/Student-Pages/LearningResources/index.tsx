@@ -115,7 +115,7 @@ const LearningResource: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-white text-gray-900">
-      <Navbar />
+      <Navbar onSidebarToggle={false} />
 
       <main className="flex-grow px-6 md:px-12 lg:px-20 py-10">
         {/* <h2 className="text-3xl font-semibold text-center mb-10">Learning Resource</h2> */}

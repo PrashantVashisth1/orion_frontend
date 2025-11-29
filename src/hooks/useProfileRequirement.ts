@@ -51,13 +51,20 @@
 import { useProfileCompletion } from '@/hooks/useStartupAPI';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast'; // Changed from useToast to react-hot-toast
+import { useAuth } from '@/contexts/AuthContext';
 
 export const useProfileRequirement = () => {
   const { data: completionData } = useProfileCompletion();
+  const {user} = useAuth();
   const isComplete = completionData?.isComplete || false;
   const navigate = useNavigate();
 
   const requireProfileCompletion = (action: string = 'perform this action') => {
+
+    if(user?.role !== 'STARTUP') {
+      return true;
+    }
+
     if (!isComplete) {
       toast.error(`Please complete your startup profile to ${action}`);
       navigate('/edit-profile');

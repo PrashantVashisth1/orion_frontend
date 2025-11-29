@@ -56,7 +56,7 @@ const AuthModals = () => {
         <DialogContent className="sm:max-w-lg border-0 shadow-2xl max-h-[90vh] overflow-y-auto bg-gray-900">
           <DialogHeader className="text-center">
             <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Join StartupHub
+              Join OmVerg
             </DialogTitle>
             <DialogDescription className="text-gray-600">Create your account and start your journey</DialogDescription>
           </DialogHeader>

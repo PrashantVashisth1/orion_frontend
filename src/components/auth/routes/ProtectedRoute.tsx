@@ -91,7 +91,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   if (user?.role === 'STUDENT') {
     // If a student lands on the startup dashboard (/postlogin)
     if (location.pathname === '/postlogin') {
-      return <Navigate to="/student-temp" replace />;
+      return <Navigate to="/students/postlogin" replace />;
     }
     // Student is on a correct page (e.g., /student-temp or /share-need)
     return <>{children}</>;

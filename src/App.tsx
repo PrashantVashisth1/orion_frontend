@@ -7,6 +7,7 @@ import {
   Outlet,
 } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
+// import { StudentProfileProvider } from "./contexts/StudentProfileContext";
 // import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
 import { queryClient } from "@/lib/my-api-client";
@@ -15,19 +16,22 @@ import MentorPage from "./pages/Student-Pages/MentorPage"
 import StudentViewNeeds from "./pages/Student-Pages/Student-View-Needs"
 import StudentViewSessions from "./pages/Student-Pages/Student-View-Sessions"
 import LearningResources from "./pages/Student-Pages/LearningResources"
-// import Prelogin from "./pages/prelogin"
+import StudentEditProfile from "./pages/Student-Pages/edit-profile/index"
+import StudentProfile from "./pages/Student-Pages/Profile";
 // import Prelogin from "./pages/postlogin"
 import ExplorePossibilities from "./pages/Student-Pages/Student-temp"
 import ShareProjectIdeas from "./pages/Student-Pages/share-project"
 import StudentCreatePost from "./pages/Student-Pages/Create-Post-Page"
 import StudentPostlogin from "./pages/Student-Pages/PostLogin"
 import PendingVerificationPage from './pages/pending-verification';
-import Prelogin from "./pages/prelogin"
+import Prelogin from "./pages/master-page"
+import StartupPrelogin from './pages/prelogin';
 import HomePage from "./pages/postlogin";
 import ProfilePage from "./pages/profile";
 import EditProfile from "./pages/edit-profile";
 import EnhancedShareNeedsForm from "./pages/share-need-page";
 import StartupListing from "./pages/explore";
+import  ExploreStartup  from "./components/Students-Components/Explore-Section";
 import CreatePostPage from "./pages/my-create-post";
 import GetFundedPage from "./pages/get-funded";
 import PublicProfilePage from './pages/public-profile';
@@ -45,6 +49,7 @@ import UserActivitiesPage from "./pages/my-activities/index";
 import ResetPasswordPage from "./pages/reset-password";
 import StudentTempPage from "./pages/student-temp";
 
+localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTc2MzQ3MzEwNCwiZXhwIjoxNzY0MDc3OTA0fQ._a_MQMtuNw5a79U_19_89wM-vwhJbOYmXlBmduNW20Y");
 
 // We use this for /edit-profile and /pending-verification
 const AuthCheckLayout = () => {
@@ -108,7 +113,9 @@ const App: React.FC = () => {
 
               {/* We wrap /edit-profile and /pending-verification here */}
           <Route element={<AuthCheckLayout />}>
-            <Route path="/edit-profile" element={<EditProfile />} />
+            <Route path="/edit-profile" element={
+              <EditProfile />
+              } />
             <Route path="/pending-verification" element={<PendingVerificationPage />} />
           </Route>
 
@@ -120,6 +127,7 @@ const App: React.FC = () => {
                   </ProtectedRoute>
                 }
               />
+
 
               <Route
             path="/profile/:userId" // Use /users/ or keep /profile/ if you deleted the old one
@@ -157,6 +165,24 @@ const App: React.FC = () => {
                 element={
                   <ProtectedRoute>
                     <EditProfile />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/students/edit-profile"
+                element={
+                  <ProtectedRoute>
+                    <StudentEditProfile />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/students/profile"
+                element={
+                  <ProtectedRoute>
+                    <StudentProfile />
                   </ProtectedRoute>
                 }
               />
@@ -200,6 +226,14 @@ const App: React.FC = () => {
                 element={
                   <ProtectedRoute>
                     <StartupListing />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/explore-startup"
+                element={
+                  <ProtectedRoute>
+                    <ExploreStartup />
                   </ProtectedRoute>
                 }
               />
@@ -262,6 +296,13 @@ const App: React.FC = () => {
                 path="/students/prelogin"
                 element={
                     <StudentPrelogin/>
+                }
+              />
+
+              <Route
+                path="/startup/prelogin"
+                element={
+                    <StartupPrelogin/>
                 }
               />
 

@@ -164,7 +164,7 @@ export default function LoginForm({
             Don't have an account?{" "}
             <button
               onClick={onSwitchToSignup}
-              className="font-medium text-blue-400 hover:text-blue-300 transition-colors"
+              className="font-medium text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
               disabled={isLoading}
             >
               Sign up
