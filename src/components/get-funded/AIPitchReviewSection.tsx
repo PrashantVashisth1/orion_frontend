@@ -154,15 +154,75 @@
 //   );
 // }
 
+
+// dark-theme
+// import { Card } from "@/components/ui/card";
+// import AutonLogo from "@/assets/auton-logo.png";
+
+// export function AIPitchReviewSection() {
+
+//   // Smaller "Coming Soon" indicator for Auton
+//   const SmallComingSoonIndicator = () => (
+//     <div className="mt-6 flex justify-start"> {/* Align left to match text flow */}
+//       <div className="rounded-full bg-purple-600 px-4 py-2 text-sm font-semibold text-white">
+//         Coming Soon
+//       </div>
+//     </div>
+//   );
+
+//   return (
+//     <div className="space-y-6">
+//       <Card className="border-gray-700 bg-gray-800/50 overflow-hidden">
+//         <div className="grid grid-cols-1 md:grid-cols-2 min-h-[300px]">
+          
+//           {/* Left Column: Text + Coming Soon */}
+//           <div className="flex flex-col justify-center p-8 md:p-12">
+//             {/* Added title that was previously in the Tab Trigger */}
+//             <h2 className="text-2xl font-bold text-white mb-4">
+//               A**** — Your AI Companion
+//             </h2>
+            
+//             <p className="text-gray-400 mb-6 text-lg leading-relaxed">
+//               <span className="font-bold text-white">A****</span> is a personalized,{" "}
+//               <span className="font-bold text-white">
+//                 strategic, data-driven, and emotionally intelligent
+//               </span>{" "}
+//               AI Companion that helps founders navigate their startup journey —
+//               intelligently, proactively, and personally.
+//             </p>
+            
+//             <p className="mt-2 text-gray-300 italic">
+//               “Peace of mind and a piece of intelligence — for every founder.”
+//             </p>
+            
+//             <SmallComingSoonIndicator />
+//           </div>
+
+//           {/* Right Column: Image */}
+//           <div className="relative flex items-center justify-center bg-gradient-to-br from-gray-700/50 to-gray-800/30 w-full p-6">
+//             <img
+//               src={AutonLogo}
+//               alt="Auton Logo"
+//               className="w-full h-auto object-fill"
+//               style={{ maxHeight: "400px" }}
+//             />
+//           </div>
+//         </div>
+//       </Card>
+//     </div>
+//   );
+// }
+
+// light-theme
 import { Card } from "@/components/ui/card";
 import AutonLogo from "@/assets/auton-logo.png";
 
 export function AIPitchReviewSection() {
 
-  // Smaller "Coming Soon" indicator for Auton
   const SmallComingSoonIndicator = () => (
-    <div className="mt-6 flex justify-start"> {/* Align left to match text flow */}
-      <div className="rounded-full bg-purple-600 px-4 py-2 text-sm font-semibold text-white">
+    <div className="mt-6 flex justify-start"> 
+      {/* Changed badge to Blue */}
+      <div className="rounded-full bg-blue-600 px-4 py-2 text-sm font-bold text-white shadow-md shadow-blue-200">
         Coming Soon
       </div>
     </div>
@@ -170,38 +230,37 @@ export function AIPitchReviewSection() {
 
   return (
     <div className="space-y-6">
-      <Card className="border-gray-700 bg-gray-800/50 overflow-hidden">
+      <Card className="border-slate-200 bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow">
         <div className="grid grid-cols-1 md:grid-cols-2 min-h-[300px]">
           
-          {/* Left Column: Text + Coming Soon */}
           <div className="flex flex-col justify-center p-8 md:p-12">
-            {/* Added title that was previously in the Tab Trigger */}
-            <h2 className="text-2xl font-bold text-white mb-4">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4 tracking-tight">
               A**** — Your AI Companion
             </h2>
             
-            <p className="text-gray-400 mb-6 text-lg leading-relaxed">
-              <span className="font-bold text-white">A****</span> is a personalized,{" "}
-              <span className="font-bold text-white">
+            <p className="text-slate-600 mb-6 text-lg leading-relaxed">
+              <span className="font-bold text-slate-900">A****</span> is a personalized,{" "}
+              <span className="font-bold text-slate-900">
                 strategic, data-driven, and emotionally intelligent
               </span>{" "}
               AI Companion that helps founders navigate their startup journey —
               intelligently, proactively, and personally.
             </p>
             
-            <p className="mt-2 text-gray-300 italic">
+            <p className="mt-2 text-slate-500 italic font-medium">
               “Peace of mind and a piece of intelligence — for every founder.”
             </p>
             
             <SmallComingSoonIndicator />
           </div>
 
-          {/* Right Column: Image */}
-          <div className="relative flex items-center justify-center bg-gradient-to-br from-gray-700/50 to-gray-800/30 w-full p-6">
+          {/* Changed right column gradient to Blue tint */}
+          <div className="relative flex items-center justify-center bg-gradient-to-br from-blue-50 to-slate-50 border-l border-slate-100 w-full p-8">
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
             <img
               src={AutonLogo}
               alt="Auton Logo"
-              className="w-full h-auto object-fill"
+              className="w-full h-auto object-fill relative  drop-shadow-xl"
               style={{ maxHeight: "400px" }}
             />
           </div>

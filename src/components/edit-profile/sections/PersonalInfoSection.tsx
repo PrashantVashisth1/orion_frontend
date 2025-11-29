@@ -1,3 +1,6 @@
+
+
+
 // import { useState, useEffect } from "react"
 // import { Card, CardHeader, CardContent } from "@/components/ui/card"
 // import { Input } from "@/components/ui/input"
@@ -31,6 +34,9 @@
 //     profilePicture: ''
 //   });
 
+//   // Local preview state so UI updates immediately after successful upload
+//   const [profilePreview, setProfilePreview] = useState<string>('');
+
 //   // Load existing data when profile changes
 //   useEffect(() => {
 //     // Check if profileData exists and has the personalInfo section
@@ -48,8 +54,20 @@
 //         bio: personalInfo.bio || '',
 //         profilePicture: personalInfo.profilePicture || ''
 //       });
+
+//       // also set preview if there's an existing profile picture
+//       if (personalInfo.profilePicture) {
+//         setProfilePreview(personalInfo.profilePicture);
+//       }
 //     }
 //   }, [profile]);
+
+//   // Log when profilePicture actually changes after re-render (verification)
+//   useEffect(() => {
+//     if (formData.profilePicture) {
+//       console.log("useEffect: profilePicture changed to:", formData.profilePicture);
+//     }
+//   }, [formData.profilePicture]);
 
 //   const handleInputChange = (field: keyof PersonalInfo, value: string) => {
 //     setFormData(prev => ({
@@ -65,6 +83,7 @@
 //     // Validate file type
 //     if (!file.type.startsWith('image/')) {
 //       toast.error('Please select a valid image file');
+//       return;
 //     }
 
 //     // Validate file size (max 5MB)
@@ -75,10 +94,29 @@
 
 //     try {
 //       const result = await uploadImage({ file, type: 'profile' });
-//       setFormData(prev => ({
-//         ...prev,
-//         profilePicture: result.url
-//       }));
+
+//       // Normalize result shape safely to avoid TS errors:
+//       // support both result.data.url (axios-like) and result.url (simple shape).
+//       const res: any = result;
+//       const uploadedUrl: string = res?.data?.url || res?.url || '';
+
+//       // Build a cache-busting preview URL so the browser doesn't show a stale cached image
+//       const previewUrl = uploadedUrl ? `${uploadedUrl}?t=${Date.now()}` : '';
+
+//       // Log and set the next state synchronously inside the functional updater
+//       setFormData(prev => {
+//         const next = {
+//           ...prev,
+//           profilePicture: uploadedUrl
+//         };
+//         console.log("next state to set:", next);
+//         return next;
+//       });
+
+//       // Immediately update preview state used by the UI
+//       setProfilePreview(previewUrl);
+
+//       console.log("formData after profile upload (immediate post-set log will still show previous until re-render):", formData);
 //       toast.success('Profile picture uploaded successfully');
 //     } catch (err) {
 //       toast.error('Failed to upload profile picture');
@@ -101,12 +139,12 @@
 //           onSectionChange('business-details');
 //         }
 //       }, 1000);
-//     } catch (err) {
+//     } catch (err: any) {
 //       toast.error('Failed to update personal information');
 //     }
 //   };
 
-//   const isFormValid = formData.firstName && formData.lastName && formData.email && formData.phone && formData.location;
+//   const isFormValid = formData.firstName && formData.email && formData.phone;
 //   const isLoading = isUpdating || isUploading;
 //   return (
 //     <div className="relative z-10 p-6 px-[154px] py-[60px]">
@@ -130,7 +168,7 @@
 //             <div className="flex items-center space-x-6">
 //               <div className="relative w-24 h-24 rounded-full border-2 border-zinc-700 flex items-center justify-center overflow-hidden">
 //                 <Avatar className="w-full h-full">
-//                   <AvatarImage src={formData.profilePicture || "/placeholder.svg?height=96&width=96"} alt="Profile Picture" />
+//                   <AvatarImage src={profilePreview || formData.profilePicture || "/placeholder.svg?height=96&width=96"} alt="Profile Picture" />
 //                   <AvatarFallback>
 //                     {formData.firstName?.[0]?.toUpperCase() || 'U'}{formData.lastName?.[0]?.toUpperCase() || 'U'}
 //                   </AvatarFallback>
@@ -187,7 +225,7 @@
 //               </div>
 //               <div className="space-y-2">
 //                 <Label htmlFor="last-name" className="text-zinc-300">
-//                   Last Name *
+//                   Last Name 
 //                 </Label>
 //                 <Input
 //                   id="last-name"
@@ -231,7 +269,7 @@
 //               </div>
 //               <div className="space-y-2">
 //                 <Label htmlFor="location" className="text-zinc-300">
-//                   Location *
+//                   Location 
 //                 </Label>
 //                 <div className="relative">
 //                   <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -320,8 +358,7 @@
 //       </Card>
 //     </div>
 //   )
-// } 
-
+// }
 
 import { useState, useEffect } from "react"
 import { Card, CardHeader, CardContent } from "@/components/ui/card"
@@ -331,7 +368,7 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { User, Upload, Mail, Phone, MapPin, Globe, Calendar, Loader2 } from "lucide-react"
-import { useUpdateProfileSection, useUploadImage,useStartupProfile } from "@/hooks/useStartupAPI"
+import { useUpdateProfileSection, useUploadImage, useStartupProfile } from "@/hooks/useStartupAPI"
 import type { PersonalInfo } from "@/types/startup"
 import { toast } from 'react-hot-toast';
 
@@ -340,7 +377,7 @@ interface PersonalInfoSectionProps {
 }
 
 export default function PersonalInfoSection({ onSectionChange }: PersonalInfoSectionProps) {
-  const { data: profile} = useStartupProfile();
+  const { data: profile } = useStartupProfile();
   const { mutateAsync: updateSection, isPending: isUpdating } = useUpdateProfileSection();
   const { mutateAsync: uploadImage, isPending: isUploading } = useUploadImage();
 
@@ -361,10 +398,8 @@ export default function PersonalInfoSection({ onSectionChange }: PersonalInfoSec
 
   // Load existing data when profile changes
   useEffect(() => {
-    // Check if profileData exists and has the personalInfo section
     if (profile?.data?.personalInfo) {
       const personalInfo = profile?.data?.personalInfo;
-      console.log(personalInfo);
       setFormData({
         firstName: personalInfo.firstName || '',
         lastName: personalInfo.lastName || '',
@@ -377,19 +412,11 @@ export default function PersonalInfoSection({ onSectionChange }: PersonalInfoSec
         profilePicture: personalInfo.profilePicture || ''
       });
 
-      // also set preview if there's an existing profile picture
       if (personalInfo.profilePicture) {
         setProfilePreview(personalInfo.profilePicture);
       }
     }
   }, [profile]);
-
-  // Log when profilePicture actually changes after re-render (verification)
-  useEffect(() => {
-    if (formData.profilePicture) {
-      console.log("useEffect: profilePicture changed to:", formData.profilePicture);
-    }
-  }, [formData.profilePicture]);
 
   const handleInputChange = (field: keyof PersonalInfo, value: string) => {
     setFormData(prev => ({
@@ -402,13 +429,11 @@ export default function PersonalInfoSection({ onSectionChange }: PersonalInfoSec
     const file = event.target.files?.[0];
     if (!file) return;
 
-    // Validate file type
     if (!file.type.startsWith('image/')) {
       toast.error('Please select a valid image file');
       return;
     }
 
-    // Validate file size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
       toast.error('Image size must be less than 5MB');
       return;
@@ -416,29 +441,16 @@ export default function PersonalInfoSection({ onSectionChange }: PersonalInfoSec
 
     try {
       const result = await uploadImage({ file, type: 'profile' });
-
-      // Normalize result shape safely to avoid TS errors:
-      // support both result.data.url (axios-like) and result.url (simple shape).
       const res: any = result;
       const uploadedUrl: string = res?.data?.url || res?.url || '';
-
-      // Build a cache-busting preview URL so the browser doesn't show a stale cached image
       const previewUrl = uploadedUrl ? `${uploadedUrl}?t=${Date.now()}` : '';
 
-      // Log and set the next state synchronously inside the functional updater
-      setFormData(prev => {
-        const next = {
-          ...prev,
-          profilePicture: uploadedUrl
-        };
-        console.log("next state to set:", next);
-        return next;
-      });
+      setFormData(prev => ({
+        ...prev,
+        profilePicture: uploadedUrl
+      }));
 
-      // Immediately update preview state used by the UI
       setProfilePreview(previewUrl);
-
-      console.log("formData after profile upload (immediate post-set log will still show previous until re-render):", formData);
       toast.success('Profile picture uploaded successfully');
     } catch (err) {
       toast.error('Failed to upload profile picture');
@@ -448,14 +460,13 @@ export default function PersonalInfoSection({ onSectionChange }: PersonalInfoSec
   const handleSubmit = async () => {
     try {
       const payload = {
-      ...formData,
-      birthDate: formData.birthDate 
-        ? new Date(formData.birthDate).toISOString() 
-        : null
-    };
+        ...formData,
+        birthDate: formData.birthDate
+          ? new Date(formData.birthDate).toISOString()
+          : null
+      };
       await updateSection({ section: 'personalInfo', data: payload });
       toast.success('Personal information updated successfully');
-      // Automatically navigate to next section after successful save
       setTimeout(() => {
         if (onSectionChange) {
           onSectionChange('business-details');
@@ -468,37 +479,38 @@ export default function PersonalInfoSection({ onSectionChange }: PersonalInfoSec
 
   const isFormValid = formData.firstName && formData.email && formData.phone;
   const isLoading = isUpdating || isUploading;
+
   return (
     <div className="relative z-10 p-6 px-[154px] py-[60px]">
-      <Card className="w-[800px] mx-auto bg-zinc-900 text-white shadow-lg border-0 before:hidden hover:shadow-lg hover:ring-0 transition-none">
-        <CardHeader className="bg-gradient-to-r from-purple-800 to-pink-900 p-6 rounded-t-lg">
+      <Card className="w-[800px] mx-auto bg-white text-slate-900 shadow-md border border-slate-200 transition-none">
+        <CardHeader className="bg-gradient-to-r from-blue-500 to-blue-600 p-6 rounded-t-xl text-white">
           <div className="flex items-center space-x-3">
             <User className="h-6 w-6" />
             <div>
               <h2 className="text-3xl font-bold">Personal Information</h2>
-              <p className="text-sm text-zinc-300">Update your personal details and contact information</p>
+              <p className="text-sm text-purple-100">Update your personal details and contact information</p>
             </div>
           </div>
         </CardHeader>
-        <CardContent className="p-6 space-y-8 bg-zinc-900">
+        <CardContent className="p-6 space-y-8 bg-white">
           {/* Profile Picture Section */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2 text-lg font-semibold text-white">
+            <div className="flex items-center gap-2 text-lg font-semibold text-slate-900">
               <User className="w-5 h-5" />
               Profile Picture
             </div>
             <div className="flex items-center space-x-6">
-              <div className="relative w-24 h-24 rounded-full border-2 border-zinc-700 flex items-center justify-center overflow-hidden">
+              <div className="relative w-24 h-24 rounded-full border-2 border-slate-200 flex items-center justify-center overflow-hidden bg-slate-50">
                 <Avatar className="w-full h-full">
                   <AvatarImage src={profilePreview || formData.profilePicture || "/placeholder.svg?height=96&width=96"} alt="Profile Picture" />
-                  <AvatarFallback>
+                  <AvatarFallback className="bg-slate-100 text-slate-500">
                     {formData.firstName?.[0]?.toUpperCase() || 'U'}{formData.lastName?.[0]?.toUpperCase() || 'U'}
                   </AvatarFallback>
                 </Avatar>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute bottom-0 right-0 bg-zinc-800/70 rounded-full p-1"
+                  className="absolute bottom-0 right-0 bg-slate-900/70 hover:bg-slate-900/90 rounded-full p-1"
                   onClick={() => document.getElementById('profile-picture-input')?.click()}
                   disabled={isUploading}
                 >
@@ -518,23 +530,23 @@ export default function PersonalInfoSection({ onSectionChange }: PersonalInfoSec
                 />
               </div>
               <div className="space-y-2">
-                <p className="text-sm text-zinc-400">Upload a professional photo</p>
-                <Button variant="link" className="text-purple-400 p-0 h-auto">
+                <p className="text-sm text-slate-500">Upload a professional photo</p>
+                {/* <Button variant="link" className="text-blue-600 p-0 h-auto font-semibold">
                   Change Photo
-                </Button>
+                </Button> */}
               </div>
             </div>
           </div>
 
           {/* Basic Information */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2 text-lg font-semibold text-white">
+            <div className="flex items-center gap-2 text-lg font-semibold text-slate-900">
               <User className="w-5 h-5" />
               Basic Information
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="first-name" className="text-zinc-300">
+                <Label htmlFor="first-name" className="text-slate-700">
                   First Name *
                 </Label>
                 <Input
@@ -542,96 +554,96 @@ export default function PersonalInfoSection({ onSectionChange }: PersonalInfoSec
                   placeholder="John"
                   value={formData.firstName}
                   onChange={(e) => handleInputChange('firstName', e.target.value)}
-                  className="bg-zinc-800 border-zinc-700 text-white"
+                  className="bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-purple-500"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="last-name" className="text-zinc-300">
-                  Last Name 
+                <Label htmlFor="last-name" className="text-slate-700">
+                  Last Name
                 </Label>
                 <Input
                   id="last-name"
                   placeholder="Doe"
                   value={formData.lastName}
                   onChange={(e) => handleInputChange('lastName', e.target.value)}
-                  className="bg-zinc-800 border-zinc-700 text-white"
+                  className="bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-purple-500"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-zinc-300">
+                <Label htmlFor="email" className="text-slate-700">
                   Email Address *
                 </Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
                   <Input
                     id="email"
                     placeholder="john.doe@example.com"
                     type="email"
                     value={formData.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
-                    className="bg-zinc-800 border-zinc-700 text-white pl-10"
+                    className="bg-white border-slate-200 text-slate-900 pl-10 placeholder:text-slate-400 focus:border-purple-500"
                   />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="phone" className="text-zinc-300">
+                <Label htmlFor="phone" className="text-slate-700">
                   Phone Number *
                 </Label>
                 <div className="relative">
-                  <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
                   <Input
                     id="phone"
                     placeholder="+1 (555) 123-4567"
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => handleInputChange('phone', e.target.value)}
-                    className="bg-zinc-800 border-zinc-700 text-white pl-10"
+                    className="bg-white border-slate-200 text-slate-900 pl-10 placeholder:text-slate-400 focus:border-purple-500"
                   />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="location" className="text-zinc-300">
-                  Location 
+                <Label htmlFor="location" className="text-slate-700">
+                  Location
                 </Label>
                 <div className="relative">
-                  <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
                   <Input
                     id="location"
                     placeholder="City, Country"
                     value={formData.location}
                     onChange={(e) => handleInputChange('location', e.target.value)}
-                    className="bg-zinc-800 border-zinc-700 text-white pl-10"
+                    className="bg-white border-slate-200 text-slate-900 pl-10 placeholder:text-slate-400 focus:border-purple-500"
                   />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="website" className="text-zinc-300">
+                <Label htmlFor="website" className="text-slate-700">
                   Personal Website
                 </Label>
                 <div className="relative">
-                  <Globe className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Globe className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
                   <Input
                     id="website"
                     placeholder="https://yourwebsite.com"
                     type="url"
                     value={formData.website || ''}
                     onChange={(e) => handleInputChange('website', e.target.value)}
-                    className="bg-zinc-800 border-zinc-700 text-white pl-10"
+                    className="bg-white border-slate-200 text-slate-900 pl-10 placeholder:text-slate-400 focus:border-purple-500"
                   />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="birth-date" className="text-zinc-300">
+                <Label htmlFor="birth-date" className="text-slate-700">
                   Date of Birth
                 </Label>
                 <div className="relative">
-                  <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
                   <Input
                     id="birth-date"
                     type="date"
                     value={formData.birthDate || ''}
                     onChange={(e) => handleInputChange('birthDate', e.target.value)}
-                    className="bg-zinc-800 border-zinc-700 text-white pl-10"
+                    className="bg-white border-slate-200 text-slate-900 pl-10 placeholder:text-slate-400 focus:border-purple-500"
                   />
                 </div>
               </div>
@@ -640,12 +652,12 @@ export default function PersonalInfoSection({ onSectionChange }: PersonalInfoSec
 
           {/* Bio Section */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2 text-lg font-semibold text-white">
+            <div className="flex items-center gap-2 text-lg font-semibold text-slate-900">
               <User className="w-5 h-5" />
               Bio
             </div>
             <div className="space-y-2">
-              <Label htmlFor="bio" className="text-zinc-300">
+              <Label htmlFor="bio" className="text-slate-700">
                 About You
               </Label>
               <Textarea
@@ -654,17 +666,17 @@ export default function PersonalInfoSection({ onSectionChange }: PersonalInfoSec
                 rows={4}
                 value={formData.bio || ''}
                 onChange={(e) => handleInputChange('bio', e.target.value)}
-                className="bg-zinc-800 border-zinc-700 text-white"
+                className="bg-white border-slate-200 text-slate-900 placeholder:text-slate-400 focus:border-purple-500"
               />
             </div>
           </div>
 
           {/* Save Button */}
           <div className="flex justify-end pt-6">
-            <Button 
+            <Button
               onClick={handleSubmit}
               disabled={!isFormValid || isLoading}
-              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-gradient-to-r from-blue-600 to-blue-600 hover:from-blue-700 hover:to-blue-700 text-white font-semibold py-3 px-8 rounded-xl shadow-md transform hover:scale-101 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               {isLoading ? (
                 <>

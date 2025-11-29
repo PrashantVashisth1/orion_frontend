@@ -289,15 +289,404 @@
 //   );
 // }
 
-import { Upload, X, Loader2 } from "lucide-react";
+
+
+
+
+// dark-theme
+// import { Upload, X, Loader2 } from "lucide-react";
+// import { Button } from "@/components/ui/button";
+// import { Card, CardContent } from "@/components/ui/card";
+// import { cn } from "@/lib/utils";
+// import { useState, useRef, useEffect } from "react";
+// import { useAuth } from "../../contexts/AuthContext";
+// import { toast } from "react-hot-toast"; // <-- Using your react-hot-toast
+
+// // --- NEW: Type for the review status ---
+// type ReviewStatus = {
+//   canSubmit: boolean;
+//   lastSubmission: {
+//     pdfUrl: string;
+//     date: string;
+//   } | null;
+//   message?: string;
+// };
+
+// export function FundingOpportunitySection() {
+//   const [isDragging, setIsDragging] = useState(false);
+//   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+//   const fileInputRef = useRef<HTMLInputElement>(null);
+//   const { user } = useAuth(); // <-- Using your AuthContext for the user object
+//   const [isUploading, setIsUploading] = useState(false);
+
+//   // --- NEW: State for the AI review feature ---
+//   const [reviewStatus, setReviewStatus] = useState<ReviewStatus | null>(null);
+//   const [isCheckingStatus, setIsCheckingStatus] = useState(true);
+
+//   // --- NEW: useEffect to check the user's status on load ---
+//   useEffect(() => {
+//     // Don't check status until the user is loaded
+//     if (!user) {
+//       setIsCheckingStatus(false); // Stop loading if no user
+//       setReviewStatus(null); // Clear any old status
+//       return;
+//     }
+
+//     const checkStatus = async () => {
+//       setIsCheckingStatus(true);
+//       const url = `${import.meta.env.VITE_API_BASE || 'http://localhost:3000'}/get-funded/pitch-review-status`;
+//       const token = localStorage.getItem('token');
+//       const headers = new Headers();
+
+//       if (token && token !== 'undefined') {
+//         headers.set('Authorization', `Bearer ${token}`);
+//       }
+
+//       try {
+//         const response = await fetch(url, {
+//           method: 'GET',
+//           headers: headers,
+//         });
+
+//         const data = await response.json();
+
+//         if (!response.ok) {
+//           throw new Error(data.message || 'Could not fetch review status.');
+//         }
+
+//         setReviewStatus(data);
+//       } catch (error: any) {
+//         toast.error(error.message || 'Failed to get review status.');
+//       } finally {
+//         setIsCheckingStatus(false);
+//       }
+//     };
+
+//     checkStatus();
+//   }, [user]); // Re-run when the user logs in
+
+//   // --- (Your existing file handling logic - no changes) ---
+//   const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
+//     e.preventDefault();
+//     setIsDragging(true);
+//   };
+
+//   const handleDragLeave = (e: React.DragEvent<HTMLLabelElement>) => {
+//     e.preventDefault();
+//     setIsDragging(false);
+//   };
+
+//   const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
+//     e.preventDefault();
+//     setIsDragging(false);
+//     const file = e.dataTransfer.files[0];
+//     if (file) {
+//       validateAndSetFile(file);
+//     }
+//   };
+
+//   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     const file = e.target.files?.[0];
+//     if (file) {
+//       validateAndSetFile(file);
+//     }
+//   };
+
+//   const validateAndSetFile = (file: File) => {
+//     const validTypes = [".pdf", ".pptx", ".ppt"];
+//     const fileExtension = "." + file.name.split(".").pop()?.toLowerCase();
+//     if (!validTypes.includes(fileExtension)) {
+//       toast.error("Please upload a PDF or PowerPoint file.");
+//       return;
+//     }
+//     if (file.size > 20 * 1024 * 1024) { // 20MB limit
+//       toast.error("File size should be less than 20MB.");
+//       return;
+//     }
+//     setSelectedFile(file);
+//   };
+
+//   const removeFile = () => {
+//     setSelectedFile(null);
+//     if (fileInputRef.current) {
+//       fileInputRef.current.value = "";
+//     }
+//   };
+
+//   // --- UPDATED: This is your handleUpload, renamed and repointed ---
+//   const handleSubmitReview = async () => {
+//     if (!selectedFile) {
+//       toast.error("Please select a pitch deck file first.");
+//       return;
+//     }
+//     if (!user) {
+//       toast.error("Please log in to submit a review.");
+//       return;
+//     }
+
+//     setIsUploading(true);
+//     const toastId = toast.loading("Submitting for AI review...");
+
+//     // --- NEW: Set status to PENDING immediately on the frontend ---
+//     // This stops the user from submitting twice
+//     setReviewStatus({
+//       canSubmit: false,
+//       lastSubmission: null,
+//       message: 'Your submission is processing. Please wait...',
+//     });
+
+//     const formData = new FormData();
+//     formData.append("pitchDeck", selectedFile);
+
+//     // --- NEW: Pointing to the new endpoint ---
+//     const url = `${import.meta.env.VITE_API_BASE || 'http://localhost:3000'}/get-funded/submit-pitch-review`;
+//     const token = localStorage.getItem('token');
+//     const headers = new Headers();
+
+//     if (token && token !== 'undefined') {
+//       headers.set('Authorization', `Bearer ${token}`);
+//     }
+    
+//     try {
+//       const response = await fetch(url, {
+//         method: 'POST',
+//         headers: headers,
+//         body: formData,
+//       });
+
+//       const responseData = await response.json();
+
+//       if (!response.ok) {
+//         throw new Error(responseData.message || responseData.error || `HTTP error! status: ${response.status}`);
+//       }
+      
+//       // --- NEW: On success, update the UI status ---
+//       toast.success(responseData.message || "Review successful! You can download it now.", {
+//         id: toastId,
+//       });
+
+//       // Set the final "COMPLETED" state
+//       setReviewStatus({
+//         canSubmit: false,
+//         lastSubmission: { pdfUrl: responseData.downloadUrl, date: new Date().toISOString() },
+//         message: 'You can submit a new review in 24 hours.',
+//       });
+//       removeFile(); // Clear the selected file
+
+//     } catch (error: any) {
+//       console.error("Upload failed:", error);
+//       toast.error(error.message || "Upload failed. Please try again.", { id: toastId });
+      
+//       // --- NEW: On failure, reset state so user can try again ---
+//       setReviewStatus({
+//         canSubmit: true,
+//         lastSubmission: null,
+//         message: 'Your last submission failed. Please try again.',
+//       });
+
+//     } finally {
+//       setIsUploading(false);
+//     }
+//   };
+
+//   // --- **THIS IS THE FULLY CORRECTED RENDER FUNCTION** ---
+//   const renderContent = () => {
+//     // 1. Show loading spinner while checking status
+//     if (isCheckingStatus) {
+//       return (
+//         <div className="flex h-48 flex-col items-center justify-center space-y-4">
+//           <Loader2 className="h-8 w-8 animate-spin text-purple-400" />
+//           <p className="text-gray-300">Loading your review status...</p>
+//         </div>
+//       );
+//     }
+
+//     // 2. User is logged in and CAN submit
+//     if (user && reviewStatus?.canSubmit) {
+//       return (
+//         <div className="mx-auto max-w-2xl">
+//           <div className="group relative">
+//             <label
+//               htmlFor="pitchDeckInput"
+//               className={cn(
+//                 "block cursor-pointer border-2 border-dashed rounded-xl p-12 transition-all duration-300 bg-gray-800/30",
+//                 isDragging
+//                   ? "border-purple-500 bg-purple-500/10"
+//                   : "border-gray-600 hover:border-purple-500/50",
+//                 selectedFile ? "border-green-500/50" : ""
+//               )}
+//               onDragOver={handleDragOver}
+//               onDragLeave={handleDragLeave}
+//               onDrop={handleDrop}
+//             >
+//               <input
+//                 type="file"
+//                 id="pitchDeckInput"
+//                 ref={fileInputRef}
+//                 onChange={handleFileSelect}
+//                 accept=".pdf,.pptx,.ppt"
+//                 className="hidden"
+//                 style={{ pointerEvents: 'none' }} 
+//               />
+//               <div className="flex flex-col items-center space-y-4 text-center">
+//                 {!selectedFile ? (
+//                   <>
+//                     <div className="flex h-16 w-16 items-center justify-center rounded-full bg-purple-600/20">
+//                       <Upload className="h-8 w-8 text-purple-400" />
+//                     </div>
+//                     <div className="space-y-2">
+//                       <h3 className="text-xl font-semibold text-white">
+//                         Upload Your Pitch Deck
+//                       </h3>
+//                       <p className="text-sm text-gray-400">
+//                         Drag and drop your file here, or click to browse
+//                       </p>
+//                       <p className="text-xs text-gray-500">
+//                         Supported formats: PDF, PPTX, PPT (Max size: 20MB)
+//                       </p>
+//                     </div>
+//                   </>
+//                 ) : (
+//                   <div className="w-full space-y-4">
+//                     <div className="flex items-center justify-between space-x-4 rounded-lg bg-gray-800/50 p-4">
+//                       <div className="flex min-w-0 items-center space-x-4">
+//                         <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-purple-600/20">
+//                           <Upload className="h-6 w-6 text-purple-400" />
+//                         </div>
+//                         <div className="min-w-0 text-left">
+//                           <p className="truncate text-sm font-medium text-white">
+//                             {selectedFile.name}
+//                           </p>
+//                           <p className="text-xs text-gray-400">
+//                             {(selectedFile.size / (1024 * 1024)).toFixed(2)}{" "}
+//                             MB
+//                           </p>
+//                         </div>
+//                       </div>
+//                       <button
+//                         onClick={(e) => {
+//                           e.preventDefault(); 
+//                           removeFile();
+//                         }}
+//                         className="rounded-full p-2 hover:bg-gray-700 z-10 relative"
+//                       >
+//                         <X className="h-5 w-5 text-gray-400" />
+//                       </button>
+//                     </div>
+//                     <Button
+//                       className="w-full bg-purple-600 text-white hover:bg-purple-700 z-10 relative"
+//                       onClick={(e) => {
+//                         e.stopPropagation();
+//                         e.preventDefault();
+//                         handleSubmitReview();
+//                       }}
+//                       size="lg"
+//                       disabled={isUploading}
+//                     >
+//                       {isUploading ? (
+//                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+//                       ) : null}
+//                       {isUploading ? "Analyzing..." : "Submit for AI Review"}
+//                     </Button>
+//                   </div>
+//                 )}
+//               </div>
+//             </label>
+//             <div
+//               className={cn(
+//                 "absolute -inset-0.5 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 blur transition duration-500",
+//                 isDragging ? "opacity-30" : "opacity-0 group-hover:opacity-20"
+//               )}
+//               style={{ pointerEvents: 'none' }}
+//             />
+//           </div>
+//         </div>
+//       );
+//     }
+
+//     // 3. User is logged in but CANNOT submit
+//     if (user && reviewStatus && !reviewStatus.canSubmit) {
+      
+//       // Case A: Submission is COMPLETED (on 24h cooldown)
+//       if (reviewStatus.lastSubmission) {
+//         return (
+//           <div className="space-y-4 text-center">
+//             <p className="font-semibold text-white text-xl">
+//               {reviewStatus.message || 'You have already submitted a review today.'}
+//             </p>
+//             <p className="text-gray-300">
+//               Your last review was on:{' '}
+//               {new Date(reviewStatus.lastSubmission.date).toLocaleString()}
+//             </p>
+//             <Button asChild className="bg-purple-600 text-white hover:bg-purple-700">
+//               <a
+//                 href={reviewStatus.lastSubmission.pdfUrl}
+//                 target="_blank"
+//                 rel="noopener noreferrer"
+//               >
+//                 Download Your Last Review (PDF)
+//               </a>
+//             </Button>
+//           </div>
+//         );
+//       }
+      
+//       // Case B: Submission is PENDING
+//       if (reviewStatus.message) {
+//          return (
+//            <div className="flex h-48 flex-col items-center justify-center space-y-4">
+//              <Loader2 className="h-8 w-8 animate-spin text-purple-400" />
+//              <p className="font-semibold text-white text-xl">
+//                {reviewStatus.message}
+//              </p>
+//            </div>
+//          );
+//       }
+//     }
+
+//     // 4. Fallback: User is not logged in
+//     return (
+//       <div className="space-y-4 text-center">
+//         <p className="text-xl text-gray-300">
+//           Please log in to submit your pitch deck for an AI review.
+//         </p>
+//       </div>
+//     );
+//   };
+
+//   return (
+//     <div className="mx-auto max-w-4xl">
+//       <Card className="border-purple-500/20 bg-gradient-to-br from-purple-900/30 to-blue-900/30">
+//         <CardContent className="p-8">
+//           <div className="mb-12 space-y-4 text-center">
+//             <h2 className="text-3xl font-bold text-white">
+//               Your AI Lens To{" "}
+//               <span className="text-purple-400">Investor's Thinking</span>
+//             </h2>
+//             <p className="text-xl text-gray-300">
+//               Upload your pitch deck to receive AI-Powered feedback.
+//               <br /> 
+//               This service is available once every 24 hours.
+//             </p>
+//           </div>
+          
+//           {/* --- Render content based on auth and review status --- */}
+//           {renderContent()}
+
+//         </CardContent>
+//       </Card>
+//     </div>
+//   );
+// }
+
+import { Upload, X, Loader2, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { toast } from "react-hot-toast"; // <-- Using your react-hot-toast
+import { toast } from "react-hot-toast"; 
 
-// --- NEW: Type for the review status ---
 type ReviewStatus = {
   canSubmit: boolean;
   lastSubmission: {
@@ -311,19 +700,16 @@ export function FundingOpportunitySection() {
   const [isDragging, setIsDragging] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { user } = useAuth(); // <-- Using your AuthContext for the user object
+  const { user } = useAuth(); 
   const [isUploading, setIsUploading] = useState(false);
 
-  // --- NEW: State for the AI review feature ---
   const [reviewStatus, setReviewStatus] = useState<ReviewStatus | null>(null);
   const [isCheckingStatus, setIsCheckingStatus] = useState(true);
 
-  // --- NEW: useEffect to check the user's status on load ---
   useEffect(() => {
-    // Don't check status until the user is loaded
     if (!user) {
-      setIsCheckingStatus(false); // Stop loading if no user
-      setReviewStatus(null); // Clear any old status
+      setIsCheckingStatus(false);
+      setReviewStatus(null);
       return;
     }
 
@@ -358,9 +744,8 @@ export function FundingOpportunitySection() {
     };
 
     checkStatus();
-  }, [user]); // Re-run when the user logs in
+  }, [user]); 
 
-  // --- (Your existing file handling logic - no changes) ---
   const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     setIsDragging(true);
@@ -408,7 +793,6 @@ export function FundingOpportunitySection() {
     }
   };
 
-  // --- UPDATED: This is your handleUpload, renamed and repointed ---
   const handleSubmitReview = async () => {
     if (!selectedFile) {
       toast.error("Please select a pitch deck file first.");
@@ -422,8 +806,6 @@ export function FundingOpportunitySection() {
     setIsUploading(true);
     const toastId = toast.loading("Submitting for AI review...");
 
-    // --- NEW: Set status to PENDING immediately on the frontend ---
-    // This stops the user from submitting twice
     setReviewStatus({
       canSubmit: false,
       lastSubmission: null,
@@ -433,7 +815,6 @@ export function FundingOpportunitySection() {
     const formData = new FormData();
     formData.append("pitchDeck", selectedFile);
 
-    // --- NEW: Pointing to the new endpoint ---
     const url = `${import.meta.env.VITE_API_BASE || 'http://localhost:3000'}/get-funded/submit-pitch-review`;
     const token = localStorage.getItem('token');
     const headers = new Headers();
@@ -455,24 +836,21 @@ export function FundingOpportunitySection() {
         throw new Error(responseData.message || responseData.error || `HTTP error! status: ${response.status}`);
       }
       
-      // --- NEW: On success, update the UI status ---
       toast.success(responseData.message || "Review successful! You can download it now.", {
         id: toastId,
       });
 
-      // Set the final "COMPLETED" state
       setReviewStatus({
         canSubmit: false,
         lastSubmission: { pdfUrl: responseData.downloadUrl, date: new Date().toISOString() },
         message: 'You can submit a new review in 24 hours.',
       });
-      removeFile(); // Clear the selected file
+      removeFile(); 
 
     } catch (error: any) {
       console.error("Upload failed:", error);
       toast.error(error.message || "Upload failed. Please try again.", { id: toastId });
       
-      // --- NEW: On failure, reset state so user can try again ---
       setReviewStatus({
         canSubmit: true,
         lastSubmission: null,
@@ -484,19 +862,16 @@ export function FundingOpportunitySection() {
     }
   };
 
-  // --- **THIS IS THE FULLY CORRECTED RENDER FUNCTION** ---
   const renderContent = () => {
-    // 1. Show loading spinner while checking status
     if (isCheckingStatus) {
       return (
         <div className="flex h-48 flex-col items-center justify-center space-y-4">
-          <Loader2 className="h-8 w-8 animate-spin text-purple-400" />
-          <p className="text-gray-300">Loading your review status...</p>
+          <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+          <p className="text-slate-500 font-medium">Loading your review status...</p>
         </div>
       );
     }
 
-    // 2. User is logged in and CAN submit
     if (user && reviewStatus?.canSubmit) {
       return (
         <div className="mx-auto max-w-2xl">
@@ -504,11 +879,11 @@ export function FundingOpportunitySection() {
             <label
               htmlFor="pitchDeckInput"
               className={cn(
-                "block cursor-pointer border-2 border-dashed rounded-xl p-12 transition-all duration-300 bg-gray-800/30",
+                "block cursor-pointer border-2 border-dashed rounded-xl p-12 transition-all duration-300 bg-slate-50",
                 isDragging
-                  ? "border-purple-500 bg-purple-500/10"
-                  : "border-gray-600 hover:border-purple-500/50",
-                selectedFile ? "border-green-500/50" : ""
+                  ? "border-blue-500 bg-purple-50"
+                  : "border-slate-300 hover:border-blue-400 hover:bg-white",
+                selectedFile ? "border-emerald-500/50 bg-emerald-50/30" : ""
               )}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
@@ -526,35 +901,34 @@ export function FundingOpportunitySection() {
               <div className="flex flex-col items-center space-y-4 text-center">
                 {!selectedFile ? (
                   <>
-                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-purple-600/20">
-                      <Upload className="h-8 w-8 text-purple-400" />
+                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 text-blue-600 shadow-sm">
+                      <Upload className="h-8 w-8" />
                     </div>
                     <div className="space-y-2">
-                      <h3 className="text-xl font-semibold text-white">
+                      <h3 className="text-xl font-semibold text-slate-900">
                         Upload Your Pitch Deck
                       </h3>
-                      <p className="text-sm text-gray-400">
+                      <p className="text-sm text-slate-500">
                         Drag and drop your file here, or click to browse
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-slate-400">
                         Supported formats: PDF, PPTX, PPT (Max size: 20MB)
                       </p>
                     </div>
                   </>
                 ) : (
                   <div className="w-full space-y-4">
-                    <div className="flex items-center justify-between space-x-4 rounded-lg bg-gray-800/50 p-4">
+                    <div className="flex items-center justify-between space-x-4 rounded-lg bg-white border border-slate-200 p-4 shadow-sm">
                       <div className="flex min-w-0 items-center space-x-4">
-                        <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-purple-600/20">
-                          <Upload className="h-6 w-6 text-purple-400" />
+                        <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-purple-100">
+                          <Upload className="h-6 w-6 text-blue-600" />
                         </div>
                         <div className="min-w-0 text-left">
-                          <p className="truncate text-sm font-medium text-white">
+                          <p className="truncate text-sm font-semibold text-slate-900">
                             {selectedFile.name}
                           </p>
-                          <p className="text-xs text-gray-400">
-                            {(selectedFile.size / (1024 * 1024)).toFixed(2)}{" "}
-                            MB
+                          <p className="text-xs text-slate-500">
+                            {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB
                           </p>
                         </div>
                       </div>
@@ -563,13 +937,13 @@ export function FundingOpportunitySection() {
                           e.preventDefault(); 
                           removeFile();
                         }}
-                        className="rounded-full p-2 hover:bg-gray-700 z-10 relative"
+                        className="rounded-full p-2 hover:bg-slate-100 transition-colors z-10 relative"
                       >
-                        <X className="h-5 w-5 text-gray-400" />
+                        <X className="h-5 w-5 text-slate-400 hover:text-slate-600" />
                       </button>
                     </div>
                     <Button
-                      className="w-full bg-purple-600 text-white hover:bg-purple-700 z-10 relative"
+                      className="w-full bg-blue-600 text-white hover:bg-blue-700 shadow-md z-10 relative font-semibold"
                       onClick={(e) => {
                         e.stopPropagation();
                         e.preventDefault();
@@ -589,8 +963,8 @@ export function FundingOpportunitySection() {
             </label>
             <div
               className={cn(
-                "absolute -inset-0.5 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 blur transition duration-500",
-                isDragging ? "opacity-30" : "opacity-0 group-hover:opacity-20"
+                "absolute -inset-1 rounded-xl bg-gradient-to-r from-purple-400 to-blue-400 blur opacity-0 transition duration-500",
+                isDragging ? "opacity-20" : "group-hover:opacity-10"
               )}
               style={{ pointerEvents: 'none' }}
             />
@@ -599,39 +973,40 @@ export function FundingOpportunitySection() {
       );
     }
 
-    // 3. User is logged in but CANNOT submit
     if (user && reviewStatus && !reviewStatus.canSubmit) {
-      
-      // Case A: Submission is COMPLETED (on 24h cooldown)
       if (reviewStatus.lastSubmission) {
         return (
-          <div className="space-y-4 text-center">
-            <p className="font-semibold text-white text-xl">
-              {reviewStatus.message || 'You have already submitted a review today.'}
-            </p>
-            <p className="text-gray-300">
-              Your last review was on:{' '}
-              {new Date(reviewStatus.lastSubmission.date).toLocaleString()}
-            </p>
-            <Button asChild className="bg-purple-600 text-white hover:bg-purple-700">
+          <div className="space-y-6 text-center py-10 bg-slate-50 rounded-2xl border border-slate-200">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+              <Zap className="w-8 h-8 text-green-600" />
+            </div>
+            <div className="space-y-2">
+              <p className="font-bold text-slate-900 text-xl">
+                {reviewStatus.message || 'Review Completed'}
+              </p>
+              <p className="text-slate-500">
+                Your last review was generated on:{' '}
+                <span className="font-medium text-slate-700">{new Date(reviewStatus.lastSubmission.date).toLocaleString()}</span>
+              </p>
+            </div>
+            <Button asChild className="bg-blue-600 text-white hover:bg-blue-700 shadow-sm px-8">
               <a
                 href={reviewStatus.lastSubmission.pdfUrl}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Download Your Last Review (PDF)
+                Download Report (PDF)
               </a>
             </Button>
           </div>
         );
       }
       
-      // Case B: Submission is PENDING
       if (reviewStatus.message) {
          return (
-           <div className="flex h-48 flex-col items-center justify-center space-y-4">
-             <Loader2 className="h-8 w-8 animate-spin text-purple-400" />
-             <p className="font-semibold text-white text-xl">
+           <div className="flex h-48 flex-col items-center justify-center space-y-4 bg-slate-50 rounded-2xl border border-slate-200">
+             <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+             <p className="font-semibold text-slate-700 text-lg">
                {reviewStatus.message}
              </p>
            </div>
@@ -639,33 +1014,39 @@ export function FundingOpportunitySection() {
       }
     }
 
-    // 4. Fallback: User is not logged in
     return (
-      <div className="space-y-4 text-center">
-        <p className="text-xl text-gray-300">
+      <div className="space-y-6 text-center py-12 bg-slate-50 rounded-2xl border border-slate-200">
+        <p className="text-lg text-slate-600 font-medium">
           Please log in to submit your pitch deck for an AI review.
         </p>
+        <Button variant="outline" className="border-purple-200 text-blue-500 hover:bg-purple-50">
+           Log In to Continue
+        </Button>
       </div>
     );
   };
 
   return (
     <div className="mx-auto max-w-4xl">
-      <Card className="border-purple-500/20 bg-gradient-to-br from-purple-900/30 to-blue-900/30">
-        <CardContent className="p-8">
+      {/* Main Card: White background with subtle purple accent border */}
+      <Card className="border-slate-200 bg-white shadow-sm overflow-hidden">
+        <CardContent className="p-8 sm:p-12">
           <div className="mb-12 space-y-4 text-center">
-            <h2 className="text-3xl font-bold text-white">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
               Your AI Lens To{" "}
-              <span className="text-purple-400">Investor's Thinking</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">
+                Investor's Thinking
+              </span>
             </h2>
-            <p className="text-xl text-gray-300">
-              Upload your pitch deck to receive AI-Powered feedback.
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+              Upload your pitch deck to receive instant, data-driven AI feedback.
               <br /> 
-              This service is available once every 24 hours.
+              <span className="text-sm text-slate-400 mt-2 block font-medium">
+                * This service is available once every 24 hours per user.
+              </span>
             </p>
           </div>
           
-          {/* --- Render content based on auth and review status --- */}
           {renderContent()}
 
         </CardContent>

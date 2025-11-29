@@ -92,7 +92,6 @@ export const useStartupDetail = (userId: number | null) => {
     queryKey: ['startup-detail', userId],
     queryFn: async () => {
       if (!userId) throw new Error('User ID is required');
-      
       const response = await apiClient.get<{ success: boolean; data: ExploreStartup }>(
         `/explore/startups/${userId}`
       );
