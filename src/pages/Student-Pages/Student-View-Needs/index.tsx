@@ -2,13 +2,13 @@ import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbarpostlogin from "@/components/Students-Components/StudentPostLoginNavbar";
 import Footer from "@/components/Students-Components/student-footer";
-import { NeedCard } from "@/components/ViewNeedsComponent/NeedCard";
+import { NeedCard } from "@/components/Students-Components/ViewNeedsComponents/NeedCard";
 import type { Need } from "@/components/ViewNeedsComponent/NeedCard";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { Plus, Loader2, Frown, Briefcase, Users, FlaskConical, Heart } from "lucide-react"; 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { NeedDetailsModal } from "@/components/ViewNeedsComponent/NeedDetailModal";
+import { NeedDetailsModal } from "@/components/Students-Components/ViewNeedsComponents/NeedDetailModel";
 
 // --- IMPORT STORE & MODALS ---
 import { useNeedsStore } from "@/store/needsStore";
@@ -16,6 +16,7 @@ import type { BackendNeed } from "@/store/needsStore";
 import { DeleteNeedModal } from "@/components/ViewNeedsComponent/DeleteNeedModal";
 import { EditNeedModal } from "@/components/ViewNeedsComponent/EditNeedModal";
 import toast from "react-hot-toast";
+import { useAuthStore } from "@/store/authStore";
 
 const needTypes = [
   { id: 'live_projects', label: 'Live Projects', icon: Briefcase },
@@ -113,7 +114,7 @@ export default function ViewNeedsPage() {
   const handleDeleteClick = (need: Need) => setNeedToDelete(need);
 
   const handleConfirmDelete = async (needId: number) => {
-    const token = localStorage.getItem('token');
+    const token = useAuthStore.getState().token;
     if (!token) {
       toast.error("You are not authenticated.");
       return;
@@ -129,7 +130,7 @@ export default function ViewNeedsPage() {
   };
 
   const handleConfirmUpdate = async (needId: number, formType: string, formData: any) => {
-    const token = localStorage.getItem('token');
+    const token = useAuthStore.getState().token;
     if (!token) {
       toast.error("You are not authenticated.");
       return;

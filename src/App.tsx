@@ -49,8 +49,6 @@ import UserActivitiesPage from "./pages/my-activities/index";
 import ResetPasswordPage from "./pages/reset-password";
 import StudentTempPage from "./pages/student-temp";
 
-localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTc2MzQ3MzEwNCwiZXhwIjoxNzY0MDc3OTA0fQ._a_MQMtuNw5a79U_19_89wM-vwhJbOYmXlBmduNW20Y");
-
 // We use this for /edit-profile and /pending-verification
 const AuthCheckLayout = () => {
   const { isAuthenticated, loading } = useAuth();

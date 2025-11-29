@@ -287,6 +287,7 @@ import type { BackendNeed } from "@/store/needsStore";
 import { DeleteNeedModal } from "@/components/ViewNeedsComponent/DeleteNeedModal";
 import { EditNeedModal } from "@/components/ViewNeedsComponent/EditNeedModal";
 import toast from "react-hot-toast";
+import { useAuthStore } from "@/store/authStore";
 
 const needTypes = [
   { id: 'live_projects', label: 'Live Projects', icon: Briefcase },
@@ -390,7 +391,7 @@ export default function ViewNeedsPage() {
   const handleDeleteClick = (need: Need) => setNeedToDelete(need);
 
   const handleConfirmDelete = async (needId: number) => {
-    const token = localStorage.getItem('token');
+    const token = useAuthStore.getState().token;
     if (!token) {
       toast.error("You are not authenticated.");
       return;

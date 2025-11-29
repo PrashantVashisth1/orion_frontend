@@ -227,6 +227,7 @@ import { Loader2 } from 'lucide-react';
 import type { EventType, EventFormData } from '@/components/hostsession-forms/types';
 import { useAuth } from '@/contexts/AuthContext';
 import Navbarpostlogin from '@/components/postlogincomponents/Navbarpostlogin';
+import { useAuthStore } from '@/store/authStore';
 
 const initialFormData: EventFormData = {
   title: '',
@@ -343,7 +344,7 @@ const HostSessionPage = () => {
           throw new Error('Invalid event type selected.');
       }
 
-      const token = localStorage.getItem('token');
+      const token = useAuthStore.getState().token;
       const response = await fetch(`${import.meta.env.VITE_API_BASE}/sessions`, {
         method: 'POST',
         headers: {

@@ -157,7 +157,9 @@
 // // Export singleton instance
 // export const apiClient = new ApiClient();
 
+import { useAuthStore } from '@/store/authStore';
 import { QueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 
 // Utility function (unchanged)
 function toCamelCase(obj: any): any {
@@ -191,13 +193,16 @@ export const queryClient = new QueryClient({
 export class ApiClient {
   private baseURL: string;
 
+  // 1. ADD THIS STATIC LOCK FLAG
+  private static isLoggingOut = false;
+
   constructor(baseURL: string = API_BASE_URL) {
     this.baseURL = baseURL;
   }
 
   // getAuthHeaders (simplified - only adds Auth token)
   private getAuthHeadersOnly(): HeadersInit {
-    const token = localStorage.getItem('token');
+    const token = useAuthStore.getState().token;
     const headers: HeadersInit = {}; // Start empty
     if (token && token !== 'undefined') {
       headers.Authorization = `Bearer ${token}`;
@@ -246,6 +251,43 @@ export class ApiClient {
 
     try {
       const response = await fetch(url, config);
+
+      // === UPDATED SESSION EXPIRY LOGIC ===
+      if (response.status === 401 || response.status === 403) {
+        
+        // 2. CHECK THE LOCK
+        // If we are already handling a logout, ignore this specific error silently.
+        // This prevents the 2nd, 3rd, and 4th requests from showing duplicate toasts.
+        if (ApiClient.isLoggingOut) {
+           // Return a never-resolving promise to stop the app from crashing on this request
+           return new Promise(() => {}); 
+        }
+
+        // 3. SET THE LOCK
+        ApiClient.isLoggingOut = true;
+
+        console.warn("Session expired. Logging out...");
+        
+        // Show Toast ONCE
+        toast.error("Session expired. Redirecting to login...", {
+            duration: 3000, 
+        });
+        
+        // Clear State
+        useAuthStore.getState().logout();
+        localStorage.removeItem('auth-storage');
+
+        // Redirect with Delay
+        if (!window.location.pathname.includes('/auth') && !window.location.pathname.includes('/prelogin')) {
+           setTimeout(() => {
+               window.location.href = '/prelogin'; 
+               // Note: We don't reset isLoggingOut because the page will reload anyway
+           }, 2000); 
+        }
+        
+        throw new Error('Session expired');
+      }
+      // ====================================
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({

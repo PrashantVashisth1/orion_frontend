@@ -308,6 +308,9 @@ import { QueryClient } from '@tanstack/react-query';
 const API_BASE_URL = import.meta.env.VITE_API_BASE || 'http://localhost:4000';
 console.log(API_BASE_URL)
 
+import { useAuthStore } from '@/store/authStore';
+import toast from 'react-hot-toast';
+
 // Create QueryClient instance
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -414,12 +417,16 @@ export interface PostResponse {
 export class ApiClient {
   private baseURL: string;
 
+  // 1. ADD THIS STATIC LOCK FLAG
+  private static isLoggingOut = false;
+
   constructor(baseURL: string = API_BASE_URL) {
     this.baseURL = baseURL;
   }
 
   private getAuthHeaders(): HeadersInit {
-    const token = localStorage.getItem('token');
+    // const token = localStorage.getItem('token');
+    const token = useAuthStore.getState().token;
     
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
@@ -449,6 +456,43 @@ export class ApiClient {
 
     try {
       const response = await fetch(url, config);
+
+      // === UPDATED SESSION EXPIRY LOGIC ===
+      if (response.status === 401 || response.status === 403) {
+        
+        // 2. CHECK THE LOCK
+        // If we are already handling a logout, ignore this specific error silently.
+        // This prevents the 2nd, 3rd, and 4th requests from showing duplicate toasts.
+        if (ApiClient.isLoggingOut) {
+           // Return a never-resolving promise to stop the app from crashing on this request
+           return new Promise(() => {}); 
+        }
+
+        // 3. SET THE LOCK
+        ApiClient.isLoggingOut = true;
+
+        console.warn("Session expired. Logging out...");
+        
+        // Show Toast ONCE
+        toast.error("Session expired. Redirecting to login...", {
+            duration: 3000, 
+        });
+        
+        // Clear State
+        useAuthStore.getState().logout();
+        localStorage.removeItem('auth-storage');
+
+        // Redirect with Delay
+        if (!window.location.pathname.includes('/auth') && !window.location.pathname.includes('/prelogin')) {
+           setTimeout(() => {
+               window.location.href = '/prelogin'; 
+               // Note: We don't reset isLoggingOut because the page will reload anyway
+           }, 2000); 
+        }
+        
+        throw new Error('Session expired');
+      }
+      // ====================================
       
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ 
@@ -574,7 +618,7 @@ export class ApiClient {
     const formData = new FormData();
     formData.append('file', file);
     
-    const token = localStorage.getItem('token');
+    const token = useAuthStore.getState().token;
     
     const response = await fetch(`${this.baseURL}/startup/upload`, {
       method: 'POST',
