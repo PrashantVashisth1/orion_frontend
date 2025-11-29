@@ -315,7 +315,6 @@ import { useState, useMemo } from "react"
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
@@ -363,6 +362,9 @@ const getImageUrl = (need: Need) => {
 const DESCRIPTION_CHAR_LIMIT = 300; 
 
 export function NeedDetailsModal({ need, onClose }: NeedDetailsModalProps) {
+
+  console.log(need)
+
   if (!need) {
     return null
   }
