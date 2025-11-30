@@ -92,7 +92,7 @@ const Prelogin = () => {
         
         {/* ADDED: Wrapper div with padding for the main content */}
         <div className="px-4 sm:px-6 lg:px-8">
-          <HeroSection />
+          <HeroSection/>
           <Suspense fallback={<div>Loading...</div>}>
             <ShareNeedsSection />
             {/* <h2 className="mt-[20px] text-3xl text-center sm:text-4xl font-bold text-gray-900 mb-6 animate-in fade-in-0 slide-in-from-top-4 duration-700">

@@ -495,6 +495,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
+import logo from '../../assets/logoimg.png';
 import {
   Menu,
   X,
@@ -896,7 +897,15 @@ const Navbarpostlogin = ({
 
   return (
     <nav className="sticky top-0 left-0 w-full bg-white/80 backdrop-blur-md border-b border-gray-200 z-50 shadow-sm">
+      
         <div className="flex justify-between items-center h-16 w-full px-4 md:px-8">
+          {/* LOGO */}
+        <div className="flex items-center gap-2">
+          <img src={logo} alt="" className="w-12 h-12" />
+          <h2 className="text-3xl font-semibold text-gray-500">
+            Om<span className='text-fuchsia-600'>Verg</span>
+          </h2>
+        </div>
           {/* Left Side - Sidebar Toggle (only on edit-profile) */}
           <div className="flex items-center relative z-50">
             {showSidebarButton && onSidebarToggle && (
