@@ -79,7 +79,7 @@ export default function Navbar() {
     { name: "Home", path: "/" },
     { name: "Get Experience", path: "#experience" },
     { name: "Upskill", path: "#upskill" },
-    { name: "Starting Up", path: "#startup" },
+    { name: "StartUp", path: "#startup" },
     { name: "Mentorship", path: "#learn" },
     { name: "Compete", path: "#compete" },
   ];
@@ -91,7 +91,9 @@ export default function Navbar() {
         {/* LOGO */}
         <div className="flex items-center gap-2">
           <img src={logo} alt="" className="w-12 h-12" />
-          <span className="font-semibold text-gray-900 tracking-wide">OmVerg</span>
+          <h2 className="text-3xl font-semibold text-gray-500">
+            Om<span className='text-fuchsia-600'>Verg</span>
+          </h2>
         </div>
 
         {/* Nav Items */}

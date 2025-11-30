@@ -14,13 +14,13 @@ interface TestimonialProps {
 
 const TestimonialCard: React.FC<TestimonialProps> = ({ image, name, role, company, message, companyLogo }) => {
   return (
-    <div className="bg-white shadow-md rounded-xl p-5 flex flex-col border border-gray-200 w-80 h-80 relative flex-shrink-0">
-      <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 border border-gray-300 mx-auto mb-4">
+    <div className="bg-white shadow-md rounded-xl p-5 flex flex-col border border-gray-200 w-100 h-100 relative flex-shrink-0">
+      <div className="w-30 h-30 rounded-xl overflow-hidden flex-shrink-0 border border-gray-300 mx-auto mb-4">
         <img src={image} alt={name} className="w-full h-full object-cover" />
       </div>
 
       <div className="flex-1 flex flex-col text-center">
-        <p className="text-gray-700 text-sm italic line-clamp-4 mb-4 flex-shrink-0">{message}</p>
+        <p className="text-gray-700 text-sm italic line-clamp-4 mb-2 mt-2 flex-shrink-0">{message}</p>
 
         <div className="flex justify-center mb-3">
           {Array.from({ length: 5 }).map((_, i) => (
@@ -87,7 +87,7 @@ const TestimonialSection = () => {
     <section className="py-16 bg-gray-50 flex flex-col items-center overflow-hidden">
       <h2 className="text-3xl font-bold text-gray-900 mb-10">Testimonials</h2>
 
-      <div className="relative w-[80%] overflow-hidden">
+      <div className="relative w-[85%] overflow-hidden">
         <style dangerouslySetInnerHTML={{__html: `
           @keyframes scroll {
             0% {

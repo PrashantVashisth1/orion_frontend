@@ -1,7 +1,6 @@
 import type React from "react"
 import { Linkedin, Mail, Phone, MapPin, X } from "lucide-react"
 import { useState } from 'react'; 
-import { Link } from 'react-router-dom';
 import logo from "../../../assets/logoimg.png"
 
 // --- PRIVACY POLICY MODAL COMPONENT (Light Theme) ---
@@ -383,10 +382,12 @@ const Footer: React.FC = () => {
   
   const footerLinks = {
     platform: [
-      { label: "Home", href: "/students/postlogin" },
-      { label: "Mentors", href: "/students/mentor" },
-      { label: "Explore Possibilities", href: "/students/explore-possibilities" },
-      { label: "Explore Startups", href: "/explore-startup" },
+      { name: "Home", path: "/" },
+    { name: "Get Experience", path: "#experience" },
+    { name: "Upskill", path: "#upskill" },
+    { name: "StartUp", path: "#startup" },
+    { name: "Mentorship", path: "#learn" },
+    { name: "Compete", path: "#compete" },
     ],
     legal: [
       { label: "Privacy Policy", action: () => setIsPrivacyModalOpen(true) }, 
@@ -444,12 +445,12 @@ const Footer: React.FC = () => {
                 <ul className="space-y-3">
                   {footerLinks.platform.map((link, index) => (
                     <li key={index}>
-                      <Link 
-                        to={link.href} 
-                        className="hover:text-purple-300 cursor-pointer transition-colors text-white/90 block"
+                      <a
+                        href={link.path} 
+                        className="hover:text-purple-300 transition-colors cursor-pointer text-white/90 block"
                       >
-                        {link.label}
-                      </Link>
+                        {link.name}
+                      </a>
                     </li>
                   ))}
                 </ul>
@@ -463,7 +464,7 @@ const Footer: React.FC = () => {
                     <li key={index}>
                       <button 
                         onClick={link.action} 
-                        className="hover:text-purple-300 cursor-pointer transition-colors text-white/90 text-left"
+                        className="hover:text-purple-300 transition-colors cursor-pointer text-white/90 text-left"
                       >
                         {link.label}
                       </button>

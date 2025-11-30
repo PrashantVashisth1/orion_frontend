@@ -235,10 +235,9 @@ const App: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
           <img src={logo} alt="" className="w-12 h-12" />
-          <h4 className="text-2xl md:text-2xl font-bold text-gray-900 leading-tight mt-2 mb-2">
-              Om
-              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent ">Verg</span>
-            </h4>
+          <h2 className="text-3xl font-semibold text-gray-500">
+            Om<span className='text-fuchsia-600'>Verg</span>
+          </h2>
         </div>
 
           <nav className="hidden md:flex space-x-8">
@@ -274,9 +273,9 @@ const App: React.FC = () => {
     </AnimatedText>
 
     <AnimatedText delay={300}>
-      <h2 className="text-6xl md:text-7xl font-bold text-gray-900 leading-tight mt-0 mb-6">
+      <h2 className="text-6xl md:text-7xl font-bold text-gray-500 leading-tight mt-0 mb-6">
         Om
-        <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+        <span className="text-fuchsia-600 bg-clip-text ">
           Verg
         </span>
       </h2>
@@ -432,24 +431,7 @@ const App: React.FC = () => {
       <Testimonials/>
 
       {/* Footer - Inspired styling */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-4">
-            <h3 className="text-3xl md:text-3xl font-bold text-white leading-tight mt-1 mb-3">
-              Om
-              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent ">Verg</span>
-            </h3>
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              Connecting talent, capital, and expertise to build the future of innovation.
-            </p>
-            <div className="pt-6 border-t border-gray-800">
-              <p className="text-gray-500 text-sm">
-                © 2025 OmVerg. All rights reserved.
-              </p>
-            </div>
-          </div>
-        </div>
-      </footer>
+      
     </div>
   );
 };

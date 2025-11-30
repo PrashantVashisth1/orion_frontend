@@ -307,36 +307,36 @@ const App: React.FC = () => {
               <Route
                 path="/students/postlogin"
                 element={
-                  // <ProtectedRoute>
+                  <ProtectedRoute>
                     <StudentPostlogin/>
-                  // </ProtectedRoute>
+                  </ProtectedRoute>
                 }
               />
 
               <Route
                 path="/students/mentor"
                 element={
-                  // <ProtectedRoute>
+                  <ProtectedRoute>
                     <MentorPage/>
-                  // </ProtectedRoute>
+                  </ProtectedRoute>
                 }
               />
 
               <Route
                 path="/students/learning"
                 element={
-                  // <ProtectedRoute>
+                  <ProtectedRoute>
                     <LearningResources />
-                  // </ProtectedRoute>
+                  </ProtectedRoute>
                 }
               />
 
               <Route
                 path="/students/explore-possibilities"
                 element={
-                  // <ProtectedRoute>
+                  <ProtectedRoute>
                     <ExplorePossibilities/>
-                  // </ProtectedRoute>
+                  </ProtectedRoute>
                 }
               />
 

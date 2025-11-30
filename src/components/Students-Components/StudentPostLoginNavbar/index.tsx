@@ -35,8 +35,8 @@ const Navbar = ({ onSidebarToggle }) => {
     { name: "List of Mentors", path: "/students/mentor" },
     { name: "Explore Possibilities", path: "/students/explore-possibilities" },
     { name: "Explore StartUp", path: "/explore-startup" },
-    { name: "Learning Resources", path: "/students/learning" },
-    { name: "Share Project/Idea", path: "/students/share" },
+    // { name: "Learning Resources", path: "/students/learning" },
+    // { name: "Share Project/Idea", path: "/students/share" },
   ];
 
   return (
@@ -55,9 +55,9 @@ const Navbar = ({ onSidebarToggle }) => {
 
         <div className="flex items-center space-x-2">
           <img src={logo} alt="Logo" className="h-12 w-12" />
-          <span className="font-semibold text-gray-500 text-lg">
-            Om<span className="text-fuchsia-600">Verg</span>
-          </span>
+          <h2 className="text-3xl font-semibold text-gray-500">
+            Om<span className='text-fuchsia-600'>Verg</span>
+          </h2>
         </div>
       </div>
 
