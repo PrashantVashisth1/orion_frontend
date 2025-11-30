@@ -86,7 +86,16 @@ const MentorCard: React.FC<{ mentor: MentorProps }> = ({ mentor }) => {
       </div>
 
       <div className="mt-4 ml-[32%] flex items-center justify-between">
-        <button className="text-sm text-white px-3 py-2 rounded-md cursor-pointer bg-black"><a href={link}>View Profile</a></button>
+        <button className="text-sm text-white px-3 py-2 rounded-md cursor-pointer bg-black">
+          <a
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-white px-1 py-1 rounded-md cursor-pointer bg-black inline-block text-center"
+          >
+            View Profile
+          </a>
+        </button>
         {/* <button className="text-sm px-3 py-2 bg-[#0F172A] text-white rounded-md cursor-pointer">Connect</button> */}
       </div>
     </div>

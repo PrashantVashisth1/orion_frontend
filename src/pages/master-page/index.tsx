@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Briefcase, GraduationCap, Lightbulb, TrendingUp, Users, Zap, Sparkles, ArrowRight,Target, Award, Shield } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import logo from "../../../public/logoimg.png"
+import logo from "../../../public/logoimg.png";
+import Testimonials from "../../components/Testimonials";
 // Define the structure for a Role object, including new visual styling properties
 interface Role {
   id: string;
@@ -67,7 +68,7 @@ const ROLES: Role[] = [
     description: 'Sponsor innovation challenges, find bespoke talent, and drive internal growth.',
     icon: Briefcase,
     path: '/corporates/prelogin',
-    formUrl : '',
+    formUrl : 'https://forms.gle/G4btuB5ddUccKjLr5',
     color: "from-indigo-400 to-indigo-600",
     bgColor: "bg-indigo-50",
     borderColor: "border-indigo-200",
@@ -192,7 +193,8 @@ const App: React.FC = () => {
       navigate(role.path);
     }else{
       // Open Google Form for all other roles
-    window.location.href = role.formUrl;
+    // window.location.href = role.formUrl;
+    window.open(role.formUrl, "_blank", "noopener,noreferrer");
     }
   };
 
@@ -427,6 +429,7 @@ const App: React.FC = () => {
         </div>
       </div>
       </section>
+      <Testimonials/>
 
       {/* Footer - Inspired styling */}
       <footer className="bg-gray-900 text-white py-12">

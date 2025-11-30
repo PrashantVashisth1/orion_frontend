@@ -16,9 +16,6 @@ const HeroSection: React.FC = () => {
           Get personalised mentorship from industry leaders. Expand your network,
           accelerate growth, and build the skills needed to lead.
         </p>
-        <button className="px-8 py-4 bg-blue-600 text-white font-semibold rounded-2xl shadow-lg hover:bg-blue-700 transition-all duration-300 cursor-pointer">
-          Join Now for Free
-        </button>
       </div>
 
       {/* Right Section (Mentor Images Collage) */}

@@ -58,7 +58,7 @@ const MentorSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-12">
         <div className="text-center mb-8">
           <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
-            Meeting the Leading Group of Professionals
+            Meet the Leading Group of Professionals
           </h2>
           <p className="text-slate-500 mt-1">Mentors who have stood ahead in line</p>
         </div>
