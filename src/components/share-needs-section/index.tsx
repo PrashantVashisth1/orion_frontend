@@ -197,6 +197,7 @@ import { LiveProjectsForm } from "./forms/LiveProjectsForm";
 import { InternshipForm } from "./forms/InternshipForm";
 import { ResearchForm } from "./forms/ResearchForm";
 import { CSRForm } from "./forms/CSRForm";
+import { useAuthStore } from "@/store/authStore";
 
 export default function ShareNeedsSection() {
   const [activeTab, setActiveTab] = useState("live-projects");
@@ -249,7 +250,7 @@ export default function ShareNeedsSection() {
   const handleSubmit = async (formType: string) => {
     console.log(`Submitting ${formType} form`);
     console.log("Form Data to send to backend:", formData);
-    const token = localStorage.getItem("token");
+    const token = useAuthStore.getState().token;
 
     setSubmitting(true);
     setError(null);

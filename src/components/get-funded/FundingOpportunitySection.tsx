@@ -686,6 +686,7 @@ import { cn } from "@/lib/utils";
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { toast } from "react-hot-toast"; 
+import { useAuthStore } from '@/store/authStore';
 
 type ReviewStatus = {
   canSubmit: boolean;
@@ -716,7 +717,8 @@ export function FundingOpportunitySection() {
     const checkStatus = async () => {
       setIsCheckingStatus(true);
       const url = `${import.meta.env.VITE_API_BASE || 'http://localhost:3000'}/get-funded/pitch-review-status`;
-      const token = localStorage.getItem('token');
+      // const token = localStorage.getItem('token');
+      const token = useAuthStore.getState().token;
       const headers = new Headers();
 
       if (token && token !== 'undefined') {

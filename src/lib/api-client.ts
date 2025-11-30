@@ -255,37 +255,37 @@ export class ApiClient {
       // === UPDATED SESSION EXPIRY LOGIC ===
       if (response.status === 401 || response.status === 403) {
         
-        // 2. CHECK THE LOCK
-        // If we are already handling a logout, ignore this specific error silently.
-        // This prevents the 2nd, 3rd, and 4th requests from showing duplicate toasts.
-        if (ApiClient.isLoggingOut) {
-           // Return a never-resolving promise to stop the app from crashing on this request
-           return new Promise(() => {}); 
+        // 1. CHECK IF A TOKEN EXISTS
+        // If there is no token, this is just a standard "Unauthorized" access (e.g. guest user),
+        // not a "Session Expired" event. We shouldn't log them out or show a toast.
+        const token = useAuthStore.getState().token;
+
+        if (token) {
+            // 2. CHECK LOCK
+            if (ApiClient.isLoggingOut) {
+               return new Promise(() => {}); 
+            }
+
+            // 3. TRIGGER LOGOUT
+            ApiClient.isLoggingOut = true;
+            console.warn("Session expired. Logging out...");
+            
+            toast.error("Session expired. Redirecting to login...", {
+                duration: 3000, 
+            });
+            
+            useAuthStore.getState().logout();
+            localStorage.removeItem('auth-storage');
+
+            if (!window.location.pathname.includes('/auth') && !window.location.pathname.includes('/prelogin')) {
+               setTimeout(() => {
+                   window.location.href = '/prelogin'; 
+               }, 2000); 
+            }
         }
-
-        // 3. SET THE LOCK
-        ApiClient.isLoggingOut = true;
-
-        console.warn("Session expired. Logging out...");
         
-        // Show Toast ONCE
-        toast.error("Session expired. Redirecting to login...", {
-            duration: 3000, 
-        });
-        
-        // Clear State
-        useAuthStore.getState().logout();
-        localStorage.removeItem('auth-storage');
-
-        // Redirect with Delay
-        if (!window.location.pathname.includes('/auth') && !window.location.pathname.includes('/prelogin')) {
-           setTimeout(() => {
-               window.location.href = '/prelogin'; 
-               // Note: We don't reset isLoggingOut because the page will reload anyway
-           }, 2000); 
-        }
-        
-        throw new Error('Session expired');
+        // Always throw so the calling function knows it failed
+        throw new Error('Unauthorized');
       }
       // ====================================
 
