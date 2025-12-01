@@ -2,6 +2,12 @@ import React from "react";
 import logo from "../../../public/logoimg.png";
 import bhanu from "../../assets/Bhanu.png";
 import vivekananda from "../../assets/VivekanandaUppunda.png";
+import jayant from "../../assets/jayant.jpeg"
+import ashish from "../../assets/AshishGupta.jpeg"
+import swati from "../../assets/swati.jpg"
+import kartik from "../../assets/kartik.jpg"
+import sparsh from "../../assets/sparsh.jpg"
+import bhaskar from "../../assets/bhaskar.jpg"
 
 interface TestimonialProps {
   image: string;
@@ -61,23 +67,59 @@ const TestimonialSection = () => {
       companyLogo: logo,
     },
     {
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop",
-      name: "Sarah Lee",
-      role: "CEO",
-      company: "HealthFirst Solutions",
+      image: jayant,
+      name: "Jayant Gandhi",
+      role: "Co-Founder & Director",
+      company: "Mediversal Healthcare Pvt Ltd",
       message:
-        "Super intuitive and extremely helpful for navigating the startup ecosystem. Highly recommended!",
+        "OmVerg is very thoughtfully designed and developed for the startup ecosystem.It simplifies and declutters the relevant data that gets lost in the noisy platforms.Looking forward to upcoming AI features .Best Wishes.",
       companyLogo: logo,
     },
     {
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop",
-      name: "Michael Chen",
-      role: "CTO",
-      company: "FutureTech Labs",
+      image: ashish,
+      name: "Ashish Gupta",
+      role: "Principal Product Manager",
+      company: "Microsoft,Richmond ,Seattle",
       message:
         "Makes collaboration seamless and efficient. Love being part of this platform!",
       companyLogo: logo,
     },
+    {
+    image: swati,
+    name: "Swati Singh",
+    role: "Bachelor’s in Design, Industrial & Product Design",
+    company: "Anant National University",
+    message:
+      "OmVerg is bridging the gap between students and the real world. Looking forward to career-building opportunities through internships, live projects and collaboration with genuine members who are keen to help each other — all in one trusted ecosystem!",
+    companyLogo: "logo",
+  },
+    {
+    image: bhaskar,
+    name: "Bhaskar Singh",
+    role: "Final Year Student",
+    company: "Govind Ballabh Pant University of Agriculture and Technology Pantnagar",
+    message:
+      "Very useful platform for students. It’s great to see different people and experts under one roof sharing and learning from each other.",
+    companyLogo: "logo",
+  },
+  {
+    image: sparsh,
+    name: "Sparsh Jain",
+    role: "PGDM",
+    company: "IIM Calcutta",
+    message:
+      "Omverg looks fantastic for networking and building professional relationships within the student community and startup ecosystem. I look forward to the full version release.",
+    companyLogo: "logo",
+  },
+  {
+    image: kartik,
+    name: "Kartik Khandekar",
+    role: "PGDM",
+    company: "IIM Calcutta",
+    message:
+      "As a student, I’ve always wanted to connect with real-world opportunities and OmVerg at the moment seems to be making it possible! From mentorship to live projects and startup exposure, everything feels meaningful and smartly designed. It’s much more than just a platform.",
+    companyLogo: "logo",
+  },
   ];
 
   // Duplicate testimonials for seamless infinite scroll

@@ -194,9 +194,9 @@ export default function Hero() {
         />
         
         {/* OmVerg title with enhanced styling */}
-        <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-gray-900 tracking-tight">
+        <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-gray-500 tracking-tight">
           Om
-          <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent drop-shadow-sm">
+          <span className="text-fuchsia-600 bg-clip-text drop-shadow-sm">
             Verg
           </span>
         </h1>

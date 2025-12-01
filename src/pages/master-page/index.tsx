@@ -888,37 +888,37 @@ const BENEFIT_CARDS = [
   { 
     icon: Sparkles, 
     title: "Exclusive Access", 
-    description: "Access to exclusive opportunities across diverse industries and sectors.", 
+    description: "Gain early access to opportunities across sectors from startup funding rounds to corporate innovation challenges, research programs, and global collaborations.", 
     color: "from-blue-600 to-blue-400" 
   },
   { 
     icon: Users, 
-    title: "Direct Networking", 
-    description: "Direct connections with decision-makers, mentors, and founders to accelerate your trajectory.", 
+    title: "Ecosystem Opportunities ", 
+    description: "Explore curated career building opportunities across startup ecosystem, Corporates, mentor ecosystem & CSR. Connect directly with founders, investors, mentors, and professionals.", 
     color: "from-purple-600 to-purple-400" 
   },
   { 
     icon: Lightbulb, 
-    title: "Personalized Paths", 
-    description: "Our recommendation engine ensures optimal path discovery tailored precisely to your profile and goals.", 
+    title: "Personalized Growth Paths", 
+    description: "Let AI guide your journey.OmVerg’s smart recommendation engine maps the most relevant opportunities, mentors, and programs based on your goals, skills, and aspirations.", 
     color: "from-green-600 to-green-400" 
   },
   { 
     icon: Briefcase, 
     title: "Real-time Collaboration", 
-    description: "Access real-time tools and integrated workspaces for seamless project success and team coordination.", 
+    description: "Work, discuss, and co-create with your teams and mentors in one secure environment.Integrated project spaces and smart collaboration tools streamline your workflow from idea to execution.", 
     color: "from-orange-600 to-orange-400" 
   },
   { 
     icon: TrendingUp, 
-    title: "Market Insights", 
-    description: "Get direct insights into market trends and trending opportunities before they become mainstream.", 
+    title: "Market & Ecosystem Insights", 
+    description: "Stay ahead of the curve.Our AI-driven analytics surfaces market signals, funding trends, and emerging sectors — helping you make informed strategic decisions.", 
     color: "from-red-600 to-red-400" 
   },
   { 
     icon: Shield, 
-    title: "Secure Channels", 
-    description: "Utilize secure and private communication channels for sensitive and high-value discussions.", 
+    title: "Secure & Verified Channels", 
+    description: "Powered by blockchain, OmVerg ensures identity verification, data integrity, and privacy.Every conversation, opportunity, and transaction is safe, transparent, and trustworthy.", 
     color: "from-pink-600 to-pink-400" 
   },
 ];
