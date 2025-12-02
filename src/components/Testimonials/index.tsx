@@ -94,7 +94,7 @@ const TestimonialSection = () => {
     company: "Anant National University",
     message:
       "OmVerg is bridging the gap between students and the real world. Looking forward to career-building opportunities through internships, live projects and collaboration with genuine members who are keen to help each other — all in one trusted ecosystem!",
-    companyLogo: "logo",
+    companyLogo: logo,
   },
     {
     image: bhaskar,
@@ -103,7 +103,7 @@ const TestimonialSection = () => {
     company: "Govind Ballabh Pant University of Agriculture and Technology Pantnagar",
     message:
       "Very useful platform for students. It’s great to see different people and experts under one roof sharing and learning from each other.",
-    companyLogo: "logo",
+    companyLogo: logo,
   },
   {
     image: sparsh,
@@ -112,7 +112,7 @@ const TestimonialSection = () => {
     company: "IIM Calcutta",
     message:
       "Omverg looks fantastic for networking and building professional relationships within the student community and startup ecosystem. I look forward to the full version release.",
-    companyLogo: "logo",
+    companyLogo: logo,
   },
   {
     image: kartik,
@@ -121,7 +121,7 @@ const TestimonialSection = () => {
     company: "IIM Calcutta",
     message:
       "As a student, I’ve always wanted to connect with real-world opportunities and OmVerg at the moment seems to be making it possible! From mentorship to live projects and startup exposure, everything feels meaningful and smartly designed. It’s much more than just a platform.",
-    companyLogo: "logo",
+    companyLogo: logo,
   },
   ];
 
