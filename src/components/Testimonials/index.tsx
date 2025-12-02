@@ -1,4 +1,4 @@
-import React from "react";
+
 import logo from "../../../public/logoimg.png";
 import bhanu from "../../assets/Bhanu.png";
 import vivekananda from "../../assets/VivekanandaUppunda.png";
@@ -8,6 +8,8 @@ import swati from "../../assets/swati.jpg"
 import kartik from "../../assets/kartik.jpg"
 import sparsh from "../../assets/sparsh.jpg"
 import bhaskar from "../../assets/bhaskar.jpg"
+
+import React from "react";
 
 interface TestimonialProps {
   image: string;
@@ -20,8 +22,8 @@ interface TestimonialProps {
 
 const TestimonialCard: React.FC<TestimonialProps> = ({ image, name, role, company, message, companyLogo }) => {
   return (
-    <div className="bg-white shadow-md rounded-xl p-5 flex flex-col border border-gray-200 w-100 h-100 relative flex-shrink-0">
-      <div className="w-30 h-30 rounded-xl overflow-hidden flex-shrink-0 border border-gray-300 mx-auto mb-4">
+    <div className="bg-white shadow-md rounded-xl p-5 flex flex-col border border-gray-200 w-80 h-96 relative flex-shrink-0">
+      <div className="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 border border-gray-300 mx-auto mb-4">
         <img src={image} alt={name} className="w-full h-full object-cover" />
       </div>
 
@@ -40,14 +42,15 @@ const TestimonialCard: React.FC<TestimonialProps> = ({ image, name, role, compan
           <p className="text-gray-600 text-xs">{company}</p>
         </div>
       </div>
-
-      <img src={companyLogo} alt="company logo" className="w-8 h-8 absolute bottom-3 right-3 opacity-70" />
+        
+      <div className="w-8 h-8 absolute bottom-3 right-3 opacity-70 bg-gray-200 rounded"></div>
+      <img src={companyLogo} alt="company logo" className="w-8 h-8 absolute bottom-3 right-3 rounded-full" />
     </div>
   );
 };
 
 const TestimonialSection = () => {
-  const testimonials: TestimonialProps[] = [
+    const testimonials: TestimonialProps[] = [
     {
       image: bhanu,
       name: "Bhanu Pratap",
@@ -81,7 +84,7 @@ const TestimonialSection = () => {
       role: "Principal Product Manager",
       company: "Microsoft,Richmond ,Seattle",
       message:
-        "Makes collaboration seamless and efficient. Love being part of this platform!",
+        "Looking forward to connecting with passionate founders and students who are eager to learn and build.It's refreshing to see  AI & Blockchain being used to create genuine connections and impact.",
       companyLogo: logo,
     },
     {
@@ -129,7 +132,7 @@ const TestimonialSection = () => {
     <section className="py-16 bg-gray-50 flex flex-col items-center overflow-hidden">
       <h2 className="text-3xl font-bold text-gray-900 mb-10">Testimonials</h2>
 
-      <div className="relative w-[85%] overflow-hidden">
+      <div className="relative w-full overflow-hidden">
         <style dangerouslySetInnerHTML={{__html: `
           @keyframes scroll {
             0% {
@@ -140,7 +143,7 @@ const TestimonialSection = () => {
             }
           }
           .animate-scroll {
-            animation: scroll 30s linear infinite;
+            animation: scroll 40s linear infinite;
           }
           .animate-scroll:hover {
             animation-play-state: paused;
