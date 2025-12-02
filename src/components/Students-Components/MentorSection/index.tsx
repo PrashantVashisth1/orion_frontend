@@ -1,16 +1,14 @@
 
-// import rajiv from '../../../assets/rajiv.png'
-// import kunal from '../../../assets/kunal.png'
-// import sneha from '../../../assets/sneha.png'
-// import khanna from '../../../assets/khanna.png'
-// import prakash from '../../../assets/prakash.png'
-// import chothani from '../../../assets/chothani.png'
+
 import ankur from "../../../assets/Ankur shukla.jpg";
 import vivek from "../../../assets/vivek_k.png"
 import bhanu from "../../../assets/Bhanu.png"
 import jayant from "../../../assets/jayant.jpeg"
 import mandal from "../../../assets/ankur_mandal.jpeg"
 import saurav from "../../../assets/Saurav.png"
+import ashish from "../../../assets/AshishGupta.jpeg"
+import jainendra from "../../../assets/JainendraKumar.jpeg"
+import vivekananda from "../../../assets/VivekanandaUppunda.png"
 
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -38,6 +36,9 @@ const leadMentors: Mentor[] = [
   { name: "Jayant Gandhi", role: "Co-founder at Mediversal HealthCare", avatar: jayant, rating: 5, bg: "cardA",link: 'https://www.linkedin.com/in/jayant-gandhi-18310a16a' },
   { name: "Ankur Mandal", role: "DoppleIQ, IIM Calcutta", avatar: mandal, rating: 4, bg: "cardB",link:'https://www.linkedin.com/in/ankur-mandal-249b6972' },
   { name: "Saurav Kumar", role: "Founder Orion Eduverse, IIM Calcutta", avatar:saurav, rating: 5, bg: "cardC",link :'https://www.linkedin.com/in/saurav-kumar-83b8681a' },
+  { name: "Ashish Gupta", role: "Principal Product Manager, Microsoft, IIM Calcutta", avatar:ashish, rating: 5, bg: "cardA",link :'https://www.linkedin.com/in/ash-gupt' },
+  { name: "Jainendra Kumar", role: "Senior Dev. Engineer, Microsoft", avatar:jainendra, rating: 5, bg: "cardB",link :'https://www.linkedin.com/in/jainendra20' },
+  { name: "Vivekananda ", role: "Co-founder,Aayaama Technologies", avatar:vivekananda, rating: 5, bg: "cardC",link :'https://www.linkedin.com/in/vivekananda-uppunda' },
   // add more leads if needed
 ];
 
