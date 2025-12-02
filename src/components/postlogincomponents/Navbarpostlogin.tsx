@@ -694,7 +694,7 @@ const Navbarpostlogin = ({
   const renderSplitOnlineSession = () => (
     <div className="relative flex items-center space-x-0">
       <button
-        onClick={() => navigateTo("/online-session")}
+        onClick={() => navigateTo("/view-session")}
         className="text-gray-600 hover:text-blue-600 font-medium transition-colors duration-200 pr-2"
       >
         Online Session
@@ -913,10 +913,10 @@ const Navbarpostlogin = ({
                 variant="ghost"
                 size="icon"
                 onClick={onSidebarToggle}
-                className="mr-4 hover:bg-purple-50 hover:text-purple-600 transition-colors duration-200 relative z-50"
+                className="mr-4 hover:bg-purple-50 hover:text-purple-600 transition-colors duration-200 relative z-50 cursor-pointer"
                 aria-label="Toggle sidebar"
               >
-                <PanelLeft className="h-6 w-6 text-gray-600" />
+                <PanelLeft className="h-6 w-6 text-blue-600 " />
               </Button>
             )}
             {/* If you have a logo, you can place it here */}

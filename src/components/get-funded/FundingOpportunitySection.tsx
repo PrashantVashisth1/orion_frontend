@@ -718,7 +718,7 @@ export function FundingOpportunitySection() {
       setIsCheckingStatus(true);
       const url = `${import.meta.env.VITE_API_BASE || 'http://localhost:3000'}/get-funded/pitch-review-status`;
       // const token = localStorage.getItem('token');
-      const token = useAuthStore.getState().token;
+      const token = useAuthStore.getState().token;  
       const headers = new Headers();
 
       if (token && token !== 'undefined') {
@@ -818,7 +818,8 @@ export function FundingOpportunitySection() {
     formData.append("pitchDeck", selectedFile);
 
     const url = `${import.meta.env.VITE_API_BASE || 'http://localhost:3000'}/get-funded/submit-pitch-review`;
-    const token = localStorage.getItem('token');
+    // const token = localStorage.getItem('token');
+    const token = useAuthStore.getState().token;
     const headers = new Headers();
 
     if (token && token !== 'undefined') {
