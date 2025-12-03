@@ -62,8 +62,8 @@ const TestimonialSection = () => {
     },
     {
       image: vivekananda,
-      name: "Vivekananda Uppu",
-      role: "Founder,ex - Motorola, Broadcom Nordic",
+      name: "Vivekananda Uppunda",
+      role: "Founder Aayaama Technologies, Ex-Motorola, Broadcom Nordic, Juniper Networks, Amazon Life Sc., Savari",
       company: "Aayaama Technologies",
       message:
         "OmVerg provides us at Aayaama with a strong base, with useful tools and resources to showcase our services & collaborate within the ecosystem.It's a smart platform,very refreshing and will add a lot of value to startup ecosystemss,students,investors & corporates in achieving their goals",

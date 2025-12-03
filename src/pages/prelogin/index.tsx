@@ -76,16 +76,19 @@ import Mentor from '../../components/mentors'
 import aayaamaLogo from '@/assets/aayaama.jpeg'
 import OrangeLogo from '@/assets/OrangeLogo.jpg'
 import orionLogo from '@/assets/Orion__logo.png'
+import mediversalLogo from '@/assets/MediversalLogo.jpeg'
 
 const StartupTicker = () => {
   // List of logos to display
   const logos = [
     { src: aayaamaLogo, alt: "Aayaama" },
+    { src: mediversalLogo, alt: "Mediversal"},
     { src: OrangeLogo, alt: "Orange" },
     { src: orionLogo, alt: "Orion" },
     { src: aayaamaLogo, alt: "Aayaama" },
+    { src: mediversalLogo, alt: "Mediversal"},
     { src: OrangeLogo, alt: "Orange" },
-    { src: orionLogo, alt: "Orion" },
+    { src: orionLogo, alt: "Orion" }
   ];
 
   // Create a seamless loop by duplicating the list

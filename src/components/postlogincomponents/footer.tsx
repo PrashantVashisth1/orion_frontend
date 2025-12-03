@@ -983,7 +983,7 @@ const Footer: React.FC = () => {
                    {footerLinks.legal.map((link, index) => (
                     <li key={index}>
                       <button 
-                        onClick={link.action} 
+                        onClick={link.action}
                         className="hover:text-purple-300 transition-colors text-white/90 text-left"
                       >
                         {link.label}

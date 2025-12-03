@@ -375,12 +375,13 @@ const HostSessionPage = () => {
 
   return (
     <>
-      <Navbarpostlogin/>
+      
       {/* LIGHT THEME: bg-slate-50 instead of gray-900 */}
-      <div className="min-h-screen bg-slate-50 p-8 sm:p-12 md:p-20 font-inter">
+      <div className="min-h-screen bg-slate-50 pb-8 sm:pb-12 md:pb-20 font-inter">
+        <Navbarpostlogin/>
         
         {/* LIGHT THEME: White card, slate border, soft shadow */}
-        <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-6 sm:p-8 md:p-10 border border-slate-200">
+        <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-6 sm:p-8 md:p-10 border border-slate-200 mt-15">
           
           <h1 className="text-center text-4xl md:text-5xl font-bold text-slate-900 mb-4">
             Host a{" "}

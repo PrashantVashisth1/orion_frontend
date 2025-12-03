@@ -30,7 +30,7 @@ function ViewSession() {
   const isStudent = user?.role === 'STUDENT'; // 🟢 CHECK IF USER IS STUDENT
 
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div className="min-h-screen bg-slate-50">
       {!isStudent && <Navbarpostlogin />}
    
       {/* 🟢 PASS PROP TO HIDE HOST BUTTON FOR STUDENTS */}
